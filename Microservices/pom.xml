@@ -69,32 +69,32 @@
     
     
     
-    <module>DeliveryService</module>
+    <module>CustomerService</module>
                           
     
     
     
     
     
-    <module>OrderingService</module>
+    <module>DeliveryService</module>
                       
     
     
     
     
-    <module>PaymentService</module>
+    <module>ManagementService</module>
                   
     
     
     
-    <module>PreparationService</module>
+    <module>OrderingService</module>
               
     
     
-    <module>ManagementService</module>
+    <module>PaymentService</module>
           
     
-    <module>CustomerService</module>
+    <module>PreparationService</module>
       
   </modules>
           
