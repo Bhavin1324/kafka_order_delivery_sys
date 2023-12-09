@@ -1,6 +1,7 @@
+import RouterMain from "./components/routes/RouterMain";
 import "./styles/style.css";
 function App() {
-  return <div className="bg-green-500 m-4">Hello world</div>;
+  return <RouterMain />;
 }
 
 export default App;
