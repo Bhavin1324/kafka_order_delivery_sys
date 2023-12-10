@@ -18,9 +18,9 @@ function Navbar() {
             <Button
               variant="outlined"
               style={{
-                backgroundColor: "#232B2B",
+                backgroundColor: "#e1701a",
                 color: "white",
-                borderColor: "#232B2B",
+                borderColor: "#e1701a",
                 borderRadius: "1rem",
                 padding: "8px 20px",
                 textTransform: "none",

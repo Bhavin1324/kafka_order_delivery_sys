@@ -1,21 +1,23 @@
 @tailwind base;
 @tailwind components;
+
 .btn-main{
-    @apply transition-all duration-200 ease-out cursor-pointer bg-[#994D1C] text-white px-6 py-[6px] rounded-lg hover:bg-[#E1701A] focus:bg-[#E1701A] hover:text-white focus:text-white
+    @apply transition-all duration-200 ease-out cursor-pointer bg-primary-dark text-white px-6 py-[6px] rounded-lg hover:bg-ph-primary focus:bg-ph-primary hover:text-white focus:text-white
 }
 
 .navbar{
-    @apply transition-all duration-200 ease-in bg-[#E77D24] text-black sticky top-0 z-20
-    /* @apply transition-all duration-200 ease-in sticky top-0 text-black bg-transparent h-0 invert  */
+    /* @apply transition-all duration-200 ease-in bg-ph-primary-soft text-ph-dark sticky top-0 z-20 */
+    @apply transition-all duration-200 ease-in bg-ph-white text-ph-dark sticky top-0 z-20
+    /* @apply transition-all duration-200 ease-in sticky top-0 text-ph-dark bg-transparent h-0   */
 }
 .carousal-slide{
     @apply absolute top-0 bg-cover bg-center w-full min-h-[450px] md:min-h-[500px] lg:min-h-[600px] bg-fixed transition-all duration-1000 ease-in
 }
 .homeLocationInput{
-    @apply py-2 px-4 lg:px-8 lg:text-lg rounded-lg transition-all duration-200 ease-in ring-2 ring-[#EC8A2D] focus:outline-0 focus:ring-4 focus:ring-[#E1701A] h-fit w-full md:w-[50%] lg:w-[60%] xl:w-[70%] self-center
+    @apply py-2 px-4 lg:px-8 lg:text-lg rounded-lg transition-all duration-200 ease-in ring-2 ring-ph-primary-soft focus:outline-0 focus:ring-4 focus:ring-ph-primary h-fit w-full md:w-[50%] lg:w-[60%] xl:w-[70%] self-center
 }
 .homeLocationBtn{
-    @apply transition-all duration-300 ease-out bg-[#E77D24] my-2 md:my-0 md:mx-2 px-4 lg:px-8 py-[0.70rem] rounded-lg -translate-y-0 lg:text-lg scale-95 hover:scale-100 focus:scale-100 hover:bg-[#e1701a] focus:bg-[#E1701A] uppercase font-bold self-center
+    @apply transition-all duration-300 ease-out bg-ph-primary-soft my-2 md:my-0 md:mx-2 px-4 lg:px-8 py-[0.70rem] rounded-lg -translate-y-0 lg:text-lg scale-95 hover:scale-100 focus:scale-100 hover:bg-ph-primary focus:bg-ph-primary uppercase font-bold self-center
 }
 .back-pop{
     @apply h-[100px] w-[100px] z-10 absolute top-0 before:absolute before:h-[100px] before:w-[100px] before:rounded-full before:-top-5 before:-right-7 before:content-[''] before:bg-[rgba(225,112,26,.4)] before:-z-10 before:scale-95 before:group-hover:scale-110 before:transition-all before:duration-200 before:ease-in
@@ -24,4 +26,45 @@
     @apply rounded-md shadow-md transition-all duration-200 ease-in hover:shadow-2xl hover:scale-105 py-4 px-6 min-h-[250px] mb-4 bg-[#f0e8e0]
 }
 
+/* Theme button */
+.btn-theme{
+    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-primary text-white px-6 py-2 rounded-lg shadow-lg hover:bg-ph-white hover:text-ph-primary focus:bg-ph-white focus:text-ph-primary
+}
+.btn-theme-outlined{
+    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-white text-ph-primary px-6 py-2 rounded-lg shadow-lg hover:bg-ph-primary hover:text-ph-white focus:bg-ph-primary focus:text-ph-white
+}
+
+/* Navbar styling */
+.navbar-loggedin{
+    @apply flex justify-start sticky top-0
+}
+.nav-list{
+    @apply flex mb-0
+}
+.nav-mobile-list{
+    @apply transition-all duration-200 ease-out block fixed left-0 top-14 bg-ph-white w-full text-center z-10 px-0
+}
+.nav-list-items{
+    @apply mx-1 
+}
+
+.link-a{
+    @apply block md:inline-block px-4 py-3 transition-all duration-200 ease-linear text-ph-dark focus:text-white hover:text-white hover:bg-ph-primary focus:bg-ph-primary rounded-lg
+    /* @apply block md:inline-block px-4 py-3 transition-all duration-200 ease-linear text-ph-dark hover:text-ph-primary focus:text-ph-primary rounded-lg */
+}
+.hamburger{
+    @apply flex flex-col w-[40px] h-[40px] rounded-md self-center justify-center cursor-pointer md:hidden mr-6
+}
+.slice{
+    @apply border-2 border-ph-dark bg-ph-dark opacity-100 my-1 w-10/12 mx-auto transition-all duration-300 ease-out
+}
+.ham-active .slice:nth-child(1){
+    @apply rotate-45 translate-y-[10px]
+}
+.ham-active .slice:nth-child(3){
+    @apply -rotate-45 -translate-y-[10px]
+}
+.ham-active .slice:nth-child(2){
+    @apply translate-x-2 opacity-0
+}
 @tailwind utilities;

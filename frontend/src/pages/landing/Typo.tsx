@@ -38,8 +38,8 @@ function Typo() {
       <div className="w-[80%] mt-24 md:mt-[90px] lg:mt-[150px] mx-auto px-0 md:px-6">
         <div className="landing-head text-4xl md:text-6xl lg:text-7xl text-white w-[300px] md:w-[500px] lg:w-[700px] mb-6">
           <b>
-            Feeling <span className="text-[#E77D24]">hungry !</span> Let's
-            <span className="text-[#E77D24]">&nbsp;order </span>
+            Feeling <span className="text-ph-primary-soft">hungry !</span> Let's
+            <span className="text-ph-primary-soft">&nbsp;order </span>
             <span>
               something <br />
             </span>
@@ -48,7 +48,7 @@ function Typo() {
                 return (
                   <span
                     key={i}
-                    className="text-[#E77D24] transition-all duration-500 ease-in absolute w-fit"
+                    className="text-ph-primary-soft transition-all duration-500 ease-in absolute w-fit"
                     style={{ opacity: index === i ? "1" : "0" }}
                   >
                     {item}
@@ -75,7 +75,7 @@ function Typo() {
             <button className="homeLocationBtn">Find food</button>
             {errors?.location && (
               <div
-                className="bg-red-400 border-2 border-red-700 rounded-lg px-8 py-2 show mt-1 w-full md:w-[50%] lg:w-[60%] xl:w-[70%]"
+                className="text-red-700 bg-red-300 border-[1px] border-red-700 rounded-xl px-4 py-2 mt-1 show w-full md:w-[50%] lg:w-[60%] xl:w-[70%]"
                 role="alert"
               >
                 <span>{`${errors?.location.message}`}</span>
