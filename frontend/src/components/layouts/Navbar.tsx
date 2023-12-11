@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import Modal from "../custom/Modal";
+import LoginForm from "../custom/LoginForm";
 
 function Navbar() {
   return (
@@ -36,7 +37,17 @@ function Navbar() {
           </div>
         </div>
       </div>
-      <Modal id={"exampleModal"} toggleClass={"modal"} />
+      <Modal
+        id="exampleModal"
+        toggleClass="modal"
+        backdropLabel="exampleBackdrop"
+        headingText="registrt"
+        component={<LoginForm />}
+        onSave={() => {
+          console.log("Save button executed");
+        }}
+        saveButtonName="Login"
+      />
     </nav>
   );
 }
