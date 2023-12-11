@@ -5,6 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 
 function LoggedInNav() {
   const navList = useRef<HTMLUListElement>(null);
@@ -57,6 +58,17 @@ function LoggedInNav() {
           }
           ref={navList}
         >
+          <li className="nav-list-items">
+            {" "}
+            <Link
+              className="link-a font-semibold"
+              to={NavigateToRoute.FOOD}
+              onClick={toggleHam}
+              style={{ textDecoration: "none" }}
+            >
+              <LocalPizzaIcon style={{ marginBottom: "2px" }} /> Pizzas
+            </Link>
+          </li>
           <li className="nav-list-items">
             {" "}
             <Link

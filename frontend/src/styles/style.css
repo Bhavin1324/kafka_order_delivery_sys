@@ -7,7 +7,7 @@
 
 .navbar{
     /* @apply transition-all duration-200 ease-in bg-ph-primary-soft text-ph-dark sticky top-0 z-20 */
-    @apply transition-all duration-200 ease-in bg-ph-white text-ph-dark sticky top-0 z-20
+    @apply transition-all duration-200 ease-in bg-ph-white text-ph-dark sticky top-0 shadow-md
     /* @apply transition-all duration-200 ease-in sticky top-0 text-ph-dark bg-transparent h-0   */
 }
 .carousal-slide{
@@ -36,7 +36,7 @@
 
 /* Navbar styling */
 .navbar-loggedin{
-    @apply flex justify-start sticky top-0
+    @apply flex justify-start sticky top-0 shadow-md
 }
 .nav-list{
     @apply flex mb-0

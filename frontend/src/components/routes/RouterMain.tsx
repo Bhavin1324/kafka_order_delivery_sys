@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import IndexPage from "../../pages/IndexPage";
 import NotFound from "../../pages/NotFound";
@@ -14,7 +13,7 @@ function RouterMain() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<IndexPage />} />
+          <Route path={NavigateToRoute.HOME} element={<IndexPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path={NavigateToRoute.FOOD} element={<FoodsHome />} />
             <Route

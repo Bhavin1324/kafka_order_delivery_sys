@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
-import React from "react";
+import Modal from "../custom/Modal";
 
 function Navbar() {
   return (
@@ -27,6 +27,8 @@ function Navbar() {
                 cursor: "pointer",
                 margin: "0px 4px",
               }}
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
               startIcon={<LoginIcon />}
             >
               Login
@@ -34,6 +36,7 @@ function Navbar() {
           </div>
         </div>
       </div>
+      <Modal id={"exampleModal"} toggleClass={"modal"} />
     </nav>
   );
 }
