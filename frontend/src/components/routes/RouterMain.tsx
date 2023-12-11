@@ -7,6 +7,10 @@ import { NavigateToRoute } from "../../types/enums";
 import SearchFood from "../../pages/foods/SearchFood";
 import Cart from "../../pages/customers/Cart";
 import UserProfile from "../../pages/customers/UserProfile";
+import AdminHome from "../../pages/admin/AdminHome";
+import DeliveryStaffManager from "../../pages/admin/DeliveryStaffManager";
+import ItemManager from "../../pages/admin/ItemManager";
+import OutletManager from "../../pages/admin/OutletManager";
 
 function RouterMain() {
   return (
@@ -26,6 +30,19 @@ function RouterMain() {
               element={<UserProfile />}
             />
           </Route>
+          <Route
+            path={NavigateToRoute.ADMIN_DASHBOARD}
+            element={<AdminHome />}
+          />
+          <Route
+            path={NavigateToRoute.ADD_DELIVERY_STAFF}
+            element={<DeliveryStaffManager />}
+          />
+          <Route path={NavigateToRoute.ADD_ITEM} element={<ItemManager />} />
+          <Route
+            path={NavigateToRoute.ADD_OUTLET}
+            element={<OutletManager />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

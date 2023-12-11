@@ -34,8 +34,8 @@ function Typo() {
     };
   }, [index]);
   return (
-    <div className="absolute top-0 lg:translate-x-[10%] xl:translate-x-[15%] 2xl:translate-x-[25%] home-section container mx-auto p-3 min-h-[500px] lg:min-h-[650px] overflow-hidden select-none -z-10">
-      <div className="w-[80%] mt-24 md:mt-[90px] lg:mt-[150px] mx-auto px-0 md:px-6">
+    <div className="absolute top-24 md:top-[90px] lg:top-[150px] lg:translate-x-[10%] xl:translate-x-[15%] 2xl:translate-x-[25%] home-section container mx-auto p-3 min-h-[500px] lg:min-h-[650px] overflow-hidden select-none">
+      <div className="w-[80%] mx-auto px-0 md:px-6">
         <div className="landing-head text-4xl md:text-6xl lg:text-7xl text-white w-[300px] md:w-[500px] lg:w-[700px] mb-6">
           <b>
             Feeling <span className="text-ph-primary-soft">hungry !</span> Let's
