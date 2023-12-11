@@ -3,6 +3,9 @@ import { Outlet } from "../../types/interfaces";
 import PizzaStoreOutlet from "../../components/PizzaStoreOutlet";
 import OutletForm from "../../components/OutletForm";
 import { nanoid } from "@reduxjs/toolkit";
+import Modal from "../custom/Modal";
+import { Button } from "@mui/material";
+
 const OutletManager = () => {
     const [popUp, setPopUp] = useState(false)
     const initialOutets = [
@@ -70,10 +73,36 @@ const OutletManager = () => {
     return (
       <div className="container px-4 py-10">
         <h1 className="text-3xl font-bold mb-4">Pizza Store Outlets</h1>
-        <OutletForm 
-        update={null}
-        onAdd={handleAddOutlet}
-        action="Add Outlet"/>
+        <Button
+              variant="outlined"
+              style={{
+                backgroundColor: "#e1701a",
+                color: "white",
+                borderColor: "#e1701a",
+                borderRadius: "1rem",
+                padding: "8px 20px",
+                textTransform: "none",
+                cursor: "pointer",
+                margin: "0px 4px",
+              }}
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              
+            >
+              Login
+            </Button>
+            <Modal
+        id="exampleModal"
+        toggleClass="modal"
+        backdropLabel="exampleBackdrop"
+        headingText="registrt"
+        component={<OutletForm 
+          update={null}
+          onAdd={handleAddOutlet}
+          action="Add Outlet"/>}
+        saveButtonName="Login"
+      />
+        
         <ul className="flex flex-wrap justify-evenly gap-4 mt-8">
           {outlets.map((outlet:Outlet) => (
             <PizzaStoreOutlet

@@ -30,6 +30,7 @@ function RouterMain() {
               element={<UserProfile />}
             />
           </Route>
+          <Route path="admin">
           <Route
             path={NavigateToRoute.ADMIN_DASHBOARD}
             element={<AdminHome />}
@@ -43,6 +44,7 @@ function RouterMain() {
             path={NavigateToRoute.ADD_OUTLET}
             element={<OutletManager />}
           />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

@@ -2,6 +2,7 @@
 import { useForm } from "react-hook-form";
 import { Outlet } from "../types/interfaces";
 import { useEffect } from "react";
+
 import {
   addressValidation,
   latitudeValidation,
@@ -27,22 +28,7 @@ const OutletForm = ({
     setValue,
     formState: { errors },
   } = useForm();
-  // const [name, setName] = useState('');
-  // const [address, setAddress] = useState('');
-  // const [phoneNo, setPhoneNo] = useState('');
-  // const [latitude, setLatitude] = useState('');
-  // const [longitude, setLongitude] = useState('');
-  // const [pincode, setPincode] = useState('');
-  // if(update){
-  //   console.log(update)
-  //   setValue("id",update.id)
-  //   setValue("address",update.address)
-  //   setValue("name",update.name)
-  //   setValue("latitude",update.latitude)
-  //   setValue("longitude",update.longitude)
-  //   setValue("phoneno",update.phoneno)
-  //   setValue("pincode",update.pincode)
-  // }
+
   useEffect(() => {
     if (update != null) {
       setValue("address", update.address);
@@ -114,7 +100,7 @@ const OutletForm = ({
       <div className="flex flex-col mb-2">
         <label htmlFor="latitude">Latitude</label>
         <input
-          type="number"
+          type="text"
           id="latitude"
           {...latitudeRegister}
           className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
@@ -126,7 +112,7 @@ const OutletForm = ({
       <div className="flex flex-col mb-2">
         <label htmlFor="longitude">Longitude</label>
         <input
-          type="number"
+          type="text"
           id="longitude"
           {...longitudeRegister}
           className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
