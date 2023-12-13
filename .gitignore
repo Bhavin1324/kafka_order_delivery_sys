@@ -1,1 +1,6 @@
 target/
+artifact/
+.env
+*.env
+mysql-connector-java-8.0.28.jar
+payara-micro-5.194.jar
