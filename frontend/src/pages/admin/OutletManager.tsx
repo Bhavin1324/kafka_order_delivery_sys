@@ -1,10 +1,20 @@
 import { useState ,useEffect} from "react";
 import { Outlet } from "../../types/interfaces";
-import PizzaStoreOutlet from "../../components/PizzaStoreOutlet";
 import OutletForm from "../../components/OutletForm";
-import { nanoid } from "@reduxjs/toolkit";
+import PHModal from "../../components/custom/PHModal";
+import { openModal,closeModal } from "../../features/slices/modalSlice";
+import {useDispatch ,useSelector} from "react-redux";
+import { RootState } from "../../features/store";
+import DataTable from "../../components/custom/DataTable";
+import {v4 as uuidv4 } from "uuid";
+
 const OutletManager = () => {
-    const [popUp, setPopUp] = useState(false)
+  const dispatch = useDispatch()
+  const [isAdd, setisAdd] = useState(false)
+  const [isUpdate, setisUpdate] = useState(false)
+  const {isOpen} =  useSelector((store:RootState)=>{
+   return store.modal
+  })
     const initialOutets = [
         {
             id: "asdada",
@@ -44,60 +54,95 @@ const OutletManager = () => {
     // }, []);
   
     const handleAddOutlet = (outlet: Outlet) => {
-        outlet.id = nanoid();
-
-        setOutlets([...outlets, outlet]);
+        outlet.id = uuidv4();
+        let tmp:Outlet={
+          id:outlet.id,
+          name:outlet.name,
+          address:outlet.address,
+          phoneno:outlet.phoneno,
+          latitude:outlet.latitude,
+          longitude:outlet.longitude,
+          pincode:outlet.pincode
+        }
+        setOutlets([...outlets, tmp]);
+        dispatch(closeModal())
+        setisAdd(false)
     };
   
     const handleEditOutlet = (outlet :Outlet) => {
+
+     
      setOutletupdate(outlet)
-      setPopUp(true)
+     setisUpdate(true)
+     dispatch(openModal())
+     
      
     };
 
   
-    const handleUpdate = (updatedoutlet : Outlet)=>{
-        console.log(updatedoutlet)
+    const handleUpdate = (outlet : Outlet)=>{
+      let tmp:Outlet={
+        id:outlet.id,
+        name:outlet.name,
+        address:outlet.address,
+        phoneno:outlet.phoneno,
+        latitude:outlet.latitude,
+        longitude:outlet.longitude,
+        pincode:outlet.pincode
+      }
         setOutlets(
-            outlets.map((outlet)=> (outlet.id === outletupdate.id ? updatedoutlet:outlet))
+            outlets.map((outlet)=> (outlet.id === tmp.id ? tmp:outlet))
           )
-       setPopUp(false)
+          dispatch(closeModal())
+          setisUpdate(false)
     }
     const handleDeleteOutlet = (id: string) => {
+      console.log(id)
       setOutlets(outlets.filter((outlet) => outlet.id !== id));
     };
   
     return (
       <div className="container px-4 py-10">
+        <div className="flex justify-between flex-wrap">
         <h1 className="text-3xl font-bold mb-4">Pizza Store Outlets</h1>
-        <OutletForm 
-        update={null}
-        onAdd={handleAddOutlet}
-        action="Add Outlet"/>
-        <ul className="flex flex-wrap justify-evenly gap-4 mt-8">
-          {outlets.map((outlet:Outlet) => (
-            <PizzaStoreOutlet
-              key={outlet.id}
-              outlet={outlet}
-              onEdit={handleEditOutlet}
-              onDelete={handleDeleteOutlet}
-            />
-          ))}
-        </ul>
-     {popUp && <div className='w-screen h-screen bg-black bg-opacity-90 fixed top-0 right-0 flex justify-center items-center'>
-      <div className='bg-white m-5 px-5  rounded-md shadow-md'>
-        <OutletForm 
-        onAdd={handleUpdate}
-        update={outletupdate}
-        action="Update Outlet"/>
-        <div className='flex justify-between mt-1'>
-          <button className='outline outline-1 outline-[#101f20] bg-[#101f20] text-white py-2 px-4 hover:bg-transparent hover:text-black'
-          onClick={() => setPopUp(false)}
-          >Cancel</button>
-         
+        <button
+            className="btn-theme"
+            onClick={()=>{setisAdd(true); dispatch(openModal())}}
+            >
+              Add New Outlet
+            </button>
         </div>
-      </div>
-    </div>}   
+       
+           { isAdd && <PHModal 
+             isOpen ={isOpen}
+             onClose={()=>{setisAdd(false); dispatch(closeModal())}}
+             headingText = "Add Outlet"
+             component ={<OutletForm 
+              update={null}
+              onAdd={handleAddOutlet}
+              action="Add Outlet"/>}
+            />}
+         
+          <DataTable 
+           data={outlets}
+           onDelete={handleDeleteOutlet}
+           onUpadate={handleEditOutlet}
+          />
+         
+          
+        
+      
+
+    { isUpdate && <PHModal 
+          isOpen ={isOpen}
+          onClose={()=>{setisUpdate(false); dispatch(closeModal()) }}
+          headingText = "Update Outlet"
+          component ={<OutletForm 
+          onAdd={handleUpdate}
+          update={outletupdate}
+          action="Update Outlet"/>}
+        />}
+ 
       </div>
     )
 }

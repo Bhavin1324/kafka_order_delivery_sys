@@ -28,18 +28,49 @@ export const pincodeValidation = {
   },
 };
 export const longitudeValidation = {
-  required: "longitude is required",
+  required: "longitude is required !",
 };
 
 export const latitudeValidation = {
-  required: "latitude is required",
+  required: "latitude is required !",
 };
+export const CategoryValidation = {
+  required :"Category is required !"
+}
+export const DescriptionValidation ={
+  required :"Description is required !",
+  minLength: {
+    value: 4,
+    message: "Description is too short !",
+  },
+  maxLength: {
+    value: 30,
+    message: "Description is too long !",
+  },
 
+} 
+export const taxslabValidation = {
+  required : "Tax Slab is required !"
+}
+export const priceValidation = {
+   required : "Price is required !",
+  
+  maxLength: {
+    value: 1000000,
+    message: "Please enter valid price !",
+  },
+}
+export const imgValidation = {
+  required : "Img is required"
+}
+export const is_vegValidation = {
+  required : "Please Select Item is Veg or not !"
+}
 export const emailValidation = {
-  required: "Email is required",
+  required: "Email is required !",
   pattern: {
     value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-    message: "Email is invalid",
+    message: "Email is invalid !",
   },
 };
 

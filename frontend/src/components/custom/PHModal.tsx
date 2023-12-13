@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 import { Backdrop, Fade, Modal, Typography } from "@mui/material";
+import React from "react";
 import { CSSProperties } from "react";
 interface ModalProps {
   isOpen: boolean;
@@ -40,6 +41,7 @@ function PHModal(props: ModalProps) {
             </Typography>
             {props.contentText && (
               <Typography sx={{ mt: 2 }}>{props.contentText}</Typography>
+
             )}
             {props.component && props.component}
           </div>

@@ -2,6 +2,7 @@
 import { useForm } from "react-hook-form";
 import { Outlet } from "../types/interfaces";
 import { useEffect } from "react";
+
 import {
   addressValidation,
   latitudeValidation,
@@ -27,24 +28,10 @@ const OutletForm = ({
     setValue,
     formState: { errors },
   } = useForm();
-  // const [name, setName] = useState('');
-  // const [address, setAddress] = useState('');
-  // const [phoneNo, setPhoneNo] = useState('');
-  // const [latitude, setLatitude] = useState('');
-  // const [longitude, setLongitude] = useState('');
-  // const [pincode, setPincode] = useState('');
-  // if(update){
-  //   console.log(update)
-  //   setValue("id",update.id)
-  //   setValue("address",update.address)
-  //   setValue("name",update.name)
-  //   setValue("latitude",update.latitude)
-  //   setValue("longitude",update.longitude)
-  //   setValue("phoneno",update.phoneno)
-  //   setValue("pincode",update.pincode)
-  // }
+
   useEffect(() => {
     if (update != null) {
+
       setValue("address", update.address);
       setValue("name", update.name);
       setValue("latitude", update.latitude);
@@ -55,6 +42,9 @@ const OutletForm = ({
   }, []);
 
   const onSubmit = (data: any) => {
+    if(update!=null){
+      data.id = update.id
+    }
     onAdd(data);
     reset({
       address: "",
@@ -74,17 +64,17 @@ const OutletForm = ({
   const latitudeRegister = register("latitude", latitudeValidation);
   return (
     <form
-      className="bg-gray-50 shadow-md rounded-lg p-4 mb-4"
+  
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3 className="text-xl font-bold mb-4">{action}</h3>
+      {/* <h3 className="text-xl font-bold mb-4">{action}</h3> */}
       <div className="flex flex-col mb-2">
         <label htmlFor="name">Name</label>
         <input
           type="text"
           id="name"
           {...nameRegister}
-          className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
+          className="ph-input-text"
         />
         <p style={{ color: "red" }}>{errors?.name && errors?.name.message}</p>
       </div>
@@ -93,7 +83,7 @@ const OutletForm = ({
         <textarea
           id="address"
           {...addressRegister}
-          className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
+          className="ph-input-text"
         />
         <p style={{ color: "red" }}>
           {errors?.address && errors?.address.message}
@@ -105,7 +95,7 @@ const OutletForm = ({
           type="number"
           id="phoneno"
           {...phoneRegister}
-          className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
+          className="ph-input-text"
         />
         <p style={{ color: "red" }}>
           {errors?.phoneno && errors?.phoneno.message}
@@ -114,10 +104,10 @@ const OutletForm = ({
       <div className="flex flex-col mb-2">
         <label htmlFor="latitude">Latitude</label>
         <input
-          type="number"
+          type="text"
           id="latitude"
           {...latitudeRegister}
-          className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
+          className="ph-input-text"
         />
         <p style={{ color: "red" }}>
           {errors?.latitude && errors?.latitude.message}
@@ -126,10 +116,10 @@ const OutletForm = ({
       <div className="flex flex-col mb-2">
         <label htmlFor="longitude">Longitude</label>
         <input
-          type="number"
+          type="text"
           id="longitude"
           {...longitudeRegister}
-          className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
+          className="ph-input-text"
         />
         <p style={{ color: "red" }}>
           {errors?.longitude && errors?.longitude.message}
@@ -141,7 +131,7 @@ const OutletForm = ({
           type="number"
           id="pincode"
           {...pincodeRegister}
-          className="rounded-md border-gray-300 focus:border-blue-500 px-2 py-1"
+          className="ph-input-text"
         />
         <p style={{ color: "red" }}>
           {errors?.pincode && errors?.pincode.message}
@@ -149,7 +139,7 @@ const OutletForm = ({
       </div>
       <button
         type="submit"
-        className="px-3 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600"
+        className="btn-theme"
       >
         {action}
       </button>
