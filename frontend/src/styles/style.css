@@ -68,8 +68,11 @@
 }
 
 .link-a{
-    @apply block md:inline-block px-4 py-3 transition-all duration-200 ease-linear text-ph-dark focus:text-white hover:text-white hover:bg-ph-primary focus:bg-ph-primary rounded-lg
+    @apply block md:inline-block px-4 py-3 transition-all duration-200 ease-linear text-ph-dark focus:text-white hover:text-white hover:bg-ph-primary focus:bg-ph-primary rounded-lg no-underline
     /* @apply block md:inline-block px-4 py-3 transition-all duration-200 ease-linear text-ph-dark hover:text-ph-primary focus:text-ph-primary rounded-lg */
+}
+.link-a-active{
+    @apply no-underline text-ph-white bg-ph-primary
 }
 .hamburger{
     @apply flex flex-col w-[40px] h-[40px] rounded-md self-center justify-center cursor-pointer md:hidden mr-6
