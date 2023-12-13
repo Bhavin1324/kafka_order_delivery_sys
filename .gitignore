@@ -1,3 +1,4 @@
 target/
 artifact/
+/Microservices/artifact
 style.compiled.css
