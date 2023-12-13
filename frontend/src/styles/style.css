@@ -28,12 +28,31 @@
 
 /* Theme button */
 .btn-theme{
-    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-primary text-white px-6 py-2 rounded-lg shadow-lg hover:bg-ph-white hover:text-ph-primary focus:bg-ph-white focus:text-ph-primary
+    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-primary text-white px-4 py-[.4rem] rounded-lg shadow-lg hover:bg-ph-white hover:text-ph-primary focus:bg-ph-white focus:text-ph-primary
 }
 .btn-theme-outlined{
-    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-white text-ph-primary px-6 py-2 rounded-lg shadow-lg hover:bg-ph-primary hover:text-ph-white focus:bg-ph-primary focus:text-ph-white
+    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-white text-ph-primary px-6 py-[.4rem] rounded-lg shadow-lg hover:bg-ph-primary hover:text-ph-white focus:bg-ph-primary focus:text-ph-white
+}
+.btn-theme-shadowed{
+    @apply transition-all duration-200 ease-in border-0 bg-ph-white text-ph-primary px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-ph-smoke focus:bg-ph-smoke focus:shadow-xl
 }
 
+/* Theme input */
+.ph-input-text{
+    @apply transition-all duration-200 ease-in outline-none ring-1 ring-ph-primary-soft px-4 py-2 rounded-md w-full hover:ring-3 hover:ring-ph-primary-soft focus:ring-3 focus:ring-ph-primary-soft
+}
+.ph-label{
+    @apply block text-lg mb-1
+}
+.ph-input-invalid{
+    @apply transition-all duration-200 ease-in outline-none ring-1 ring-red-500 px-4 py-2 rounded-md w-full hover:ring-3 hover:ring-red-500 focus:ring-3 focus:ring-red-500
+}
+.error-message{
+    @apply text-red-700 flex
+}
+.form-button{
+    @apply mt-8
+}
 /* Navbar styling */
 .navbar-loggedin{
     @apply flex justify-start sticky top-0 shadow-md

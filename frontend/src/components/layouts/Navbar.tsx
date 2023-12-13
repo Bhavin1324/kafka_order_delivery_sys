@@ -1,9 +1,14 @@
 import { Button } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
-import Modal from "../custom/Modal";
 import LoginForm from "../custom/LoginForm";
+import PHModal from "../custom/PHModal";
+import { openModal, closeModal } from "../../features/slices/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../features/store";
 
 function Navbar() {
+  const dispatch = useDispatch();
+  const { isOpen } = useSelector((store: RootState) => store.modal);
   return (
     <nav className="navbar py-0">
       <div className="container-fluid">
@@ -28,8 +33,9 @@ function Navbar() {
                 cursor: "pointer",
                 margin: "0px 4px",
               }}
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              onClick={() => {
+                dispatch(openModal());
+              }}
               startIcon={<LoginIcon />}
             >
               Login
@@ -37,16 +43,14 @@ function Navbar() {
           </div>
         </div>
       </div>
-      <Modal
-        id="exampleModal"
-        toggleClass="modal"
-        backdropLabel="exampleBackdrop"
-        headingText="registrt"
-        component={<LoginForm />}
-        onSave={() => {
-          console.log("Save button executed");
+      <PHModal
+        isOpen={isOpen}
+        style={{ width: "400px" }}
+        headingText="Login"
+        onClose={() => {
+          dispatch(closeModal());
         }}
-        saveButtonName="Login"
+        component={<LoginForm />}
       />
     </nav>
   );
