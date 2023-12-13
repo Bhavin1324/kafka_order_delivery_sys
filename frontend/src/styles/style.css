@@ -28,10 +28,13 @@
 
 /* Theme button */
 .btn-theme{
-    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-primary text-white px-6 py-2 rounded-lg shadow-lg hover:bg-ph-white hover:text-ph-primary focus:bg-ph-white focus:text-ph-primary
+    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-primary text-white px-4 py-[.4rem] rounded-lg shadow-lg hover:bg-ph-white hover:text-ph-primary focus:bg-ph-white focus:text-ph-primary
 }
 .btn-theme-outlined{
-    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-white text-ph-primary px-6 py-2 rounded-lg shadow-lg hover:bg-ph-primary hover:text-ph-white focus:bg-ph-primary focus:text-ph-white
+    @apply transition-all duration-200 ease-in border-[1px] border-ph-primary bg-ph-white text-ph-primary px-6 py-[.4rem] rounded-lg shadow-lg hover:bg-ph-primary hover:text-ph-white focus:bg-ph-primary focus:text-ph-white
+}
+.btn-theme-shadowed{
+    @apply transition-all duration-200 ease-in border-0 bg-ph-white text-ph-primary px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-ph-smoke focus:bg-ph-smoke focus:shadow-xl
 }
 .btn-theme-shadowed{
     @apply transition-all duration-200 ease-in border-0 bg-ph-white text-ph-primary px-6 py-2 rounded-lg shadow-md hover:shadow-xl hover:bg-ph-smoke focus:bg-ph-smoke focus:shadow-xl

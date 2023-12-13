@@ -1,19 +1,17 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 import { Backdrop, Fade, Modal, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { closeModal } from "../../features/slices/modalSlice";
+import React from "react";
 import { CSSProperties } from "react";
 interface ModalProps {
   isOpen: boolean;
+  onClose: () => void;
   headingText: string;
   style?: CSSProperties;
   contentText?: string;
   component?: React.ReactNode;
-  onClose:()=>void;
 }
 
 function PHModal(props: ModalProps) {
-  const dispatch = useDispatch();
   return (
     <>
       <Modal
@@ -43,6 +41,7 @@ function PHModal(props: ModalProps) {
             </Typography>
             {props.contentText && (
               <Typography sx={{ mt: 2 }}>{props.contentText}</Typography>
+
             )}
             {props.component && props.component}
           </div>
