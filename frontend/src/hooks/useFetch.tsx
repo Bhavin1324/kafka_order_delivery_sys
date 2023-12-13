@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 import { HttpMethods } from "../types/commons";
 
 export function useFetch<T>(
@@ -43,11 +42,7 @@ export function useFetch<T>(
       const result = await response.json();
       return result;
     } catch (ex) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong! unable to perform an opertaion",
-      });
+      console.log(ex);
     }
   }
 

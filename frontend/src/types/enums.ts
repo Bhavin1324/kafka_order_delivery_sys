@@ -9,4 +9,19 @@ export enum NavigateToRoute {
   ADD_ITEM = "admin/items",
   ADD_DELIVERY_STAFF = "admin/staff",
 }
-export enum NavigateTo {}
+
+export enum ApiEndpoints {
+  USER_REGISTER = "customer/register",
+  USER_LOGIN = "customer/login",
+  GET_USER = "customer/user",
+}
+
+export enum ConstantValues {
+  INIT_CREDIT = "10000",
+}
+export enum Roles {
+  CUSTOMER = "customer",
+  RESTAURANT = "restaurant",
+  DELIVERY_PERSON = "deliveryPerson",
+  ADMIN = "admin",
+}
