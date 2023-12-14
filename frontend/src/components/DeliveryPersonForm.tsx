@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { DeliveryPerson} from "../types/interfaces";
+import { DeliveryPerson } from "../types/interfaces";
 import { useEffect } from "react";
 
 import {
@@ -17,7 +17,7 @@ const DeliveryPersonForm = ({
   update,
   action,
 }: {
-  onEvent: (deliveryPerson:DeliveryPerson) => void;
+  onEvent: (deliveryPerson: DeliveryPerson) => void;
   update: DeliveryPerson;
   action: string;
 }) => {
@@ -28,10 +28,10 @@ const DeliveryPersonForm = ({
     setValue,
     formState: { errors },
   } = useForm();
- 
+
 
   const outlets = [
-    
+
     {
       id: "abc",
       name: "dindoli",
@@ -58,17 +58,17 @@ const DeliveryPersonForm = ({
   }, []);
 
   const onSubmit = (data: any) => {
-    if(update!=null){
+    if (update != null) {
       data.id = update.id
     }
     onEvent(data);
     reset({
-        username: "",
-        current_status:"",
-        adhar_number:null,
-        latitude:null,
-        longitude:null,
-        outlet_id:null 
+      username: "",
+      current_status: "",
+      adhar_number: null,
+      latitude: null,
+      longitude: null,
+      outlet_id: null
     });
   };
 
@@ -80,7 +80,7 @@ const DeliveryPersonForm = ({
   const latitudeRegister = register("latitude", latitudeValidation);
   return (
     <form
-  
+
       onSubmit={handleSubmit(onSubmit)}
     >
       {/* <h3 className="text-xl font-bold mb-4">{action}</h3> */}
@@ -96,8 +96,8 @@ const DeliveryPersonForm = ({
       </div>
       <div className="flex flex-col mb-2">
         <label htmlFor="status">Current_status</label>
-        <select id="status" {...statusRegister}  className="ph-select">
-      
+        <select id="status" {...statusRegister} className="ph-select">
+
           <option value={"notallted"} >Not Alloted</option>
           <option value={"alloted"}>Alloted</option>
 
@@ -146,7 +146,7 @@ const DeliveryPersonForm = ({
         <label htmlFor="outlet">Outlet</label>
         <select id="outlet" {...outletRegister} className="ph-select">
           {outlets.map((ot) => {
-            return <option value={ot.id}>{ot.name}</option>;
+            return <option key={ot.id} value={ot.id}>{ot.name}</option>;
           })}
         </select>
         <p style={{ color: "red" }}>

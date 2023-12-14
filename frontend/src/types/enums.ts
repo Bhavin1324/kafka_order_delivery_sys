@@ -13,3 +13,19 @@ export enum NavigateToRoute {
   ORDER_PRE = "orders"
 
 }
+
+export enum ApiEndpoints {
+  USER_REGISTER = "customer/register",
+  USER_LOGIN = "customer/login",
+  GET_USER = "customer/user",
+}
+
+export enum ConstantValues {
+  INIT_CREDIT = "10000",
+}
+export enum Roles {
+  CUSTOMER = "customer",
+  RESTAURANT = "restaurant",
+  DELIVERY_PERSON = "deliveryPerson",
+  ADMIN = "admin",
+}

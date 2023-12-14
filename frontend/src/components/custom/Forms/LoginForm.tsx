@@ -4,26 +4,56 @@ import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import {
   emailValidation,
   passwordValidation,
-} from "../../utils/ValidationRules";
+} from "../../../utils/ValidationRules";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../features/slices/modalSlice";
-import { RootState } from "../../features/store";
+import { closeModal } from "../../../features/slices/modalSlice";
+import { RootState } from "../../../features/store";
 import { useState } from "react";
-import PHModal from "./PHModal";
-import SignupForm from "./SignupForm";
+import PHModal from "../Modals/PHModal";
+import SignupForm from "../Forms/SignupForm";
+import { useFetch } from "../../../hooks/useFetch";
+import { ILoginPayload, ILoginResponse } from "../../../types/interfaces";
+import { ApiEndpoints, NavigateToRoute } from "../../../types/enums";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 function LoginForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const { setPayload, MakeHttpRequest } = useFetch<ILoginPayload>(
+    import.meta.env.VITE_CUSTOMER_SERVICE_URI + ApiEndpoints.USER_LOGIN,
+    "POST",
+  )
   const emailRegister = register("email", emailValidation);
   const passwordRegister = register("password", passwordValidation);
   const dispatch = useDispatch();
   const [renderModal, setRenderModal] = useState<boolean>(false);
   const { isOpen } = useSelector((store: RootState) => store.modal);
-  const onSubmit = (data: any) => {
+  const navigate = useNavigate();
+  const onSubmit = async (data: ILoginPayload) => {
     console.log(data);
+    setPayload(data)
+    MakeHttpRequest()
+      .then((result: { error: string, result: ILoginResponse }) => {
+        console.log(result)
+        if (result.error === null) {
+          localStorage.setItem("token", result.result.token)
+          navigate(`${NavigateToRoute.FOOD}`);
+        } else {
+          Swal.fire({
+            title: "Oops! unable to login you",
+            text: "You doesn't have an account with these credentials",
+            icon: "error"
+          });
+        }
+      })
+      .catch((ex) => {
+        console.log(ex)
+      })
     dispatch(closeModal());
   };
   return (
@@ -38,9 +68,8 @@ function LoginForm() {
               id="userEmail"
               type="text"
               placeholder="example@provider.com"
-              className={`peer ${
-                errors?.email ? "ph-input-invalid" : "ph-input-text"
-              }`}
+              className={`peer ${errors?.email ? "ph-input-invalid" : "ph-input-text"
+                }`}
               {...emailRegister}
             />
             {errors?.email && (
@@ -60,9 +89,8 @@ function LoginForm() {
             <input
               id="password"
               type="password"
-              className={`peer ${
-                errors?.password ? "ph-input-invalid" : "ph-input-text"
-              }`}
+              className={`peer ${errors?.password ? "ph-input-invalid" : "ph-input-text"
+                }`}
               {...passwordRegister}
             />
             {errors?.password && (

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
@@ -7,7 +9,13 @@ import {
   passwordValidation,
   phoneValidation,
   usernameValidation,
-} from "../../utils/ValidationRules";
+} from "../../../utils/ValidationRules";
+import { useFetch } from "../../../hooks/useFetch";
+import { IUser } from "../../../types/interfaces";
+import { ApiEndpoints, ConstantValues, Roles } from "../../../types/enums";
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../../features/slices/modalSlice";
+import Swal from "sweetalert2";
 
 export default function SignupForm() {
   const {
@@ -15,15 +23,53 @@ export default function SignupForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+
+  const { MakeHttpRequest, setPayload } = useFetch<IUser>(
+    import.meta.env.VITE_CUSTOMER_SERVICE_URI + ApiEndpoints.USER_REGISTER,
+    "POST"
+  );
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data: IUser) => {
+    setPayload({
+      ...data,
+      credits: ConstantValues.INIT_CREDIT,
+      role: Roles.CUSTOMER
+    });
+    try {
+      const result = await MakeHttpRequest()
+      console.log(result)
+      if (result.error === null) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "You have been successfully registered",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      } else {
+        Swal.fire({
+          title: "Oops! unable to register you",
+          text: "You may already created an account",
+          icon: "error"
+        });
+      }
+    } catch (ex) {
+      Swal.fire({
+        title: "Oops! unable to register you",
+        text: "Service is not available, try after few minutes",
+        icon: "error"
+      });
+    }
+
+    dispatch(closeModal());
   };
 
   const nameRegister = register("name", nameValidation);
   const usernameRegister = register("username", usernameValidation);
   const emailRegister = register("email", emailValidation);
   const passwordRegister = register("password", passwordValidation);
-  const phoneNoRegister = register("phone", phoneValidation);
+  const phoneNoRegister = register("phone_no", phoneValidation);
   return (
     <>
       <div>
@@ -36,9 +82,8 @@ export default function SignupForm() {
               <input
                 id="name"
                 type="text"
-                className={`peer ${
-                  errors?.name ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.name ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...nameRegister}
               />
               {errors?.name && (
@@ -58,9 +103,8 @@ export default function SignupForm() {
               <input
                 id="username"
                 type="text"
-                className={`peer ${
-                  errors?.username ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.username ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...usernameRegister}
               />
               {errors?.username && (
@@ -80,9 +124,8 @@ export default function SignupForm() {
               <input
                 id="password"
                 type="password"
-                className={`peer ${
-                  errors?.password ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.password ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...passwordRegister}
               />
               {errors?.password && (
@@ -103,9 +146,8 @@ export default function SignupForm() {
               <input
                 id="email"
                 type="email"
-                className={`peer ${
-                  errors?.email ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.email ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...emailRegister}
               />
               {errors?.email && (
@@ -126,19 +168,18 @@ export default function SignupForm() {
               <input
                 id="phone"
                 type="number"
-                className={`peer ${
-                  errors?.phone ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.phone_no ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...phoneNoRegister}
               />
-              {errors?.phone && (
+              {errors?.phone_no && (
                 <div className="error-message">
                   <ErrorOutlineOutlinedIcon
                     fontSize="small"
                     style={{ margin: "3px 2px 0px 2px" }}
                   />
 
-                  <p className="mb-0">{errors?.phone.message}</p>
+                  <p className="mb-0">{errors?.phone_no.message}</p>
                 </div>
               )}
             </div>

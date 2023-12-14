@@ -1,55 +1,57 @@
-import Swal from "sweetalert2";
 import { HttpMethods } from "../types/commons";
 
-export function useFetch<T>(
-  url: string,
-  method?: HttpMethods,
-  payload?: T,
-  token?: string
-) {
+export function useFetch<T>(url: string, method?: HttpMethods, token?: string) {
   method = method || "GET";
+  let payload: T = null;
+  const setPayload = (pl: T) => {
+    payload = pl;
+  };
   async function MakeHttpRequest(id?: string, query?: string) {
     try {
       const response = await fetch(
         id && query
           ? url + id + query
           : id
-          ? url + id
-          : query
-          ? url + query
-          : url,
+            ? url + id
+            : query
+              ? url + query
+              : url,
         method !== "GET"
           ? {
-              method: method,
-              headers: token
-                ? {
-                    Authorization: `Bearer ${token}`,
-                    "content-type": "application/json",
-                  }
-                : { "content-type": "application/json" },
-              body: JSON.stringify(payload),
-            }
+            method: method,
+            headers: token
+              ? {
+                Authorization: `Bearer ${token}`,
+                "content-type": "application/json",
+              }
+              : { "content-type": "application/json" },
+            body: JSON.stringify(payload),
+          }
           : token
-          ? {
+            ? {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             }
-          : {}
+            : {}
       );
-      if (method === "PATCH" || method === "PUT") {
-        return;
+
+      if (response.status >= 400 && response.status <= 505) {
+        return { error: "Unable to perform an action", result: null }
       }
-      const result = await response.json();
-      return result;
+      else {
+        const result = await response.json();
+        return { error: null, result: result }
+      }
+
     } catch (ex) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong! unable to perform an opertaion",
-      });
+      return { error: "Unable to perform an action", result: null }
     }
   }
 
-  return MakeHttpRequest;
+  if (method === "PATCH" || method === "PUT" || method === "POST") {
+    return { setPayload, MakeHttpRequest };
+  } else {
+    return { MakeHttpRequest };
+  }
 }

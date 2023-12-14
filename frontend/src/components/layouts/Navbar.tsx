@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
-import LoginForm from "../custom/LoginForm";
-import PHModal from "../custom/PHModal";
+import LoginForm from "../custom/Forms/LoginForm";
+import PHModal from "../custom/Modals/PHModal";
 import { openModal, closeModal } from "../../features/slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/store";

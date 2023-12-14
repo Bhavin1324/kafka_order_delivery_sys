@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { NavigateToRoute } from "../../types/enums";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -60,58 +60,88 @@ function LoggedInNav() {
         >
           <li className="nav-list-items">
             {" "}
-            <Link
-              className="link-a font-semibold"
+            <NavLink
+              className={`link-a font-semibold`}
               to={NavigateToRoute.FOOD}
               onClick={toggleHam}
-              style={{ textDecoration: "none" }}
+              style={({ isActive }) => {
+                return isActive
+                  ? {
+                      backgroundColor: "#E1701A",
+                      color: "white",
+                      TextDecoration: "none",
+                    }
+                  : {
+                      TextDecoration: "none",
+                    };
+              }}
             >
-              <LocalPizzaIcon style={{ marginBottom: "2px" }} /> Pizzas
-            </Link>
+              <LocalPizzaIcon style={{ marginBottom: "2px" }} /> Menu
+            </NavLink>
           </li>
           <li className="nav-list-items">
             {" "}
-            <Link
-              className="link-a font-semibold"
+            <NavLink
+              className={`link-a font-semibold`}
               to={NavigateToRoute.SEARCH_FOOD}
               onClick={toggleHam}
-              style={{ textDecoration: "none" }}
+              style={({ isActive }) => {
+                return isActive
+                  ? {
+                      backgroundColor: "#E1701A",
+                      color: "white",
+                      TextDecoration: "none",
+                    }
+                  : {
+                      TextDecoration: "none",
+                    };
+              }}
             >
               <SearchIcon style={{ marginBottom: "2px" }} /> Search
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-list-items">
-            <Link
-              className="link-a font-semibold"
+            <NavLink
+              className={`link-a font-semibold`}
               to={NavigateToRoute.CART}
               onClick={toggleHam}
-              style={{ textDecoration: "none" }}
+              style={({ isActive }) => {
+                return isActive
+                  ? {
+                      backgroundColor: "#E1701A",
+                      color: "white",
+                      TextDecoration: "none",
+                    }
+                  : {
+                      TextDecoration: "none",
+                    };
+              }}
             >
               <ShoppingCartOutlinedIcon /> Cart
-            </Link>
+            </NavLink>
           </li>
           <li className="nav-list-items">
-            <Link
-              className="link-a font-semibold"
+            <NavLink
+              className={`link-a font-semibold`}
               to={NavigateToRoute.USER_PROFILE}
               onClick={toggleHam}
-              style={{ textDecoration: "none" }}
+              style={({ isActive }) => {
+                return isActive
+                  ? {
+                      backgroundColor: "#E1701A",
+                      color: "white",
+                      TextDecoration: "none",
+                    }
+                  : {
+                      TextDecoration: "none",
+                    };
+              }}
             >
               <AccountCircleOutlinedIcon style={{ marginBottom: "2px" }} /> User
               profile
-            </Link>
+            </NavLink>
           </li>
 
-          {/* <li className="md:hidden">
-            <Link
-              className="link-a"
-              to="/"
-              onClick={toggleHam}
-              style={{ textDecoration: "none" }}
-            >
-              Configuration
-            </Link>
-          </li> */}
           <li className="md:hidden">
             <button className="btn-theme my-3" onClick={logOut}>
               Logout

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { DeliveryPerson, Item, Outlet } from "../../types/interfaces";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import { nanoid } from "@reduxjs/toolkit";
-import PHDisplayImage from "./PHDisplayImage";
+import PHDisplayImage from "../PHDisplayImage";
+import { DeliveryPerson, Item, Outlet } from "../../../types/interfaces";
 interface TableProps<T> {
   data: T[];
   title: string;

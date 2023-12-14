@@ -1,17 +1,21 @@
-import { useState } from "react";
+
 import LoggedInNav from "../layouts/LoggedInNav";
-import Navbar from "../layouts/Navbar";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/store";
 import { setProgress } from "../../features/slices/loadingSlice";
+import { TokenValidation } from "../../utils/utils";
+import { Roles } from "../../types/commons";
+import { NavigateToRoute } from "../../types/enums";
 
 function ProtectedRoute() {
-  const [isLoggedin, setIsLoggedin] = useState<boolean>(true);
+
   const { progress } = useSelector((store: RootState) => store.topLoading);
   const dispatch = useDispatch();
-  // setIsLoggedin(true);
+
+  const tokenValid: { role: Roles; isExpired: boolean } = TokenValidation();
+  console.log(tokenValid)
   return (
     <>
       <LoadingBar
@@ -23,8 +27,15 @@ function ProtectedRoute() {
           dispatch(setProgress(100));
         }}
       />
-      {isLoggedin ? <LoggedInNav /> : <Navbar />}
-      <Outlet />
+
+      {tokenValid.isExpired
+        ? <Navigate to={NavigateToRoute.HOME} />
+        :
+        <>
+          <LoggedInNav />
+          <Outlet />
+        </>
+      }
     </>
   );
 }

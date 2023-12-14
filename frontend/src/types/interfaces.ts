@@ -1,3 +1,4 @@
+import { Roles } from "./commons";
 
 export interface IOrder{
     id:string,
@@ -20,21 +21,52 @@ export interface Outlet{
     pincode : number
 }
 export interface Item {
-    id:string,
-    name :string,
-    category_id : string,
-    description:string,
-    tax_slab_id :string,
-    price : number,
-    img : any,
-    is_veg :boolean
+  id: string;
+  name: string;
+  category_id: string;
+  description: string;
+  tax_slab_id: string;
+  price: number;
+  img: any;
+  is_veg: boolean;
 }
 export interface DeliveryPerson {
-    id:string ,
-    username: string,
-    current_status:string,
-    adhar_number:number,
-    latitude:number,
-    longitude:number,
-    outlet_id:string 
+  id: string;
+  username: string;
+  current_status: string;
+  adhar_number: number;
+  letitude: number;
+  logitude: number;
+  outlet_id: string;
+}
+
+export interface ILoginPayload {
+  email: string;
+  password: string;
+}
+export interface ILoginResponse {
+  userid: string;
+  token: string;
+}
+export interface IUser {
+  id?: string;
+  name: string;
+  username: string;
+  password: string;
+  email: string;
+  phone_no: string;
+  role?: string;
+  credits?: string;
+}
+
+export interface ITokenPayload {
+  iss: string;
+  aud: string;
+  jti: string;
+  exp: number;
+  iat: number;
+  sub: string;
+  upn: string;
+  preferred_username?: string;
+  groups: Roles[];
 }
