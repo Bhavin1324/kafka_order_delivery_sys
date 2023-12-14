@@ -16,12 +16,19 @@ type T = Outlet | Item | DeliveryPerson;
 function PHDataTable(props: TableProps<T>) {
   const [list, setList] = useState(props.data.length ? props.data : []);
   const [search, setSearch] = useState("");
+  const [isNotFound, setIsNotFound] = useState(false)
 
   const renderList = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     const newList = list.filter((item) =>
       JSON.stringify(item).toLowerCase().includes(search)
     );
+    if (newList.length === 0) {
+      setIsNotFound(true)
+    } else {
+      setIsNotFound(false)
+    }
+
     if (
       newList.length === 0 ||
       e.target.value == null ||
@@ -32,10 +39,8 @@ function PHDataTable(props: TableProps<T>) {
     } else {
       setList(newList);
     }
-    console.log(list);
   };
   useEffect(() => {
-    console.log(props.data.length)
     if (
       props.data == null ||
       props.data == undefined ||
@@ -46,7 +51,7 @@ function PHDataTable(props: TableProps<T>) {
       setList(props.data);
     }
   }, [props]);
-  
+
   return (
     <div className="mt-4 overflow-x-auto">
       <div className="container">
@@ -60,13 +65,19 @@ function PHDataTable(props: TableProps<T>) {
             value={search}
           />
         </div>
-        {props.data.length == 0 && (
+        {props.data.length === 0 && (
+          <div className="text-secondary flex justify-center my-2">
+            <ErrorOutlineOutlinedIcon />
+            <span className="ms-2">Table has no record</span>
+          </div>
+        )}
+        {isNotFound && (
           <div className="text-secondary flex justify-center my-2">
             <ErrorOutlineOutlinedIcon />
             <span className="ms-2">No record found</span>
           </div>
         )}
-        {props.data.length > 0 && (
+        {props.data.length > 0 && !isNotFound && (
           <table className="table table-hover">
             <thead>
               <tr>
@@ -86,7 +97,7 @@ function PHDataTable(props: TableProps<T>) {
                 return (
                   <tr key={nanoid()}>
                     {Object.keys(item).map((x) => {
-                      return (x!="img" ? <td key={nanoid()}>{item[x]}</td>:<td key={nanoid()}><PHDisplayImage blob={item[x]}/></td>)
+                      return (x != "img" ? <td key={nanoid()}>{item[x]}</td> : <td key={nanoid()}><PHDisplayImage blob={item[x]} /></td>)
                     })}
                     <td>
                       <button
