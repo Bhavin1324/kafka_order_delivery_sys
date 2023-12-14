@@ -1,3 +1,5 @@
+import { Roles } from "./commons";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Outlet {
   id: string;
@@ -45,4 +47,16 @@ export interface IUser {
   phone_no: string;
   role?: string;
   credits?: string;
+}
+
+export interface ITokenPayload {
+  iss: string;
+  aud: string;
+  jti: string;
+  exp: number;
+  iat: number;
+  sub: string;
+  upn: string;
+  preferred_username?: string;
+  groups: Roles[];
 }

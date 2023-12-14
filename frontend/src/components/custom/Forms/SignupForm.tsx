@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
@@ -8,59 +9,59 @@ import {
   passwordValidation,
   phoneValidation,
   usernameValidation,
-} from "../../utils/ValidationRules";
-import { useFetch } from "../../hooks/useFetch";
-import { IUser } from "../../types/interfaces";
-import { ApiEndpoints, ConstantValues, Roles } from "../../types/enums";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+} from "../../../utils/ValidationRules";
+import { useFetch } from "../../../hooks/useFetch";
+import { IUser } from "../../../types/interfaces";
+import { ApiEndpoints, ConstantValues, Roles } from "../../../types/enums";
 import { useDispatch } from "react-redux";
-import { closeModal } from "../../features/slices/modalSlice";
+import { closeModal } from "../../../features/slices/modalSlice";
+import Swal from "sweetalert2";
+
 export default function SignupForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [userData, setUserData] = useState<IUser>({
-    name: "",
-    email: "",
-    password: "",
-    phone_no: "",
-    username: "",
-  });
-  const registerUser = useFetch<IUser>(
+
+  const { MakeHttpRequest, setPayload } = useFetch<IUser>(
     import.meta.env.VITE_CUSTOMER_SERVICE_URI + ApiEndpoints.USER_REGISTER,
-    "POST",
-    userData
+    "POST"
   );
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    let counter = 0;
-    Object.keys(userData).map((item) => {
-      if (userData[item].length === 0 || !userData[item].trim()) {
-        return counter++;
-      }
-    });
-    if (counter === 0) {
-      registerUser();
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "User has been successfully registered",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  }, [userData]);
-
-  const onSubmit = (data: IUser) => {
-    setUserData({
+  const onSubmit = async (data: IUser) => {
+    setPayload({
       ...data,
       credits: ConstantValues.INIT_CREDIT,
-      role: Roles.CUSTOMER,
+      role: Roles.CUSTOMER
     });
+    try {
+      const result = await MakeHttpRequest()
+      console.log(result)
+      if (result.error === null) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "You have been successfully registered",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      } else {
+        Swal.fire({
+          title: "Oops! unable to register you",
+          text: "You may already created an account",
+          icon: "error"
+        });
+      }
+    } catch (ex) {
+      Swal.fire({
+        title: "Oops! unable to register you",
+        text: "Service is not available, try after few minutes",
+        icon: "error"
+      });
+    }
+
     dispatch(closeModal());
   };
 
@@ -81,9 +82,8 @@ export default function SignupForm() {
               <input
                 id="name"
                 type="text"
-                className={`peer ${
-                  errors?.name ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.name ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...nameRegister}
               />
               {errors?.name && (
@@ -103,9 +103,8 @@ export default function SignupForm() {
               <input
                 id="username"
                 type="text"
-                className={`peer ${
-                  errors?.username ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.username ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...usernameRegister}
               />
               {errors?.username && (
@@ -125,9 +124,8 @@ export default function SignupForm() {
               <input
                 id="password"
                 type="password"
-                className={`peer ${
-                  errors?.password ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.password ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...passwordRegister}
               />
               {errors?.password && (
@@ -148,9 +146,8 @@ export default function SignupForm() {
               <input
                 id="email"
                 type="email"
-                className={`peer ${
-                  errors?.email ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.email ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...emailRegister}
               />
               {errors?.email && (
@@ -171,9 +168,8 @@ export default function SignupForm() {
               <input
                 id="phone"
                 type="number"
-                className={`peer ${
-                  errors?.phone_no ? "ph-input-invalid" : "ph-input-text"
-                }`}
+                className={`peer ${errors?.phone_no ? "ph-input-invalid" : "ph-input-text"
+                  }`}
                 {...phoneNoRegister}
               />
               {errors?.phone_no && (
