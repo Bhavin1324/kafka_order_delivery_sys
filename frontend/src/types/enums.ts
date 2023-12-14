@@ -8,4 +8,8 @@ export enum NavigateToRoute {
   ADD_OUTLET = "outlets",
   ADD_ITEM = "items",
   ADD_DELIVERY_STAFF = "staff",
+  ORDER_H = "history",
+  ORDER_P = "dashboard",
+  ORDER_PRE = "orders"
+
 }
