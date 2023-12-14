@@ -9,7 +9,7 @@ import PHDataTable from "../../components/custom/DataTables/PHDataTable";
 import { nanoid } from "nanoid";
 
 const ItemManager = () => {
-  ā
+  
   const dispatch = useDispatch()
   const [isAdd, setisAdd] = useState(false)
   const [isUpdate, setisUpdate] = useState(false)

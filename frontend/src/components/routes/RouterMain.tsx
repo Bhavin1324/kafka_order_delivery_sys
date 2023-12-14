@@ -33,7 +33,7 @@ function RouterMain() {
               element={<UserProfile />}
             />
           </Route>
-          <Route path="admin" element={<ProtectedRoute />}>
+          <Route path="admin" >
             <Route
               path={NavigateToRoute.ADMIN_DASHBOARD}
               element={<AdminHome />}
@@ -49,7 +49,7 @@ function RouterMain() {
             />
            
           </Route>
-          <Route path="outlet" element={<ProtectedRoute />}>
+          <Route path="outlet">
               <Route
                 path={NavigateToRoute.ADD_DELIVERY_STAFF}
                 element={<DeliveryStaffManager />}
