@@ -22,7 +22,7 @@ export interface DeliveryPerson {
     username: string,
     current_status:string,
     adhar_number:number,
-    letitude:number,
-    logitude:number,
+    latitude:number,
+    longitude:number,
     outlet_id:string 
 }

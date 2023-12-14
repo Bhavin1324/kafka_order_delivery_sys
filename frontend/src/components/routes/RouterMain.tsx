@@ -30,7 +30,7 @@ function RouterMain() {
               element={<UserProfile />}
             />
           </Route>
-          <Route path="admin">
+          <Route path="admin" element={<ProtectedRoute/>}>
           <Route
             path={NavigateToRoute.ADMIN_DASHBOARD}
             element={<AdminHome />}
