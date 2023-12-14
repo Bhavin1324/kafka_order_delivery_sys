@@ -1,13 +1,14 @@
 
 export interface IOrder{
     id:string,
-    username :string,
-    items : [{
-        name:string,
-        quantity:number,
-    }],
+    name :string,
+    items : Iitemslist[],
     payable_amount :number,
     order_status : string
+}
+interface Iitemslist {
+    name:string,
+    quantity :number
 }
 export interface Outlet{
     id:string,
