@@ -11,6 +11,9 @@ import AdminHome from "../../pages/admin/AdminHome";
 import DeliveryStaffManager from "../../pages/admin/DeliveryStaffManager";
 import ItemManager from "../../pages/admin/ItemManager";
 import OutletManager from "../../pages/admin/OutletManager";
+import OrdersHistory from "../../pages/outlets/OrdersHistory";
+import PlacedOrders from "../../pages/outlets/PlacedOrders";
+import PreparedOrders from "../../pages/outlets/PreparedOrders";
 
 function RouterMain() {
   return (
@@ -30,20 +33,38 @@ function RouterMain() {
               element={<UserProfile />}
             />
           </Route>
-          <Route path="admin">
-          <Route
-            path={NavigateToRoute.ADMIN_DASHBOARD}
-            element={<AdminHome />}
-          />
-          <Route
-            path={NavigateToRoute.ADD_DELIVERY_STAFF}
-            element={<DeliveryStaffManager />}
-          />
-          <Route path={NavigateToRoute.ADD_ITEM} element={<ItemManager />} />
-          <Route
-            path={NavigateToRoute.ADD_OUTLET}
-            element={<OutletManager />}
-          />
+          <Route path="admin" element={<ProtectedRoute />}>
+            <Route
+              path={NavigateToRoute.ADMIN_DASHBOARD}
+              element={<AdminHome />}
+            />
+            <Route
+              path={NavigateToRoute.ADD_DELIVERY_STAFF}
+              element={<DeliveryStaffManager />}
+            />
+            <Route path={NavigateToRoute.ADD_ITEM} element={<ItemManager />} />
+            <Route
+              path={NavigateToRoute.ADD_OUTLET}
+              element={<OutletManager />}
+            />
+           
+          </Route>
+          <Route path="outlet" element={<ProtectedRoute />}>
+              <Route
+                path={NavigateToRoute.ADD_DELIVERY_STAFF}
+                element={<DeliveryStaffManager />}
+              />
+              <Route
+                path={NavigateToRoute.ORDER_H}
+                element={<OrdersHistory />}
+              />
+              <Route
+              path={NavigateToRoute.ORDER_P}
+              element={<PlacedOrders/>}/>
+              <Route
+              path={NavigateToRoute.ORDER_PRE}
+              element={<PreparedOrders/>}
+              />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

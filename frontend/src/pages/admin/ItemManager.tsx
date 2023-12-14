@@ -5,8 +5,9 @@ import PHModal from "../../components/custom/PHModal";
 import { openModal,closeModal } from "../../features/slices/modalSlice";
 import {useDispatch ,useSelector} from "react-redux";
 import { RootState } from "../../features/store";
-import DataTable from "../../components/custom/DataTable";
 import {v4 as uuidv4 } from "uuid";
+import PHDataTable from "../../components/custom/PHDataTable";
+import { nanoid } from "nanoid";
 
 const ItemManager = () => {
   const dispatch = useDispatch()
@@ -17,23 +18,23 @@ const ItemManager = () => {
   })
     const initialItems = [
         {
+          img:"abcd",
           id:"asdadad",
           name :"tometopizza",
           category_id : "sadas",
           description:"jghadjfgasjfgjssdfsf",
           tax_slab_id :"abcd",
           price : 110,
-          img : "Asdas",
           is_veg :true
         },
         {
+          img:"abcd",
           id:"asdadaasdd",
           name :"Cheese pizza",
           category_id : "sadas",
           description:"jghadjfgadasdsjfgjssdfsf",
           tax_slab_id :"abcd",
           price : 150,
-          img : "Asdas",
           is_veg :true
         }
        
@@ -48,15 +49,16 @@ const ItemManager = () => {
     // }, []);
   
     const handleAddItem = (item: Item) => {
-        item.id = uuidv4();
+      console.log(item)
+        item.id = nanoid();
         let tmp:Item={
+          img:item.img,
           id:item.id,
           name:item.name,
           category_id:item.category_id,
           description:item.description,
           tax_slab_id:item.tax_slab_id,
           price:item.price,
-          img:item.img,
           is_veg:item.is_veg
         }
         setItems([...items, tmp]);
@@ -77,13 +79,13 @@ const ItemManager = () => {
   
     const handleUpdate = (item : Item)=>{
       let tmp:Item={
+        img:item.img,
         id:item.id,
         name:item.name,
         category_id:item.category_id,
         description:item.description,
         tax_slab_id:item.tax_slab_id,
         price:item.price,
-        img:item.img,
         is_veg:item.is_veg
       }
         setItems(
@@ -100,7 +102,6 @@ const ItemManager = () => {
     return (
       <div className="container px-4 py-10">
         <div className="flex justify-between flex-wrap">
-        <h1 className="text-3xl font-bold mb-4">Pizza Store items</h1>
         <button
             className="btn-theme"
             onClick={()=>{setisAdd(true); dispatch(openModal())}}
@@ -119,7 +120,8 @@ const ItemManager = () => {
               action="Add item"/>}
             />}
          
-          <DataTable 
+          <PHDataTable 
+          title = "Pizza Store Items"
            data={items}
            onDelete={handleDeleteitem}
            onUpadate={handleEdititem}

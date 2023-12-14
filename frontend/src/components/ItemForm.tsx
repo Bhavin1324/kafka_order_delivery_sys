@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { Item } from "../types/interfaces";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
 import {
   nameValidation,
   CategoryValidation,
@@ -13,11 +12,7 @@ import {
   is_vegValidation,
 } from "../utils/ValidationRules";
 
-const ItemForm = ({
-  onEvent,
-  update,
-  action,
-}: {
+const ItemForm = ({onEvent,update,action}: {
   onEvent: (item: Item) => void;
   update: Item;
   action: string;
@@ -29,7 +24,6 @@ const ItemForm = ({
     setValue,
     formState: { errors },
   } = useForm();
-
   useEffect(() => {
     if (update != null) {
       setValue("price", update.price);
@@ -65,14 +59,30 @@ const ItemForm = ({
     },
     {
       id: "abcd",
-      percentage: 10,
+      percentage: 15,
     },
     {
       id: "abcde",
       percentage: 25,
     },
   ];
-  const onSubmit = (data: any) => {
+
+  const convertFileToBlob = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const blob = new Blob([reader.result], { type: file.type });
+        resolve(blob);
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsArrayBuffer(file);
+    });
+  };
+
+  const onSubmit = async (data: any) => {
+  const blob =await convertFileToBlob(data.img[0])
+   data.img= blob
+    console.log(data , "After ")
     if (update != null) {
       data.id = update.id;
     }
@@ -157,7 +167,7 @@ const ItemForm = ({
         <input
           type="file"
           id="img"
-          accept="image/jpeg ,image/jpg"
+          accept="image/*"
           {...imgRegister}
         />
         <p style={{ color: "red" }}>{errors?.img && errors?.img.message}</p>
@@ -170,8 +180,8 @@ const ItemForm = ({
             id="radio-1"
             {...isVegRegister}
             type="radio"
-            value="true"
-            name="isVeg"
+            value={1}
+            name="is_veg"
             className=" h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />
           <label
@@ -186,8 +196,8 @@ const ItemForm = ({
             id="radio-2"
             {...isVegRegister}
             type="radio"
-            value="false"
-            name="isVeg"
+            value={0}
+            name="is_veg"
             className="h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />
           <label

@@ -1,3 +1,14 @@
+
+export interface IOrder{
+    id:string,
+    username :string,
+    items : [{
+        name:string,
+        quantity:number,
+    }],
+    payable_amount :number,
+    order_status : string
+}
 export interface Outlet{
     id:string,
     name:string,
@@ -22,7 +33,7 @@ export interface DeliveryPerson {
     username: string,
     current_status:string,
     adhar_number:number,
-    letitude:number,
-    logitude:number,
+    latitude:number,
+    longitude:number,
     outlet_id:string 
 }

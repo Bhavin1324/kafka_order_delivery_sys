@@ -4,8 +4,12 @@ export enum NavigateToRoute {
   SEARCH_FOOD = "search",
   CART = "cart",
   USER_PROFILE = "profile",
-  ADMIN_DASHBOARD = "",
+  ADMIN_DASHBOARD = "dashboard",
   ADD_OUTLET = "outlets",
   ADD_ITEM = "items",
   ADD_DELIVERY_STAFF = "staff",
+  ORDER_H = "history",
+  ORDER_P = "dashboard",
+  ORDER_PRE = "orders"
+
 }
