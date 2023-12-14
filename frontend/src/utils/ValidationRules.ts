@@ -2,7 +2,7 @@
 export const nameValidation = {
   required: "Name is required",
   pattern: {
-    value: /^[A-Za-z]+$/,
+    value: /^[A-Za-z\W]+$/,
     message: "Invalid name",
   },
 };
@@ -13,6 +13,19 @@ export const addressValidation = {
     message: "Write more than 5 charecter long Valid address",
   },
 };
+export const adharValidation = {
+  required : "Adhar number is required",
+  pattern:{
+    value : /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
+    message :"Invalid Adhar Number !"
+  }
+}
+export const statusValidation = {
+  required :"Status is required !"
+}
+export const outletValidation = {
+  required :"Outlet is required ! "
+}
 export const phoneValidation = {
   required: "Contact Number is required",
   pattern: {

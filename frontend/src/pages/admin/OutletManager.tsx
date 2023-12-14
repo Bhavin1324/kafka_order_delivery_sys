@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Outlet } from "../../types/interfaces";
 import OutletForm from "../../components/OutletForm";
 import PHModal from "../../components/custom/Modals/PHModal";
+import PHDataTable from "../../components/custom/DataTables/PHDataTable";
 import { openModal, closeModal } from "../../features/slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/store";
-import { v4 as uuidv4 } from "uuid";
-import PHDataTable from "../../components/custom/DataTables/PHDataTable";
+import { nanoid } from "nanoid";
 
 const OutletManager = () => {
   const dispatch = useDispatch()
@@ -15,12 +15,12 @@ const OutletManager = () => {
   const { isOpen } = useSelector((store: RootState) => {
     return store.modal
   })
-  const initialOutets = [
+  const initialOutets: Outlet[] = [
     {
       id: "asdada",
       name: "ram",
       address: "Dindoli",
-      phoneno: 8596478596,
+      phoneno: 988989988,
       latitude: 5874.2455,
       longitude: 8594.2454,
       pincode: 587485
@@ -44,7 +44,8 @@ const OutletManager = () => {
       pincode: 587485
     }
   ]
-  const [outlets, setOutlets] = useState<Outlet[]>(initialOutets);
+  const [outlets, setOutlets] = useState(initialOutets);
+
   const [outletupdate, setOutletupdate] = useState<Outlet>({})
   // useEffect(() => {
   //   // Fetch outlets from an API or local storage
@@ -53,8 +54,9 @@ const OutletManager = () => {
   //     .then((data) => setOutlets(data));
   // }, []);
 
+
   const handleAddOutlet = (outlet: Outlet) => {
-    outlet.id = uuidv4();
+    outlet.id = nanoid();
     let tmp: Outlet = {
       id: outlet.id,
       name: outlet.name,
@@ -65,6 +67,7 @@ const OutletManager = () => {
       pincode: outlet.pincode
     }
     setOutlets([...outlets, tmp]);
+    console.log([...outlets], "spreading outlets")
     dispatch(closeModal())
     setisAdd(false)
   };
@@ -97,14 +100,13 @@ const OutletManager = () => {
     setisUpdate(false)
   }
   const handleDeleteOutlet = (id: string) => {
-    console.log(id)
     setOutlets(outlets.filter((outlet) => outlet.id !== id));
   };
 
   return (
     <div className="container px-4 py-10">
       <div className="flex justify-between flex-wrap">
-        <h1 className="text-3xl font-bold mb-4">Pizza Store Outlets</h1>
+        {/* <h1 className="text-3xl font-bold mb-4">Pizza Store Outlets</h1> */}
         <button
           className="btn-theme"
           onClick={() => { setisAdd(true); dispatch(openModal()) }}

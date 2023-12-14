@@ -45,7 +45,7 @@ function LoggedInNav() {
       <div className="container d-flex justify-content-start">
         <div className="self-center">
           <img
-            src="./src/assets/icon_name_logo.svg"
+            src="/src/assets/icon_name_logo.svg"
             alt="no svg found"
             className="w-[60%] md:w-2/3"
           />

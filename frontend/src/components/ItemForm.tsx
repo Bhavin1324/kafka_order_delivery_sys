@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { Item } from "../types/interfaces";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
 import {
   nameValidation,
   CategoryValidation,
@@ -29,7 +28,6 @@ const ItemForm = ({
     setValue,
     formState: { errors },
   } = useForm();
-
   useEffect(() => {
     if (update != null) {
       setValue("price", update.price);
@@ -65,14 +63,30 @@ const ItemForm = ({
     },
     {
       id: "abcd",
-      percentage: 10,
+      percentage: 15,
     },
     {
       id: "abcde",
       percentage: 25,
     },
   ];
-  const onSubmit = (data: any) => {
+
+  const convertFileToBlob = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const blob = new Blob([reader.result], { type: file.type });
+        resolve(blob);
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsArrayBuffer(file);
+    });
+  };
+
+  const onSubmit = async (data: any) => {
+    const blob = await convertFileToBlob(data.img[0]);
+    data.img = blob;
+    console.log(data, "After ");
     if (update != null) {
       data.id = update.id;
     }
@@ -153,50 +167,46 @@ const ItemForm = ({
         <p style={{ color: "red" }}>{errors?.price && errors?.price.message}</p>
       </div>
       <div className="flex flex-col mb-2">
-        <label htmlFor="img">Item Image</label>
-        <input
-          type="file"
-          id="img"
-          accept="image/jpeg ,image/jpg"
-          {...imgRegister}
-        />
+        <label htmlFor="img" className="form-label">Item Image</label>
+        <input type="file" className="form-control" id="img" accept="image/*" {...imgRegister} />
         <p style={{ color: "red" }}>{errors?.img && errors?.img.message}</p>
       </div>
       <div className="flex flex-col mb-2">
-        <label htmlFor="img">Is veg</label>
+        <label>Is veg</label>
         <div className="flex justify-start flex-wrap">
-        <div className="flex items-center mx-2">
-          <input
-            id="radio-1"
-            {...isVegRegister}
-            type="radio"
-            value="true"
-            name="isVeg"
-            className=" h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            htmlFor="radio-1"
-            className="ms-2 text-sm font-medium text-gray-400 dark:text-gray-500"
-          >
-            Yes
-          </label>
+          <div className="form-check flex items-center mx-2">
+            <input
+              id="radio-1"
+              {...isVegRegister}
+              type="radio"
+              value={1}
+              name="is_veg"
+              className=" form-check-input"
+            />
+            <label
+              htmlFor="radio-1"
+              className="form-check-label ms-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+            >
+              Yes
+            </label>
+          </div>
+          <div className="form-check flex items-center mx-2">
+            <input
+              id="radio-2"
+              {...isVegRegister}
+              type="radio"
+              value={0}
+              name="is_veg"
+              className="h-4 form-check-input"
+            />
+            <label
+              htmlFor="radio-2"
+              className=" form-check-label ms-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+            >
+              No
+            </label>
+          </div>
         </div>
-        <div className="flex items-center mx-2">
-          <input
-            id="radio-2"
-            {...isVegRegister}
-            type="radio"
-            value="false"
-            name="isVeg"
-            className="h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            htmlFor="radio-2"
-            className="ms-2 text-sm font-medium text-gray-400 dark:text-gray-500"
-          >
-            No
-          </label>
-        </div></div>
         <p style={{ color: "red" }}>
           {errors?.is_veg && errors?.is_veg.message}
         </p>
