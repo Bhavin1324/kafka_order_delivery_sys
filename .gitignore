@@ -1,4 +1,9 @@
 target/
+artifact/
+/Microservices/artifact
+style.compiled.css
+.env
+*.env
 domain.xml
 json.txt
 kafka-rar-0.1.0.rar
