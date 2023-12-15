@@ -15,7 +15,6 @@ function ProtectedRoute() {
   const dispatch = useDispatch();
 
   const tokenValid: { role: Roles; isExpired: boolean } = TokenValidation();
-  console.log(tokenValid)
   return (
     <>
       <LoadingBar

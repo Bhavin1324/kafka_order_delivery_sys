@@ -36,8 +36,8 @@
 .btn-theme-shadowed{
     @apply transition-all duration-200 ease-in border-0 bg-ph-white text-ph-primary px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-ph-smoke focus:bg-ph-smoke focus:shadow-xl
 }
-.btn-theme-shadowed{
-    @apply transition-all duration-200 ease-in border-0 bg-ph-white text-ph-primary px-6 py-2 rounded-lg shadow-md hover:shadow-xl hover:bg-ph-smoke focus:bg-ph-smoke focus:shadow-xl
+.btn-theme-filled-shadowed{
+    @apply transition-all duration-200 ease-in border-0 bg-ph-primary text-ph-white px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-ph-primary-soft focus:bg-ph-primary-soft focus:shadow-xl
 }
 
 /* Theme input */
@@ -68,6 +68,10 @@
 
 .form-control:hover, .form-control:focus{
     @apply border-ph-yellow-soft focus:border-ph-primary focus:shadow-[0_0_0_.25rem_rgba(225,157,55,0.25)]
+}
+
+.card{
+    @apply transition-all duration-200 ease-in shadow-md hover:shadow-lg focus:shadow-lg
 }
 
 /* Navbar styling */

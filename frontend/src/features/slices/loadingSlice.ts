@@ -8,7 +8,6 @@ const topLoadingSlice = createSlice({
   initialState,
   reducers: {
     setProgress: (state, action: PayloadAction<number>) => {
-      console.log(action);
       state.progress = action.payload;
     },
   },

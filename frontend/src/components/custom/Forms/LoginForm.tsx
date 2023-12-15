@@ -16,6 +16,7 @@ import { ILoginPayload, ILoginResponse } from "../../../types/interfaces";
 import { ApiEndpoints, NavigateToRoute } from "../../../types/enums";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { setProgress } from "../../../features/slices/loadingSlice";
 
 function LoginForm() {
   const {
@@ -24,26 +25,27 @@ function LoginForm() {
     formState: { errors },
   } = useForm();
 
+  const dispatch = useDispatch()
   const { setPayload, MakeHttpRequest } = useFetch<ILoginPayload>(
     import.meta.env.VITE_CUSTOMER_SERVICE_URI + ApiEndpoints.USER_LOGIN,
     "POST",
   )
   const emailRegister = register("email", emailValidation);
   const passwordRegister = register("password", passwordValidation);
-  const dispatch = useDispatch();
   const [renderModal, setRenderModal] = useState<boolean>(false);
   const { isOpen } = useSelector((store: RootState) => store.modal);
   const navigate = useNavigate();
   const onSubmit = async (data: ILoginPayload) => {
-    console.log(data);
+    dispatch(setProgress(80))
     setPayload(data)
     MakeHttpRequest()
       .then((result: { error: string, result: ILoginResponse }) => {
-        console.log(result)
+        dispatch(setProgress(100))
         if (result.error === null) {
           localStorage.setItem("token", result.result.token)
           navigate(`${NavigateToRoute.FOOD}`);
         } else {
+          dispatch(setProgress(0))
           Swal.fire({
             title: "Oops! unable to login you",
             text: "You doesn't have an account with these credentials",

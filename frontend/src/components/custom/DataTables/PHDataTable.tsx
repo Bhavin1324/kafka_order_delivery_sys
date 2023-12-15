@@ -10,8 +10,8 @@ import { DeliveryPerson, Item, Outlet } from "../../../types/interfaces";
 interface TableProps<T> {
   data: T[];
   title: string;
-  onUpadate: (data: T) => void;
-  onDelete: (id: string) => void;
+  onUpadate?: (data: T) => void;
+  onDelete?: (id: string) => void;
 }
 type T = Outlet | Item | DeliveryPerson;
 function PHDataTable(props: TableProps<T>) {
@@ -100,7 +100,7 @@ function PHDataTable(props: TableProps<T>) {
                     {Object.keys(item).map((x) => {
                       return (x != "img" ? <td key={nanoid()}>{item[x]}</td> : <td key={nanoid()}><PHDisplayImage blob={item[x]} /></td>)
                     })}
-                    <td>
+                    {props.onUpadate && <td>
                       <button
                         className="btn btn-primary"
                         onClick={() => {
@@ -109,8 +109,8 @@ function PHDataTable(props: TableProps<T>) {
                       >
                         <EditIcon />
                       </button>
-                    </td>
-                    <td>
+                    </td>}
+                    {props.onDelete && <td>
                       <button
                         className="btn btn-danger"
                         onClick={() => {
@@ -119,7 +119,7 @@ function PHDataTable(props: TableProps<T>) {
                       >
                         <DeleteIcon />
                       </button>
-                    </td>
+                    </td>}
                   </tr>
                 );
               })}

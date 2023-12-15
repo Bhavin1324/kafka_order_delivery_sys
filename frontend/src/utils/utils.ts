@@ -32,8 +32,6 @@ export function hasAnyEmptyKeys(obj: T): boolean {
 }
 
 export function isTokenExpired(miliseconds: number): boolean {
-  console.log(new Date().getTime());
-  console.log(miliseconds);
   if (miliseconds > new Date().getTime()) {
     return false;
   } else {
@@ -45,7 +43,6 @@ export const TokenValidation = (): { role: Roles; isExpired: boolean } => {
   if (token) {
     try {
       const decode: ITokenPayload = jwtDecode(token);
-      console.log(decode);
       console.log(isTokenExpired(decode.exp));
       return { isExpired: isTokenExpired(decode.exp), role: decode.groups[0] };
     } catch (ex) {

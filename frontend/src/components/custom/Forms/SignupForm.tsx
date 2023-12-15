@@ -16,6 +16,7 @@ import { ApiEndpoints, ConstantValues, Roles } from "../../../types/enums";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../../features/slices/modalSlice";
 import Swal from "sweetalert2";
+import { setProgress } from "../../../features/slices/loadingSlice";
 
 export default function SignupForm() {
   const {
@@ -31,6 +32,7 @@ export default function SignupForm() {
   const dispatch = useDispatch();
 
   const onSubmit = async (data: IUser) => {
+    dispatch(setProgress(80))
     setPayload({
       ...data,
       credits: ConstantValues.INIT_CREDIT,
@@ -38,7 +40,7 @@ export default function SignupForm() {
     });
     try {
       const result = await MakeHttpRequest()
-      console.log(result)
+      dispatch(setProgress(100))
       if (result.error === null) {
         Swal.fire({
           position: "center",
@@ -48,6 +50,7 @@ export default function SignupForm() {
           timer: 1500
         });
       } else {
+        dispatch(setProgress(0))
         Swal.fire({
           title: "Oops! unable to register you",
           text: "You may already created an account",
@@ -55,6 +58,7 @@ export default function SignupForm() {
         });
       }
     } catch (ex) {
+      dispatch(setProgress(0))
       Swal.fire({
         title: "Oops! unable to register you",
         text: "Service is not available, try after few minutes",
