@@ -1,5 +1,0 @@
-start java -jar payara-micro-5.2022.5.jar --deploy Microservices\OrderingService\target\dependency\kafka-rar-0.1.0.rar --deploy C:\Users\krdmo\.m2\repository\com\mycompany\OrderingService\1\OrderingService-1.war --noCluster --port 8085 --domainconfig domain.xml --addlibs mysql-connector-java-8.0.28.jar
-
-start java -jar payara-micro-5.2022.5.jar --deploy Microservices\PaymentService\target\dependency\kafka-rar-0.1.0.rar --deploy C:\Users\krdmo\.m2\repository\com\mycompany\PaymentService\1\PaymentService-1.war --noCluster --port 8086 --domainconfig domain.xml --addlibs mysql-connector-java-8.0.28.jar
-
-start java -jar payara-micro-5.2022.5.jar --deploy Microservices\CustomerService\target\dependency\kafka-rar-0.1.0.rar --deploy C:\Users\krdmo\.m2\repository\com\mycompany\CustomerService\1\CustomerService-1.war --noCluster --port 8087 --domainconfig domain.xml --addlibs mysql-connector-java-8.0.28.jar
