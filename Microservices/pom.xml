@@ -6,97 +6,104 @@
   
   
   
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
                 
   
   
   
   
   
-  <groupId>com.mycompany</groupId>
+    <groupId>com.mycompany</groupId>
                 
   
   
   
   
   
-  <artifactId>Microservices</artifactId>
+    <artifactId>Microservices</artifactId>
                 
   
   
   
   
   
-  <version>1</version>
+    <version>1</version>
                 
   
   
   
   
   
-  <packaging>pom</packaging>
+    <packaging>pom</packaging>
                 
   
   
   
   
   
-  <properties>
+    <properties>
                                 
     
     
     
     
     
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
                             
   
   
   
   
   
-  </properties>
+    </properties>
             
   
   
   
   
   
-  <modules>
+    <modules>
                           
     
     
     
     
     
-    <module>CustomerService</module>
+        <module>CustomerService</module>
                           
     
     
     
     
     
-    <module>DeliveryService</module>
+        <module>DeliveryService</module>
                       
     
     
     
     
-    <module>ManagementService</module>
+        <module>ManagementService</module>
                   
     
     
     
-    <module>OrderingService</module>
+        <module>OrderingService</module>
               
     
     
-    <module>PaymentService</module>
+        <module>PaymentService</module>
           
     
-    <module>PreparationService</module>
-      
-  </modules>
+        <module>PreparationService</module>
+        <module>Common</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.7</version>
+        </dependency>
+    </dependencies>
           
 
 

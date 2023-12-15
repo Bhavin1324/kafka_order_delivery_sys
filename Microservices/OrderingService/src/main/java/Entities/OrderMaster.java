@@ -6,7 +6,9 @@ package Entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,7 +36,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "OrderMaster.findByAmount", query = "SELECT o FROM OrderMaster o WHERE o.amount = :amount"),
     @NamedQuery(name = "OrderMaster.findByPaymentMethod", query = "SELECT o FROM OrderMaster o WHERE o.paymentMethod = :paymentMethod"),
     @NamedQuery(name = "OrderMaster.findByDeliveryCharge", query = "SELECT o FROM OrderMaster o WHERE o.deliveryCharge = :deliveryCharge"),
-    @NamedQuery(name = "OrderMaster.findByPayableAmount", query = "SELECT o FROM OrderMaster o WHERE o.payableAmount = :payableAmount")})
+    @NamedQuery(name = "OrderMaster.findByPayableAmount", query = "SELECT o FROM OrderMaster o WHERE o.payableAmount = :payableAmount"),
+    @NamedQuery(name = "OrderMaster.findByOrderDate", query = "SELECT o FROM OrderMaster o WHERE o.orderDate = :orderDate"),
+    @NamedQuery(name = "OrderMaster.findByCustomerId", query = "SELECT o FROM OrderMaster o WHERE o.userId = :userid AND o.orderStatus=:status ORDER BY o.orderDate DESC ")})
 public class OrderMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +61,9 @@ public class OrderMaster implements Serializable {
     private Double deliveryCharge;
     @Column(name = "payable_amount")
     private Double payableAmount;
+    @Column(name = "order_date")
+    @Temporal(TemporalType.DATE)
+    private Date orderDate;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private Users userId;
@@ -64,7 +73,7 @@ public class OrderMaster implements Serializable {
     @JoinColumn(name = "outlet_id", referencedColumnName = "id")
     @ManyToOne
     private Outlets outletId;
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "orderId", cascade=CascadeType.PERSIST)
     private Collection<OrderLine> orderLineCollection;
 
     public OrderMaster() {
@@ -120,6 +129,14 @@ public class OrderMaster implements Serializable {
 
     public void setPayableAmount(Double payableAmount) {
         this.payableAmount = payableAmount;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public Users getUserId() {
