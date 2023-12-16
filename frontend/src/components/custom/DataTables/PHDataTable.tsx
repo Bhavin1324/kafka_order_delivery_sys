@@ -84,7 +84,7 @@ function PHDataTable(props: TableProps<T>) {
               <tr>
                 {list.length > 0 && Object.keys(list[0]).map((item) => {
                   return (
-                    <th key={nanoid()} scope="col">
+                             <th key={nanoid()} scope="col">
                       {item}
                     </th>
                   );
@@ -98,7 +98,7 @@ function PHDataTable(props: TableProps<T>) {
                 return (
                   <tr key={nanoid()}>
                     {Object.keys(item).map((x) => {
-                      return (x != "img" ? <td key={nanoid()}>{item[x]}</td> : <td key={nanoid()}><PHDisplayImage blob={item[x]} /></td>)
+                      return (x != "itemImage" ? <td key={nanoid()}>{item[x]}</td> : <td key={nanoid()}><PHDisplayImage ba={item[x]} /></td>)
                     })}
                     <td>
                       <button

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { Item } from "../types/interfaces";
+import { IItem } from "../../../types/interfaces";
 import { useEffect, useState } from "react";
 import {
   nameValidation,
@@ -10,15 +10,19 @@ import {
   priceValidation,
   imgValidation,
   is_vegValidation,
-} from "../utils/ValidationRules";
+} from "../../../utils/ValidationRules";
+import { useFetch } from "../../../hooks/useFetch";
+import { ApiEndpoints } from "../../../types/enums";
+import { convertImageToBlob } from "../../../utils/utils";
+import { json } from "react-router-dom";
 
 const ItemForm = ({
   onEvent,
   update,
   action,
 }: {
-  onEvent: (item: Item) => void;
-  update: Item;
+  onEvent: (item:any) => void;
+  update: any;
   action: string;
 }) => {
   const {
@@ -28,64 +32,56 @@ const ItemForm = ({
     setValue,
     formState: { errors },
   } = useForm();
+
+  const CategoryHook = useFetch(import.meta.env.VITE_MANAGEMENT_SERVICE_URI+ ApiEndpoints.GET_CATEGORY,"GET")
+
   useEffect(() => {
+CategoryHook.MakeHttpRequest().then((result)=>{
+  if(result.result){
+    setcategories(result.result)
+  }
+})
+
+
     if (update != null) {
       setValue("price", update.price);
       setValue("name", update.name);
-      setValue("category_id", update.category_id);
+      setValue("categoryId", update.category_id);
       setValue("description", update.description);
-      setValue("img", update.img);
-      setValue("is_veg", update.is_veg);
-      setValue("tax_slab_id", update.tax_slab_id);
+      setValue("itemImage", update.img);
+      setValue("isVeg", update.is_veg);
+      setValue("taxSlabId", update.tax_slab_id);
     }
   }, []);
 
-  const categories = [
-    {
-      id: "sadas",
-      name: "Pizza",
-    },
-    {
-      id: "sadasdf",
-      name: "Cold Drink",
-    },
-    {
-      id: "sadas",
-      name: "other",
-    },
-  ];
+  const [categories, setcategories] = useState([])
 
   const taxslabs = [
     ,
     {
-      id: "abc",
+      id: "gfgfdggg",
+      percentage: 5,
+    },
+    {
+      id: "ryttryrtyry",
+      percentage: 8,
+    },
+    {
+      id: "d35dsfsfsfdsf",
       percentage: 10,
     },
     {
-      id: "abcd",
-      percentage: 15,
-    },
-    {
-      id: "abcde",
-      percentage: 25,
+      id: "erteterfz24324",
+      percentage: 12,
     },
   ];
 
-  const convertFileToBlob = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const blob = new Blob([reader.result], { type: file.type });
-        resolve(blob);
-      };
-      reader.onerror = (error) => reject(error);
-      reader.readAsArrayBuffer(file);
-    });
-  };
 
   const onSubmit = async (data: any) => {
-    const blob = await convertFileToBlob(data.img[0]);
-    data.img = blob;
+    const blob = await convertImageToBlob(data.itemImage[0]);
+    data.itemImage = blob;
+    data.price = JSON.stringify(data.price);
+    (data.isVeg == 1)? data.isVeg = true : data.isVeg = false
     console.log(data, "After ");
     if (update != null) {
       data.id = update.id;
@@ -94,21 +90,21 @@ const ItemForm = ({
     reset({
       price: "",
       name: "",
-      category_id: null,
+      categoryId: null,
       description: "",
-      img: null,
-      is_veg: null,
-      tax_slab_id: null,
+      itemImage: null,
+      isVeg: null,
+      taxSlabId: null,
     });
   };
 
   const nameRegister = register("name", nameValidation);
   const priceRegister = register("price", priceValidation);
-  const categoryRegister = register("category_id", CategoryValidation);
+  const categoryRegister = register("categoryId", CategoryValidation);
   const descriptionRegister = register("description", DescriptionValidation);
-  const imgRegister = register("img", imgValidation);
-  const isVegRegister = register("is_veg", is_vegValidation);
-  const taxslabRegister = register("tax_slab_id", taxslabValidation);
+  const imgRegister = register("itemImage", imgValidation);
+  const isVegRegister = register("isVeg", is_vegValidation);
+  const taxslabRegister = register("taxSlabId", taxslabValidation);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -131,7 +127,7 @@ const ItemForm = ({
           })}
         </select>
         <p style={{ color: "red" }}>
-          {errors?.category_id && errors?.category_id.message}
+          {errors?.categoryId && errors?.categoryId.message}
         </p>
       </div>
       <div className="flex flex-col mb-2">
@@ -153,7 +149,7 @@ const ItemForm = ({
           })}
         </select>
         <p style={{ color: "red" }}>
-          {errors?.tax_slab_id && errors?.tax_slab_id.message}
+          {errors?.taxSlabId && errors?.taxSlabId.message}
         </p>
       </div>
       <div className="flex flex-col mb-2">
@@ -169,7 +165,7 @@ const ItemForm = ({
       <div className="flex flex-col mb-2">
         <label htmlFor="img" className="form-label">Item Image</label>
         <input type="file" className="form-control" id="img" accept="image/*" {...imgRegister} />
-        <p style={{ color: "red" }}>{errors?.img && errors?.img.message}</p>
+        <p style={{ color: "red" }}>{errors?.itemImage && errors?.itemImage.message}</p>
       </div>
       <div className="flex flex-col mb-2">
         <label>Is veg</label>
@@ -180,7 +176,7 @@ const ItemForm = ({
               {...isVegRegister}
               type="radio"
               value={1}
-              name="is_veg"
+              name="isVeg"
               className=" form-check-input"
             />
             <label
@@ -196,7 +192,7 @@ const ItemForm = ({
               {...isVegRegister}
               type="radio"
               value={0}
-              name="is_veg"
+              name="isVeg"
               className="h-4 form-check-input"
             />
             <label
@@ -208,7 +204,7 @@ const ItemForm = ({
           </div>
         </div>
         <p style={{ color: "red" }}>
-          {errors?.is_veg && errors?.is_veg.message}
+          {errors?.isVeg && errors?.isVeg.message}
         </p>
       </div>
       <button type="submit" className="btn-theme">

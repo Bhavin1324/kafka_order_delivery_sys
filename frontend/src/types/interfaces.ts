@@ -11,33 +11,59 @@ interface Iitemslist {
     name:string,
     quantity :number
 }
-export interface Outlet{
-    id:string,
+export interface IOutlet{
+    id?:string,
     name:string,
     address:string,
-    phoneno:number,
+    phoneNo:number,
     latitude:number,
     longitude:number,
     pincode : number
 }
-export interface Item {
+export interface IItem {
   id: string;
   name: string;
-  category_id: string;
-  description: string;
-  tax_slab_id: string;
   price: number;
-  img: any;
-  is_veg: boolean;
+  description?: string;
+  itemImage?: Uint8Array;
+  categoryId?: ICategory;
+  isVeg:boolean;
+  taxSlabId:ITaxSlab,
 }
-export interface DeliveryPerson {
+
+export interface IItemScattered {
   id: string;
+  categoryId_id?:string,
+  categoryId_isSizeVarient?:boolean,
+  categoryId_name?:string,
+  name: string;
+  price: number;
+  description?: string;
+  itemImage?: Uint8Array;
+  isVeg:boolean;
+  taxSlabId_id?:string,
+  taxSlabId_percentage?:string
+}
+export interface ICategory {
+  id: string;
+  isSizeVarient: boolean;
+  name: string;
+}
+export interface ITaxSlab {
+  id: string;
+  percentage: number;
+}
+export interface IDeliveryPerson {
+  id?: string;
+  name:string,
   username: string;
-  current_status: string;
-  adhar_number: number;
-  letitude: number;
-  logitude: number;
-  outlet_id: string;
+  password?:string;
+  email:string;
+  phone_no:string;
+  role?:string;
+  credits?:string
+  aadharNumber: number;
+  outletId: string;
 }
 
 export interface ILoginPayload {

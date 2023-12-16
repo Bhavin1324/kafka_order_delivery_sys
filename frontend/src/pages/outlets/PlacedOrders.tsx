@@ -1,23 +1,38 @@
 import { useSelector,useDispatch } from "react-redux"
-import { updateToPreparation } from "../../features/slices/orderSlice"
 import { IOrder } from "../../types/interfaces"
 import OrdersCard from "../../components/custom/OrdersCard"
-interface OrderState{
-    orders: IOrder[]
-}
+import { nanoid } from "@reduxjs/toolkit"
+import { useEffect, useState } from "react"
+import { useFetch } from "../../hooks/useFetch"
+import { ApiEndpoints } from "../../types/enums"
+
+
 const PlacedOrders = () => {
-    const orders =useSelector((state:OrderState)=>{
-        console.log(state)
-        return state.orders
-    })
-    console.log(orders)
-  const dispatch = useDispatch()
+    
+    const outletId = "90906b0000e94902a9c9"
+    const [placedOrders, setplacedOrders] = useState([])
+    const DisplayHook = useFetch(import.meta.env.VITE_PREPARATION_SERVICE_URI+ ApiEndpoints.GET_ORDERS_BY_OUTLET +outletId+"/"+"Placed" ,"GET")
+    const getAllOrders = ()=>{
+      DisplayHook.MakeHttpRequest().then((result)=>{
+        if(result.result){
+          console.log(result.result)
+          setplacedOrders(result.result.orders)
+        }
+      })
+    }
+    useEffect(() => {
+     getAllOrders()
+    
+    
+    }, [])
+    
     return (
         <>
-    <div className="flex justify-around flex-wrap">
-        {orders.map((o)=> {
+    <div className="grid grid-cols-5 gap-2">
+        {placedOrders.map((o)=> {
         return(
-        <OrdersCard order={o}/>)
+        
+        <OrdersCard key={nanoid()} loadData={getAllOrders} order={o} />)
     }
         
         )}
