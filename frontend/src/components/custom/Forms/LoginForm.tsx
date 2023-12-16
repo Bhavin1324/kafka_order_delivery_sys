@@ -25,37 +25,39 @@ function LoginForm() {
     formState: { errors },
   } = useForm();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { setPayload, MakeHttpRequest } = useFetch<ILoginPayload>(
     import.meta.env.VITE_CUSTOMER_SERVICE_URI + ApiEndpoints.USER_LOGIN,
-    "POST",
-  )
+    "POST"
+  );
   const emailRegister = register("email", emailValidation);
   const passwordRegister = register("password", passwordValidation);
   const [renderModal, setRenderModal] = useState<boolean>(false);
   const { isOpen } = useSelector((store: RootState) => store.modal);
   const navigate = useNavigate();
   const onSubmit = async (data: ILoginPayload) => {
-    dispatch(setProgress(80))
-    setPayload(data)
+    dispatch(setProgress(80));
+    setPayload(data);
     MakeHttpRequest()
-      .then((result: { error: string, result: ILoginResponse }) => {
-        dispatch(setProgress(100))
+      .then((result: { error: string; result: ILoginResponse }) => {
+        dispatch(setProgress(100));
         if (result.error === null) {
-          localStorage.setItem("token", result.result.token)
+          localStorage.setItem("token", result.result.token);
+          localStorage.setItem("user", result.result.userid);
+          localStorage.setItem("outletId", "hjluiwyr845345");
           navigate(`${NavigateToRoute.FOOD}`);
         } else {
-          dispatch(setProgress(0))
+          dispatch(setProgress(0));
           Swal.fire({
             title: "Oops! unable to login you",
             text: "You doesn't have an account with these credentials",
-            icon: "error"
+            icon: "error",
           });
         }
       })
       .catch((ex) => {
-        console.log(ex)
-      })
+        console.log(ex);
+      });
     dispatch(closeModal());
   };
   return (
@@ -70,8 +72,9 @@ function LoginForm() {
               id="userEmail"
               type="text"
               placeholder="example@provider.com"
-              className={`peer ${errors?.email ? "ph-input-invalid" : "ph-input-text"
-                }`}
+              className={`peer ${
+                errors?.email ? "ph-input-invalid" : "ph-input-text"
+              }`}
               {...emailRegister}
             />
             {errors?.email && (
@@ -91,8 +94,9 @@ function LoginForm() {
             <input
               id="password"
               type="password"
-              className={`peer ${errors?.password ? "ph-input-invalid" : "ph-input-text"
-                }`}
+              className={`peer ${
+                errors?.password ? "ph-input-invalid" : "ph-input-text"
+              }`}
               {...passwordRegister}
             />
             {errors?.password && (

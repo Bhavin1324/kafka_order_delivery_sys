@@ -43,11 +43,42 @@ export const TokenValidation = (): { role: Roles; isExpired: boolean } => {
   if (token) {
     try {
       const decode: ITokenPayload = jwtDecode(token);
-      console.log(isTokenExpired(decode.exp));
       return { isExpired: isTokenExpired(decode.exp), role: decode.groups[0] };
     } catch (ex) {
       return { isExpired: true, role: "" };
     }
   }
   return { isExpired: true, role: "" };
+};
+export const convertByteArrayToImage = (bArray: Uint8Array) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const uint8Array = new Uint8Array(bArray);
+      const blob = new Blob([uint8Array], { type: "image/jpeg" }); // Adjust the MIME type accordingly
+      const dataURL = URL.createObjectURL(blob);
+      resolve(dataURL);
+    } catch (ex) {
+      console.log(ex);
+      reject(new Error("Unable to covnert into image"));
+    }
+  });
+};
+
+export const convertImageToBlob = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      if (event.target.readyState === FileReader.DONE) {
+        const base64String = event.target.result.split(",")[1];
+        const byteArray = atob(base64String)
+          .split("")
+          .map((char) => char.charCodeAt(0));
+        resolve(byteArray);
+      }
+    };
+    reader.onerror = (event) => {
+      reject(new Error("Unable to read file"));
+    };
+    reader.readAsDataURL(file);
+  });
 };

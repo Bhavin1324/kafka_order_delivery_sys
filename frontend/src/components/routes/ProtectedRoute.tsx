@@ -1,4 +1,3 @@
-
 import LoggedInNav from "../layouts/LoggedInNav";
 import { Navigate, Outlet } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
@@ -10,7 +9,6 @@ import { Roles } from "../../types/commons";
 import { NavigateToRoute } from "../../types/enums";
 
 function ProtectedRoute() {
-
   const { progress } = useSelector((store: RootState) => store.topLoading);
   const dispatch = useDispatch();
 
@@ -27,14 +25,14 @@ function ProtectedRoute() {
         }}
       />
 
-      {tokenValid.isExpired
-        ? <Navigate to={NavigateToRoute.HOME} />
-        :
+      {tokenValid.isExpired ? (
+        <Navigate to={NavigateToRoute.HOME} />
+      ) : (
         <>
           <LoggedInNav />
           <Outlet />
         </>
-      }
+      )}
     </>
   );
 }

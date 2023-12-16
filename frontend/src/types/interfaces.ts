@@ -1,4 +1,4 @@
-import { Roles } from "./commons";
+import { PaymentMethod, Roles } from "./commons";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -72,4 +72,31 @@ export interface ITokenPayload {
   upn: string;
   preferred_username?: string;
   groups: Roles[];
+}
+
+export interface ICategory {
+  id: string;
+  isSizeVarient: boolean;
+  name: string;
+}
+export interface ITaxSlab {
+  id: string;
+  percentage: number;
+}
+export interface IItem {
+  id: string;
+  name: string;
+  price: number;
+  description?: string;
+  itemImage?: Uint8Array;
+  categoryId: ICategory;
+  taxSlabId: ITaxSlab;
+}
+
+export interface ICustomerOrder {
+  items: { quantity: number; itemId: string }[];
+  amount: number;
+  paymentMethod: PaymentMethod;
+  userId: string;
+  outletId: string;
 }
