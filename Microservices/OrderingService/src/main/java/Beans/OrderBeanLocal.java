@@ -24,4 +24,5 @@ public interface OrderBeanLocal {
     //public Collection<Outlets> getOutlets();
     public Pincodes getDistrictNameByPincode(int pincode);
     public Collection<Pincodes> getDistrictByName(String name);
+    Boolean updateOrderStatus(OrderMaster order, String status);
 }

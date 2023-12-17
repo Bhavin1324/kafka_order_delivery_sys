@@ -26,14 +26,15 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 //@Startup
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "clientId", propertyValue = "OrderListener4"),
-    //@ActivationConfigProperty(propertyName = "groupIdConfig", propertyValue = "food_delivery"),
+    @ActivationConfigProperty(propertyName = "groupIdConfig", propertyValue = "food_delivery4"),
     @ActivationConfigProperty(propertyName = "topics", propertyValue = "order-listener"),
     @ActivationConfigProperty(propertyName = "bootstrapServersConfig", propertyValue = "localhost:9092"),
     @ActivationConfigProperty(propertyName = "autoCommitInterval", propertyValue = "100"),
     @ActivationConfigProperty(propertyName = "retryBackoff", propertyValue = "1000"),
     @ActivationConfigProperty(propertyName = "keyDeserializer", propertyValue = "org.apache.kafka.common.serialization.StringDeserializer"),
     @ActivationConfigProperty(propertyName = "valueDeserializer", propertyValue = "org.apache.kafka.common.serialization.StringDeserializer"),
-    @ActivationConfigProperty(propertyName = "pollInterval", propertyValue = "1000"),})
+    @ActivationConfigProperty(propertyName = "pollInterval", propertyValue = "3000"),
+    @ActivationConfigProperty(propertyName = "commitEachPoll", propertyValue = "true")})
 public class OrderListener implements KafkaListener{
     @Resource(lookup = "java:app/kafka/factory")
     private KafkaConnectionFactory kafkaConnectionFactory;
@@ -55,11 +56,11 @@ public class OrderListener implements KafkaListener{
         System.out.println("in order listener");
         if(ps.getCredits()>=ps.getBillAmount())
         {
-            //forward to prep
+            obl.updateOrderStatus(order, OrderStatus.PREPARING.toString());
         }
         else
         {
-            //obl.updateOrderStatus(order, OrderStatus.CANCELLED.toString());
+            obl.updateOrderStatus(order, OrderStatus.CANCELLED.toString());
         }
     }
 }

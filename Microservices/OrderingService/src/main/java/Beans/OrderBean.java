@@ -57,5 +57,16 @@ public class OrderBean implements OrderBeanLocal {
         return pins;
     }
     
+    @Override
+    public Boolean updateOrderStatus(OrderMaster order, String status) {
+        if(em.contains(order))
+        {
+            order.setOrderStatus(status);
+            em.merge(order);
+            return true;
+        }
+        return false;
+    }
+    
     
 }

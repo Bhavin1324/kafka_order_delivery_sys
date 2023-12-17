@@ -23,7 +23,7 @@ public class PaymentBean implements PaymentBeanLocal {
 
     @Override
     public OrderMaster getOrderById(String id) {
-        OrderMaster order = (OrderMaster)em.createNamedQuery("OrderMaster.findById").setParameter("id", id).getSingleResult();
+        OrderMaster order = em.find(OrderMaster.class, id);
         return order;
         
     }

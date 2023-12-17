@@ -29,14 +29,15 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 //@Startup
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "clientId", propertyValue = "Listener1"),
-    //@ActivationConfigProperty(propertyName = "groupIdConfig", propertyValue = "food_delivery"),
+    @ActivationConfigProperty(propertyName = "groupIdConfig", propertyValue = "food_delivery1"),
     @ActivationConfigProperty(propertyName = "topics", propertyValue = "payment-listener"),
     @ActivationConfigProperty(propertyName = "bootstrapServersConfig", propertyValue = "localhost:9092"),
     @ActivationConfigProperty(propertyName = "autoCommitInterval", propertyValue = "100"),
     @ActivationConfigProperty(propertyName = "retryBackoff", propertyValue = "1000"),
     @ActivationConfigProperty(propertyName = "keyDeserializer", propertyValue = "org.apache.kafka.common.serialization.StringDeserializer"),
     @ActivationConfigProperty(propertyName = "valueDeserializer", propertyValue = "org.apache.kafka.common.serialization.StringDeserializer"),
-    @ActivationConfigProperty(propertyName = "pollInterval", propertyValue = "1000")})
+    @ActivationConfigProperty(propertyName = "pollInterval", propertyValue = "3000"),
+    @ActivationConfigProperty(propertyName = "commitEachPoll", propertyValue = "true")})
 public class PaymentListener implements KafkaListener {
 
     @Resource(lookup = "java:app/kafka/factory")
@@ -45,11 +46,14 @@ public class PaymentListener implements KafkaListener {
     @EJB
     PaymentBeanLocal pbl;
 
+    public PaymentListener() {
+    }
+    
+    
+
     @OnRecord(topics = "payment-listener")
     public void paymentListener(ConsumerRecord consumerRecord) {
-        System.out.println("in payment listener");
         String psJson = consumerRecord.value().toString();
-        System.out.println("in payment listener");
         PaymentStatus ps = PaymentStatusUtil.jsonToPaymentStatus(psJson);
         System.out.println("in payment listener");
         if (ps.getPaymentType().equals(PaymentType.CREDIT.toString())) {
@@ -74,6 +78,7 @@ public class PaymentListener implements KafkaListener {
 
     void sendToOrder(PaymentStatus ps) {
         String jsonPs = PaymentStatusUtil.paymentStatusToJson(ps);
+        System.out.println("in send to order");
         try ( KafkaConnection connection = factory.createConnection()) {
             connection.send(new ProducerRecord("order-listener", jsonPs));
         } catch (Exception e) {

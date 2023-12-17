@@ -11,6 +11,7 @@ import com.mycompany.models.PaymentStatus;
 import com.mycompany.models.PaymentStatusUtil;
 import fish.payara.cloud.connectors.kafka.api.KafkaConnection;
 import fish.payara.cloud.connectors.kafka.api.KafkaConnectionFactory;
+import fish.payara.cloud.connectors.kafka.api.KafkaListener;
 import fish.payara.cloud.connectors.kafka.api.OnRecord;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
@@ -25,15 +26,16 @@ import org.apache.kafka.clients.producer.ProducerRecord;
  */
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "clientId", propertyValue = "Listener3"),
-    //@ActivationConfigProperty(propertyName = "groupIdConfig", propertyValue = "food_delivery"),
+    @ActivationConfigProperty(propertyName = "groupIdConfig", propertyValue = "food_delivery3"),
     @ActivationConfigProperty(propertyName = "topics", propertyValue = "payment-verification-listener"),
     @ActivationConfigProperty(propertyName = "bootstrapServersConfig", propertyValue = "localhost:9092"),
     @ActivationConfigProperty(propertyName = "autoCommitInterval", propertyValue = "100"),
     @ActivationConfigProperty(propertyName = "retryBackoff", propertyValue = "1000"),
     @ActivationConfigProperty(propertyName = "keyDeserializer", propertyValue = "org.apache.kafka.common.serialization.StringDeserializer"),
     @ActivationConfigProperty(propertyName = "valueDeserializer", propertyValue = "org.apache.kafka.common.serialization.StringDeserializer"),
-    @ActivationConfigProperty(propertyName = "pollInterval", propertyValue = "1000")})
-public class PaymentVerification {
+    @ActivationConfigProperty(propertyName = "pollInterval", propertyValue = "3000"),
+@ActivationConfigProperty(propertyName = "commitEachPoll", propertyValue = "true")})
+public class PaymentVerification implements KafkaListener{
     
     @Resource(lookup = "java:app/kafka/factory")
     private KafkaConnectionFactory factory;
@@ -44,6 +46,8 @@ public class PaymentVerification {
     public PaymentVerification() {
     }
     
+    
+
     @OnRecord(topics = "payment-verification-listener")
     public void verifyPayment(ConsumerRecord consumerRecord)
     {
@@ -51,6 +55,7 @@ public class PaymentVerification {
         PaymentStatus ps = PaymentStatusUtil.jsonToPaymentStatus(jsonPs);
         
         OrderMaster order = pbl.getOrderById(ps.getOrderid());
+        System.out.println(order);
         
         if(ps.getBillAmount() <= ps.getCredits())
         {
