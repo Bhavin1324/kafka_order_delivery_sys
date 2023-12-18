@@ -137,8 +137,8 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
               updateToCompleted(order.id);
             }}
           >
-            {" "}
-            complete{" "}
+          
+            complete
           </button>
         )}
         {order.order_status == "IN_TRANSIT" && (
@@ -150,8 +150,8 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
               verifyOrder(order.userid ,order.id);
             }}
           >
-            {" "}
-            Verify{" "}
+            
+            Verify
           </button>
         )}
       </div>

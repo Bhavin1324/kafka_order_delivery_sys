@@ -37,12 +37,30 @@ const CompletedOrders = () => {
   }
 
   const handleOrderClick = (order) => {
-    if(selectedOrder){
-      setSelectedOrder(null)
-    }else
-    {
-      setSelectedOrder(order);
-    }
+ 
+      Swal.fire({
+     
+       
+        html:`<div className="mt-8 border rounded-md p-4"><br/><br/>
+        <h3>Order Details for ${order.name}</h3><br/>
+        <ul className=" my-4">
+          ${order.items.map((item) => (
+            `<li key=${item.name}>
+              ${item.quantity} x ${item.name}
+            </li>`
+          ))}
+        </ul>
+      </div>`,
+        showCloseButton: true,
+    
+        focusConfirm: false,
+        confirmButtonText:
+          ' Close',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+       
+      })
+    
+ 
      // Set selected order on click
   };
   return (
@@ -50,7 +68,7 @@ const CompletedOrders = () => {
 
     <div className="flex flex-col ">
     <h2 className="text-3xl font-bold self-center mb-4">Delivered Orders</h2>
-    <div className="">
+  <div className="">
       {orders.map((order) => (
         <li key={order.id} className="rounded-md shadow-md p-4 flex  justify-between items-center cursor-pointer hover:bg-gray-100" onClick={() => handleOrderClick(order)}>
           <div className="mr-4 flex flex-col flex-wrap">
@@ -64,18 +82,7 @@ const CompletedOrders = () => {
         </li>
       ))}
     </div>
-    {selectedOrder && (
-      <div className="mt-8 border rounded-md p-4">
-        <h3>Order Details for {selectedOrder.name}</h3>
-        <ul className="space-y-2">
-          {selectedOrder.items.map((item) => (
-            <li key={item.name}>
-              {item.quantity} x {item.name}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
+   
   </div></div>
   )
 }
