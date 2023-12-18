@@ -42,8 +42,9 @@ useEffect(() => {
  
  }, [])
 return (
-  <>
-<div className="flex flex-start flex-wrap container px-4 py-10 md:max-sm:justify-center gap-2">
+  <div className="container my-4">
+    <div className="text-3xl font-bold px-4 self-center mb-4">Placed Orders </div>
+<div className="flex flex-start flex-wrap px-4 py-10 md:max-sm:justify-center gap-2">
   {myOrders.map((o)=> {
   return(
   
@@ -51,7 +52,7 @@ return (
 }
   
   )}
-</div></>
+</div></div>
 )
 }
 export default DeliveryHome

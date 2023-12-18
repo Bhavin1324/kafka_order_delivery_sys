@@ -27,8 +27,10 @@ const PlacedOrders = () => {
     }, [])
     
     return (
-        <>
-    <div className="flex flex-start flex-wrap md:max-sm:justify-center gap-2">
+        <div className="container my-4">
+          <div className="text-3xl font-bold self-center mb-4">Placed Orders </div>
+    <div className="flex flex-start container flex-wrap md:max-sm:justify-center gap-2">
+  
         {placedOrders.map((o)=> {
         return(
         
@@ -36,7 +38,7 @@ const PlacedOrders = () => {
     }
         
         )}
-    </div></>
+    </div></div>
   )
 }
 

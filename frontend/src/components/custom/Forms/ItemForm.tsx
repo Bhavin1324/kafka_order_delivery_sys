@@ -72,7 +72,7 @@ const ItemForm = ({
   const onSubmit = async (data: any) => {
     const blob = await convertImageToBlob(data.itemImage[0]);
     data.itemImage = blob;
-    data.price = JSON.stringify(data.price);
+    data.price = ""+data.price;
     data.isVeg == 1 ? (data.isVeg = true) : (data.isVeg = false);
     console.log(data, "After ");
     if (update != null) {
