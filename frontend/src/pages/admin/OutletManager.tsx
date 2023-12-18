@@ -6,7 +6,6 @@ import PHDataTable from "../../components/custom/DataTables/PHDataTable";
 import { openModal, closeModal } from "../../features/slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/store";
-import { nanoid } from "nanoid";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiEndpoints } from "../../types/enums";
 import Swal from "sweetalert2";
@@ -20,7 +19,7 @@ const OutletManager = () => {
       popup: 'colored-toast',
     },
     showConfirmButton: false,
-    timer: 1500,
+    timer: 2000,
     timerProgressBar: true,
   })
   const dispatch = useDispatch()
@@ -61,13 +60,13 @@ const OutletManager = () => {
       console.log(result)
       if(result.error || result.result.status==0){
       Toast.fire({
-          title: "Error in Adding Output !",
+          title: "Error in inserting data !",
           icon: "error"
         });
       } else{
           Toast.fire({
           icon: 'success',
-          title: 'Outlet Inserted !',
+          title: 'Data Inserted !',
         })
         setisAdd(false)
         setLatestOutletData() 
@@ -104,24 +103,12 @@ const OutletManager = () => {
             icon: "error"
           });
         } else{
-          const tmp:IOutlet = {
-            address : outlet.address,
-            id : outlet.id,
-            latitude:outlet.latitude,
-            longitude:outlet.longitude,
-            name:outlet.name,
-            phoneNo:outlet.phoneNo,
-            pincode:outlet.pincode
-            
-                    }
-          setOutlets(
-            outlets.map((ot) => (ot.id === tmp.id ? tmp: ot))
-          )
+          setLatestOutletData()
           dispatch(closeModal())
           setisUpdate(false)
             Toast.fire({
             icon: 'success',
-            title: 'Outlet Inserted !',
+            title: 'Data updated !',
           })
          
   
@@ -135,12 +122,12 @@ const OutletManager = () => {
       "Accept": "*/*",
       "Content-Type":"application/json"
       }
-     let response = await fetch("http://localhost:8080/ManagementService/rest/management/deleteOutlet/"+id, { 
+     let response = await fetch(import.meta.env.VITE_MANAGEMENT_SERVICE_URI + ApiEndpoints.DELETE_OUTLET+id, { 
        method: "DELETE",
        headers: headersList
      });
      let data = await response.json();
-    if(data.error!=null){
+    if(data.error || data.result.status==0){
       Toast.fire({
         icon: 'error',
         title: 'Internal Error!!',
@@ -148,11 +135,10 @@ const OutletManager = () => {
     }else{
        Toast.fire({
         icon: 'success',
-        title: 'Outlet Deleted!!',
+        title: 'Data Deleted!!',
       })
-    
+    setLatestOutletData()
     }
-    setOutlets(outlets.filter((outlet) => outlet.id !== id));
 
 
   };

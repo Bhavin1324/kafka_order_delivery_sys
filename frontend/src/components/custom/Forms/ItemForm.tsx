@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { IItem } from "../../../types/interfaces";
 import { useEffect, useState } from "react";
 import {
   nameValidation,
@@ -14,17 +13,18 @@ import {
 import { useFetch } from "../../../hooks/useFetch";
 import { ApiEndpoints } from "../../../types/enums";
 import { convertImageToBlob } from "../../../utils/utils";
-import { json } from "react-router-dom";
 
 const ItemForm = ({
   onEvent,
   update,
   action,
 }: {
-  onEvent: (item:any) => void;
+  onEvent: (item: any) => void;
   update: any;
   action: string;
 }) => {
+  const [categories, setcategories] = useState([]);
+  const [taxSlabs, settaxSlabs] = useState([]);
   const {
     register,
     handleSubmit,
@@ -33,15 +33,29 @@ const ItemForm = ({
     formState: { errors },
   } = useForm();
 
-  const CategoryHook = useFetch(import.meta.env.VITE_MANAGEMENT_SERVICE_URI+ ApiEndpoints.GET_CATEGORY,"GET")
-
+  const CategoryHook = useFetch(
+    import.meta.env.VITE_MANAGEMENT_SERVICE_URI + ApiEndpoints.GET_CATEGORY,
+    "GET"
+  );
+  const TaxSlabHook = useFetch(
+    import.meta.env.VITE_MANAGEMENT_SERVICE_URI + ApiEndpoints.GET_TAX_SLAB,
+    "GET"
+  );
   useEffect(() => {
-CategoryHook.MakeHttpRequest().then((result)=>{
-  if(result.result){
-    setcategories(result.result)
-  }
-})
-
+    CategoryHook.MakeHttpRequest().then((result) => {
+      if (result.result) {
+        setcategories(result.result);
+      } else {
+        console.log(result.error);
+      }
+    });
+    TaxSlabHook.MakeHttpRequest().then((result) => {
+      if (result.result) {
+        settaxSlabs(result.result);
+      } else {
+        console.log(result.error);
+      }
+    });
 
     if (update != null) {
       setValue("price", update.price);
@@ -54,34 +68,12 @@ CategoryHook.MakeHttpRequest().then((result)=>{
     }
   }, []);
 
-  const [categories, setcategories] = useState([])
-
-  const taxslabs = [
-    ,
-    {
-      id: "gfgfdggg",
-      percentage: 5,
-    },
-    {
-      id: "ryttryrtyry",
-      percentage: 8,
-    },
-    {
-      id: "d35dsfsfsfdsf",
-      percentage: 10,
-    },
-    {
-      id: "erteterfz24324",
-      percentage: 12,
-    },
-  ];
-
-
+ 
   const onSubmit = async (data: any) => {
     const blob = await convertImageToBlob(data.itemImage[0]);
     data.itemImage = blob;
     data.price = JSON.stringify(data.price);
-    (data.isVeg == 1)? data.isVeg = true : data.isVeg = false
+    data.isVeg == 1 ? (data.isVeg = true) : (data.isVeg = false);
     console.log(data, "After ");
     if (update != null) {
       data.id = update.id;
@@ -144,8 +136,8 @@ CategoryHook.MakeHttpRequest().then((result)=>{
       <div className="flex flex-col mb-2">
         <label htmlFor="taxslab">Tax Slab</label>
         <select id="taxslab" {...taxslabRegister} className="ph-select">
-          {taxslabs.map((tax) => {
-            return <option value={tax.id}>{tax.percentage}</option>;
+          {taxSlabs.map((tax) => {
+            return <option key={tax.id} value={tax.id}>{tax.percentage}</option>;
           })}
         </select>
         <p style={{ color: "red" }}>
@@ -163,9 +155,19 @@ CategoryHook.MakeHttpRequest().then((result)=>{
         <p style={{ color: "red" }}>{errors?.price && errors?.price.message}</p>
       </div>
       <div className="flex flex-col mb-2">
-        <label htmlFor="img" className="form-label">Item Image</label>
-        <input type="file" className="form-control" id="img" accept="image/*" {...imgRegister} />
-        <p style={{ color: "red" }}>{errors?.itemImage && errors?.itemImage.message}</p>
+        <label htmlFor="img" className="form-label">
+          Item Image
+        </label>
+        <input
+          type="file"
+          className="form-control"
+          id="img"
+          accept="image/*"
+          {...imgRegister}
+        />
+        <p style={{ color: "red" }}>
+          {errors?.itemImage && errors?.itemImage.message}
+        </p>
       </div>
       <div className="flex flex-col mb-2">
         <label>Is veg</label>
@@ -203,9 +205,7 @@ CategoryHook.MakeHttpRequest().then((result)=>{
             </label>
           </div>
         </div>
-        <p style={{ color: "red" }}>
-          {errors?.isVeg && errors?.isVeg.message}
-        </p>
+        <p style={{ color: "red" }}>{errors?.isVeg && errors?.isVeg.message}</p>
       </div>
       <button type="submit" className="btn-theme">
         {action}

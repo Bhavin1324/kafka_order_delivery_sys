@@ -8,8 +8,8 @@ import { ApiEndpoints } from "../../types/enums"
 
 
 const PlacedOrders = () => {
-    
-    const outletId = "90906b0000e94902a9c9"
+   
+    const outletId =  localStorage.getItem("user")
     const [placedOrders, setplacedOrders] = useState([])
     const DisplayHook = useFetch(import.meta.env.VITE_PREPARATION_SERVICE_URI+ ApiEndpoints.GET_ORDERS_BY_OUTLET +outletId+"/"+"Placed" ,"GET")
     const getAllOrders = ()=>{
@@ -28,7 +28,7 @@ const PlacedOrders = () => {
     
     return (
         <>
-    <div className="grid grid-cols-5 gap-2">
+    <div className="flex flex-start flex-wrap md:max-sm:justify-center gap-2">
         {placedOrders.map((o)=> {
         return(
         

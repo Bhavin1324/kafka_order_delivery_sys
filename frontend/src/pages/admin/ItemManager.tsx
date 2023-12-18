@@ -62,13 +62,13 @@ const ItemManager = () => {
       console.log(result)
       if(result.error || result.result.status==0){
       Toast.fire({
-          title: "Error in Adding Output !",
+          title: "Error in inserting data !",
           icon: "error"
         });
       } else{
           Toast.fire({
           icon: 'success',
-          title: 'Outlet Inserted !',
+          title: 'Data Inserted !',
         })
         setLatestItemData() 
         dispatch(closeModal())

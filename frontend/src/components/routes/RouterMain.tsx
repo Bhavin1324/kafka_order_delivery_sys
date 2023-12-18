@@ -14,6 +14,8 @@ import OutletManager from "../../pages/admin/OutletManager";
 import OrdersHistory from "../../pages/outlets/OrdersHistory";
 import PlacedOrders from "../../pages/outlets/PlacedOrders";
 import PreparedOrders from "../../pages/outlets/PreparedOrders";
+import DeliveryHome from "../../pages/delivery/DeliveryHome";
+import CompletedOrders from "../../pages/delivery/CompletedOrders";
 
 function RouterMain() {
   return (
@@ -34,10 +36,7 @@ function RouterMain() {
             />
           </Route>
           <Route path="admin" >
-            <Route
-              path={NavigateToRoute.ADMIN_DASHBOARD}
-              element={<AdminHome />}
-            />
+           
             <Route
               path={NavigateToRoute.ADD_DELIVERY_STAFF}
               element={<DeliveryStaffManager />}
@@ -48,6 +47,10 @@ function RouterMain() {
               element={<OutletManager />}
             />
            
+          </Route>
+          <Route path="staff">
+            <Route path={NavigateToRoute.DELIVERY_ORDERS} element={<DeliveryHome/>}/>
+            <Route path={NavigateToRoute.DELIVERY_COMPLETED} element={<CompletedOrders/>}/>
           </Route>
           <Route path="outlet">
               <Route

@@ -19,7 +19,7 @@ const DeliveryStaffManager = () => {
       popup: 'colored-toast',
     },
     showConfirmButton: false,
-    timer: 1500,
+    timer: 2000,
     timerProgressBar: true,
   })
   const dispatch = useDispatch()
@@ -50,7 +50,7 @@ const DeliveryStaffManager = () => {
        aadharNumber: x.adhaarNumber,
        outletId: x.outletId.id,
        username: x.username.username,
-       name: x.username.username,
+       name: x.username.name,
        phone_no: x.username.phoneNo,
        email: x.username.email,
      }
@@ -74,7 +74,7 @@ const DeliveryStaffManager = () => {
       console.log(result)
       if(result.error || result.result.status==0){
       Toast.fire({
-          title: "Error in Adding Data !",
+          title: "Error in insering Data !",
           icon: "error"
         });
       } else{
@@ -103,6 +103,7 @@ const DeliveryStaffManager = () => {
 
 
   const handleUpdate = (deliveryPerson: IDeliveryPerson) => {
+  
     console.log(deliveryPerson)
     let tmp = deliveryPerson
     tmp.phone_no = deliveryPerson.phone_no.toString()
@@ -122,9 +123,7 @@ const DeliveryStaffManager = () => {
             title: "Data updated !",
             icon: "success"
           });
-          setdeliveryPersons(
-            deliveryPersons.map((dp) => (dp.id === deliveryPerson ? deliveryPerson : dp))
-          )
+           setLatestStaffData()
           dispatch(closeModal())
           setisUpdate(false)
   
@@ -143,7 +142,7 @@ const DeliveryStaffManager = () => {
        headers: headersList
      });
      let data = await response.json();
-    if(data.error!=null){
+    if(data.error!=null || data.result.status==0){
       Toast.fire({
         icon: 'error',
         title: 'Internal Error!!',
@@ -151,7 +150,7 @@ const DeliveryStaffManager = () => {
     }else{
        Toast.fire({
         icon: 'success',
-        title: 'Outlet Deleted!!',
+        title: 'Data Deleted!!',
       })
     
     }

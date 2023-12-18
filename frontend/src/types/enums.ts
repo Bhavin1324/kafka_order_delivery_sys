@@ -10,8 +10,9 @@ export enum NavigateToRoute {
   ADD_DELIVERY_STAFF = "staff",
   ORDER_H = "history",
   ORDER_P = "dashboard",
-  ORDER_PRE = "orders"
-
+  ORDER_PRE = "orders",
+  DELIVERY_ORDERS = "home",
+  DELIVERY_COMPLETED ="delivered" 
 }
 
 export enum ApiEndpoints {
@@ -32,7 +33,12 @@ export enum ApiEndpoints {
   DELETE_STAFF ="management/deleteDeliveryPerson/",
   GET_CATEGORY = "management/getAllItemCategory",
   GET_ORDERS_BY_OUTLET = "prepration/getOrders/",
-  DISPATCH_ORDER = "prepration/postApprovedOrder"
+  DISPATCH_ORDER = "prepration/postApprovedOrder",
+  GET_TAX_SLAB = "management/getAllTaxSlabs",
+  GET_TODAYS_ORDERS_BY_OUTLET = "ordering/getTodaysOrders/",
+  GET_ORDERS_FOR_DELIVERY = "ordering/getOrdersByDeliveryPerosn/",
+  SEND_OTP_TO_CUST = "delivery/getOTPForCustomer/",
+  UPDATE_STATUS_TO_DELIVERED = "delivery/updateDeliveryStatusToDelivered/"
 }
 
 export enum ConstantValues {
