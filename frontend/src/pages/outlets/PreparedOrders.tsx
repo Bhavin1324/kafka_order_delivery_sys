@@ -6,7 +6,7 @@ import { ApiEndpoints } from "../../types/enums";
 
 const PreparedOrders = () => {
   
-  const DisplayHook = useFetch(import.meta.env.VITE_ORDER_SERVICE_URI+ ApiEndpoints.GET_TODAYS_ORDERS_BY_OUTLET+localStorage.getItem("user") ,"GET")
+  const DisplayHook = useFetch(import.meta.env.VITE_ORDER_SERVICE_URI+ ApiEndpoints.GET_TODAYS_ORDERS_BY_OUTLET+localStorage.getItem("outlet") ,"GET")
 
     const [isNotFound, setIsNotFound] = useState(false)
     const [search, setSearch] = useState("");

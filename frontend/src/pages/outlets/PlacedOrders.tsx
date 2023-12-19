@@ -9,7 +9,7 @@ import { ApiEndpoints } from "../../types/enums"
 
 const PlacedOrders = () => {
    
-    const outletId =  localStorage.getItem("user")
+    const outletId =  localStorage.getItem("outlet")
     const [placedOrders, setplacedOrders] = useState([])
     const DisplayHook = useFetch(import.meta.env.VITE_PREPARATION_SERVICE_URI+ ApiEndpoints.GET_ORDERS_BY_OUTLET +outletId ,"GET")
     const getAllOrders = ()=>{

@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiEndpoints } from "../../types/enums";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { setProgress } from "../../features/slices/loadingSlice";
 function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
+  const dispatch = useDispatch()
   const UpdateHook = useFetch(
     import.meta.env.VITE_PREPARATION_SERVICE_URI + ApiEndpoints.DISPATCH_ORDER,
     "POST"
@@ -32,10 +35,12 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
 
   const formatPrice = (price: number) => `$${price}`;
   const verifyOrder = (id , orderid) => {
+    dispatch(setProgress(70))
     document.getElementById("verifybtn").setAttribute("disabled", "disabled");
     VerifyHook.MakeHttpRequest(id).then(async (result) => {
       document.getElementById("verifybtn").removeAttribute("disabled");
       if (result.result.status == 200) {
+        dispatch(setProgress(100))
         Toast.fire({
           title: "OTP Sent to Customer !",
           icon: "success",
@@ -79,7 +84,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
 
   const updateToCompleted = (id) => {
     const payload = {
-      outletid: localStorage.getItem("user"),
+      outletid: localStorage.getItem("outlet"),
       orderid: id,
     };
     UpdateHook.setPayload(payload);
