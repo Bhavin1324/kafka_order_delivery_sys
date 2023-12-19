@@ -13,7 +13,6 @@ function FoodsHome() {
     MakeHttpRequest()
       .then((result) => {
         if (result.result.length > 0) {
-          console.log(result.result);
           setFoodItems(result.result);
         }
       })

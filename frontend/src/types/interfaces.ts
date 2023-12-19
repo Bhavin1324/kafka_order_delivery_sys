@@ -1,4 +1,4 @@
-import { PaymentMethod, Roles } from "./commons";
+import { OrderStatus, PaymentMethod, Roles } from "./commons";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -14,14 +14,19 @@ export interface IOrder {
   payable_amount: number;
   order_status: string;
 }
-export interface Outlet {
+export interface IPincode {
+  pincode: number;
+  district: string;
+  state: string;
+}
+export interface IOutlet {
   id: string;
   name: string;
   address: string;
-  phoneno: number;
-  latitude: number;
-  longitude: number;
-  pincode: number;
+  phoneNo: number;
+  latitude?: number;
+  longitude?: number;
+  pincode: IPincode;
 }
 export interface Item {
   id: string;
@@ -46,6 +51,7 @@ export interface DeliveryPerson {
 export interface ILoginPayload {
   email: string;
   password: string;
+  outlet: string;
 }
 export interface ILoginResponse {
   userid: string;
@@ -53,13 +59,15 @@ export interface ILoginResponse {
 }
 export interface IUser {
   id?: string;
+  userid?: string;
   name: string;
   username: string;
   password: string;
   email: string;
   phone_no: string;
   role?: string;
-  credits?: string;
+  credits?: number;
+  address?: ICustomerAddress[];
 }
 
 export interface ITokenPayload {
@@ -95,8 +103,47 @@ export interface IItem {
 
 export interface ICustomerOrder {
   items: { quantity: number; itemId: string }[];
-  amount: number;
+  amount: string;
   paymentMethod: PaymentMethod;
   userId: string;
   outletId: string;
+}
+export interface ICartItem {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  quantity: number;
+  taxSlab: number;
+}
+export interface ICartItemState {
+  items: ICartItem[];
+  totalQuantity: number;
+  total: number;
+}
+
+export interface ICustomerAddress {
+  id: string;
+  address: string;
+  pincode: string;
+}
+export interface IOrderHistory {
+  id: string;
+  orderStatus: OrderStatus;
+  paymentMethod: string;
+  amount: number;
+  payableAmount: number;
+  orderDate: string;
+  outletId: {
+    id: string;
+    name: string;
+    address: string;
+    pincode: string;
+    phoneNo: number;
+  };
+  deliveryPersonId?: {
+    name: string;
+    phoneNo: number;
+  };
+  items: { price: number; quantity: number; name: string; tax: number }[];
 }

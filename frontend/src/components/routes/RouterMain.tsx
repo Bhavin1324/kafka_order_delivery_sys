@@ -15,6 +15,8 @@ import OrdersHistory from "../../pages/outlets/OrdersHistory";
 import PlacedOrders from "../../pages/outlets/PlacedOrders";
 import PreparedOrders from "../../pages/outlets/PreparedOrders";
 import OrderedFoods from "../../pages/foods/OrderedFoods";
+import PHNavigation from "../custom/PHNavigation";
+import DeliveryHome from "../../pages/delivery/DeliveryHome";
 
 function RouterMain() {
   return (
@@ -22,6 +24,7 @@ function RouterMain() {
       <Router>
         <Routes>
           <Route path={NavigateToRoute.HOME} element={<IndexPage />} />
+          <Route path={NavigateToRoute.NAVIGATION} element={<PHNavigation />} />
           <Route element={<ProtectedRoute />}>
             <Route path={NavigateToRoute.FOOD} element={<FoodsHome />} />
             <Route
@@ -60,6 +63,9 @@ function RouterMain() {
               path={NavigateToRoute.ORDER_PRE}
               element={<PreparedOrders />}
             />
+          </Route>
+          <Route path="delivery" element={<ProtectedRoute />}>
+            <Route index element={<DeliveryHome />}></Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

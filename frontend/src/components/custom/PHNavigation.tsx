@@ -8,13 +8,17 @@ function PHNavigation() {
   return (
     <>
       {!tokenValidation.isExpired && tokenValidation.role === "customer" && (
-        <Navigate to={NavigateToRoute.FOOD} />
+        <Navigate to={`/${NavigateToRoute.FOOD}`} />
       )}
+      {!tokenValidation.isExpired &&
+        tokenValidation.role === "deliveryPerson" && (
+          <Navigate to={`/${NavigateToRoute.DELIVERY_HOME}`} />
+        )}
       {!tokenValidation.isExpired && tokenValidation.role === "admin" && (
-        <Navigate to={"admin/" + NavigateToRoute.ADMIN_DASHBOARD} />
+        <Navigate to={"/admin/" + NavigateToRoute.ADMIN_DASHBOARD} />
       )}
       {!tokenValidation.isExpired && tokenValidation.role === "restaurant" && (
-        <Navigate to={"outlet/" + NavigateToRoute.ADD_DELIVERY_STAFF} />
+        <Navigate to={"/outlet/" + NavigateToRoute.ADD_DELIVERY_STAFF} />
       )}
     </>
   );

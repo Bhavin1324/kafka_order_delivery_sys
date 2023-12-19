@@ -11,7 +11,8 @@
     /* @apply transition-all duration-200 ease-in sticky top-0 text-ph-dark bg-transparent h-0   */
 }
 .carousal-slide{
-    @apply absolute top-0 bg-cover bg-center w-full min-h-[450px] md:min-h-[500px] lg:min-h-[600px] bg-fixed transition-all duration-1000 ease-in
+    /* @apply absolute top-0 bg-cover bg-center w-full min-h-[450px] md:min-h-[500px] lg:min-h-[600px] bg-fixed transition-all duration-1000 ease-in */
+    @apply absolute top-0 bg-cover bg-center w-full min-h-[350px] md:min-h-[400px] lg:min-h-[500px] bg-fixed transition-all duration-1000 ease-in
 }
 .homeLocationInput{
     @apply py-2 px-4 lg:px-8 lg:text-lg rounded-lg transition-all duration-200 ease-in ring-2 ring-ph-primary-soft focus:outline-0 focus:ring-4 focus:ring-ph-primary h-fit w-full md:w-[50%] lg:w-[60%] xl:w-[70%] self-center
@@ -38,6 +39,15 @@
 }
 .btn-theme-filled-shadowed{
     @apply transition-all duration-200 ease-in border-0 bg-ph-primary text-ph-white px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-ph-primary-soft focus:bg-ph-primary-soft focus:shadow-xl
+}
+.btn-danger-filled-shadowed{
+    @apply transition-all duration-200 ease-in border-0 bg-red-500 text-ph-white px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-red-500 focus:bg-red-500 focus:shadow-xl
+}
+.btn-success-filled-shadowed{
+    @apply transition-all duration-200 ease-in border-0 bg-green-600 text-ph-white px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-green-600 focus:bg-green-600 focus:shadow-xl
+}
+.btn-info-filled-shadowed{
+    @apply transition-all duration-200 ease-in border-0 bg-blue-500 text-ph-white px-4 py-[.4rem] rounded-lg shadow-md hover:shadow-xl hover:bg-blue-500 focus:bg-blue-500 focus:shadow-xl
 }
 
 /* Theme input */

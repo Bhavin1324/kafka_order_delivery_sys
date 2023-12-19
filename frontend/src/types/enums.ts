@@ -1,5 +1,7 @@
 export enum NavigateToRoute {
   HOME = "/",
+  NAVIGATION = "navigation",
+  DELIVERY_HOME = "delivery",
   FOOD = "food",
   ORDERED_FOODS = "order",
   CART = "cart",
@@ -19,10 +21,16 @@ export enum ApiEndpoints {
   GET_USER = "customer/user",
   GET_ALL_ITEMS = "management/getAllItems",
   ADD_ORDER = "ordering/addOrder",
+  ADD_USER_ADDRESS = "customer/addAddress",
+  UPDATE_USER_ADDRESS = "customer/updateAddress",
+  GET_USER_CREDITS = "customer/getCredits",
+  GET_ORDER_HISTORY = "ordering/getOrderHistory",
+  GET_ALL_OUTLETS = "management/getAllOutlets",
 }
 
 export enum ConstantValues {
-  INIT_CREDIT = "10000",
+  INIT_CREDIT = 10000,
+  DELIVERY_CHARGE = 25,
 }
 export enum Roles {
   CUSTOMER = "customer",

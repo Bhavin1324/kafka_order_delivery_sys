@@ -6,18 +6,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import { nanoid } from "@reduxjs/toolkit";
 import PHDisplayImage from "../PHDisplayImage";
-import { DeliveryPerson, Item, Outlet } from "../../../types/interfaces";
+import { DeliveryPerson, Item, IOutlet } from "../../../types/interfaces";
 interface TableProps<T> {
   data: T[];
   title: string;
   onUpadate?: (data: T) => void;
   onDelete?: (id: string) => void;
 }
-type T = Outlet | Item | DeliveryPerson;
+type T = IOutlet | Item | DeliveryPerson;
 function PHDataTable(props: TableProps<T>) {
   const [list, setList] = useState(props.data.length ? props.data : []);
   const [search, setSearch] = useState("");
-  const [isNotFound, setIsNotFound] = useState(false)
+  const [isNotFound, setIsNotFound] = useState(false);
 
   const renderList = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -25,9 +25,9 @@ function PHDataTable(props: TableProps<T>) {
       JSON.stringify(item).toLowerCase().includes(search)
     );
     if (newList.length === 0) {
-      setIsNotFound(true)
+      setIsNotFound(true);
     } else {
-      setIsNotFound(false)
+      setIsNotFound(false);
     }
 
     if (
@@ -82,13 +82,14 @@ function PHDataTable(props: TableProps<T>) {
           <table className="table table-hover">
             <thead>
               <tr>
-                {list.length > 0 && Object.keys(list[0]).map((item) => {
-                  return (
-                    <th key={nanoid()} scope="col">
-                      {item}
-                    </th>
-                  );
-                })}
+                {list.length > 0 &&
+                  Object.keys(list[0]).map((item) => {
+                    return (
+                      <th key={nanoid()} scope="col">
+                        {item}
+                      </th>
+                    );
+                  })}
                 <td></td>
                 <td></td>
               </tr>
@@ -98,28 +99,38 @@ function PHDataTable(props: TableProps<T>) {
                 return (
                   <tr key={nanoid()}>
                     {Object.keys(item).map((x) => {
-                      return (x != "img" ? <td key={nanoid()}>{item[x]}</td> : <td key={nanoid()}><PHDisplayImage blob={item[x]} /></td>)
+                      return x != "img" ? (
+                        <td key={nanoid()}>{item[x]}</td>
+                      ) : (
+                        <td key={nanoid()}>
+                          <PHDisplayImage blob={item[x]} />
+                        </td>
+                      );
                     })}
-                    {props.onUpadate && <td>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => {
-                          props.onUpadate(item);
-                        }}
-                      >
-                        <EditIcon />
-                      </button>
-                    </td>}
-                    {props.onDelete && <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          props.onDelete(item?.id);
-                        }}
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </td>}
+                    {props.onUpadate && (
+                      <td>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            props.onUpadate(item);
+                          }}
+                        >
+                          <EditIcon />
+                        </button>
+                      </td>
+                    )}
+                    {props.onDelete && (
+                      <td>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            props.onDelete(item?.id);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 );
               })}

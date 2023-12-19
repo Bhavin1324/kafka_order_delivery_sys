@@ -38,7 +38,7 @@ function BlendedCarousal() {
           ></div>
         );
       })}
-      <div className="absoulte top-0 bg-[rgba(0,0,0,.6)] w-full min-h-[450px] md:min-h-[500px] lg:min-h-[600px] mix-blend-darken"></div>
+      <div className="absoulte top-0 bg-[rgba(0,0,0,.6)] w-full min-h-[350px] md:min-h-[400px] lg:min-h-[500px] mix-blend-darken"></div>
     </div>
   );
 }

@@ -4,18 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 const pronouns = ["Delicious", "Tasty", "Cheesy", "Spicy", "Crispy"];
 function Typo() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm();
 
   const [index, setIndex] = useState<number>(0);
   const timeoutRef = useRef<number>();
 
-  const submitForm = (data: any) => {
-    console.log(data);
-  };
+  // const submitForm = (data: any) => {
+  //   console.log(data);
+  // };
 
   const resetTimeout = () => {
     if (timeoutRef.current) {
@@ -62,7 +62,7 @@ function Typo() {
           </b>
         </div>
 
-        <form onSubmit={handleSubmit(submitForm)}>
+        {/* <form onSubmit={handleSubmit(submitForm)}>
           <div className="mt-2 flex flex-wrap justify-end md:justify-start">
             <input
               type="text"
@@ -82,7 +82,7 @@ function Typo() {
               </div>
             )}
           </div>
-        </form>
+        </form> */}
       </div>
     </div>
   );

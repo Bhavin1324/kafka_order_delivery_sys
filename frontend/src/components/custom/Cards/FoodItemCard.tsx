@@ -3,6 +3,8 @@ import { IItem } from "../../../types/interfaces";
 import { convertByteArrayToImage } from "../../../utils/utils";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../../features/slices/cartSlice";
 
 function FoodItemCard({ data }: { data: IItem }) {
   const [imageUri, setImageUri] = useState("");
@@ -13,6 +15,72 @@ function FoodItemCard({ data }: { data: IItem }) {
       })
       .catch((ex) => console.log(ex));
   }, [data]);
+  const dispatch = useDispatch();
+  const addToCart = () => {
+    const cart = localStorage.getItem("cart");
+    if (cart && cart.length > 0) {
+      const cartData = JSON.parse(localStorage.getItem("cart"));
+      const isItemExistInCart = cartData.find((item) => item.id === data.id);
+      if (!isItemExistInCart) {
+        const newData = [
+          ...cartData,
+          {
+            id: data.id,
+            name: data.name,
+            category: data.categoryId.name,
+            taxSlab: data.taxSlabId.percentage,
+            price: data.price,
+            quantity: 1,
+          },
+        ];
+        localStorage.setItem("cart", JSON.stringify(newData));
+        dispatch(addItem(JSON.parse(localStorage.getItem("cart"))));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Added ${data.name} to cart.`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          background: "#ffedd5",
+          iconColor: "#2b2f2d",
+        });
+
+        Toast.fire({
+          icon: "info",
+          title: "You already had this item in cart",
+        });
+      }
+    } else {
+      const newData = [
+        {
+          id: data.id,
+          name: data.name,
+          category: data.categoryId.name,
+          taxSlab: data.taxSlabId.percentage,
+          price: data.price,
+          quantity: 1,
+        },
+      ];
+      localStorage.setItem("cart", JSON.stringify(newData));
+      dispatch(addItem(JSON.parse(localStorage.getItem("cart"))));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `Added ${data.name} to cart.`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
+
   return (
     <>
       <div className="card my-2" style={{ border: 0 }}>
@@ -20,7 +88,7 @@ function FoodItemCard({ data }: { data: IItem }) {
         <div className="card-body">
           <h5 className="card-title flex justify-between">
             {data.name}
-            <span className="font-semibold text-sm px-2 py-1 bg-ph-yellow-soft rounded-xl">
+            <span className="font-semibold text-sm px-2 py-1 h-fit bg-ph-yellow-soft rounded-xl">
               {data.categoryId.name}
             </span>
           </h5>
@@ -39,47 +107,7 @@ function FoodItemCard({ data }: { data: IItem }) {
             </div>
           </div>
           <div className="flex justify-end mt-2">
-            <button
-              className="btn-theme-filled-shadowed"
-              onClick={() => {
-                const cart = localStorage.getItem("cart");
-                console.log(cart);
-                if (cart && cart.length > 0) {
-                  const cartData = JSON.parse(localStorage.getItem("cart"));
-                  localStorage.setItem(
-                    "cart",
-                    JSON.stringify([
-                      ...cartData,
-                      {
-                        id: data.id,
-                        name: data.name,
-                        category: data.categoryId.name,
-                        price: data.price,
-                      },
-                    ])
-                  );
-                } else {
-                  localStorage.setItem(
-                    "cart",
-                    JSON.stringify([
-                      {
-                        id: data.id,
-                        name: data.name,
-                        category: data.categoryId.name,
-                        price: data.price,
-                      },
-                    ])
-                  );
-                }
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: `Added ${data.name} to cart.`,
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-              }}
-            >
+            <button className="btn-theme-filled-shadowed" onClick={addToCart}>
               Add to cart
             </button>
           </div>

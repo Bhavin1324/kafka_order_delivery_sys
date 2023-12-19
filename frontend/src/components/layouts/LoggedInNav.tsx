@@ -9,12 +9,14 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import { useFetch } from "../../hooks/useFetch";
 import { IUser } from "../../types/interfaces";
-
+import { clearCart } from "../../features/slices/cartSlice";
+import { useDispatch } from "react-redux";
 function LoggedInNav() {
   const navList = useRef<HTMLUListElement>(null);
   const HamBurger = useRef<HTMLDivElement>(null);
   const [currentUser, setCurrentUser] = useState<IUser>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   //   const role = TokenValidation();
   const { MakeHttpRequest } = useFetch(
     import.meta.env.VITE_CUSTOMER_SERVICE_URI +
@@ -49,8 +51,7 @@ function LoggedInNav() {
   };
 
   const logOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    dispatch(clearCart());
     localStorage.clear();
     navigate(NavigateToRoute.HOME);
   };
