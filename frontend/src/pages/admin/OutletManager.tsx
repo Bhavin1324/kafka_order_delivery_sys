@@ -59,6 +59,7 @@ const OutletManager = () => {
     DisplayHook.MakeHttpRequest().then((result) => {
       if (result.result) {
         const data = result.result.map((ot) => {
+          console.log(ot);
           ot.pincode = ot.pincode.pincode;
           return ot;
         });
@@ -167,20 +168,19 @@ const OutletManager = () => {
         headers: headersList,
       }
     ).then((result) => {
-      result.json().then((res) =>{ 
-           if (res.status == 200) {
-      Toast.fire({
-        icon: "success",
-        title: "Data Deleted!!",
-      });
-     setLatestOutletData();
-
-    } else {
-      Toast.fire({
-        icon: "error",
-        title: "Internal Error!!",
-      });
-    }
+      result.json().then((res) => {
+        if (res.status == 200) {
+          Toast.fire({
+            icon: "success",
+            title: "Data Deleted!!",
+          });
+          setLatestOutletData();
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Internal Error!!",
+          });
+        }
       });
     });
     // let data = await response.json();
@@ -223,10 +223,10 @@ const OutletManager = () => {
             dispatch(closeModal());
           }}
           headingText="Add Outlet"
-          style={{width: 400, height: 700, overflow: "auto"}}
+          style={{ width: 400, height: 700, overflow: "auto" }}
           component={
             <OutletForm
-            isUpdating={false}
+              isUpdating={false}
               update={null}
               onAdd={handleAddOutlet}
               action="Add Outlet"

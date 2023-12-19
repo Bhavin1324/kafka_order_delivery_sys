@@ -13,7 +13,8 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
     "GET"
   );
   const DeliveryHook = useFetch(
-    import.meta.env.VITE_DELIVERY_SERVICE_URI + ApiEndpoints.UPDATE_STATUS_TO_DELIVERED,
+    import.meta.env.VITE_DELIVERY_SERVICE_URI +
+      ApiEndpoints.UPDATE_STATUS_TO_DELIVERED,
     "GET"
   );
   const Toast = Swal.mixin({
@@ -31,7 +32,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
   useEffect(() => {}, []);
 
   const formatPrice = (price: number) => `$${price}`;
-  const verifyOrder = (id , orderid) => {
+  const verifyOrder = (id, orderid) => {
     document.getElementById("verifybtn").setAttribute("disabled", "disabled");
     VerifyHook.MakeHttpRequest(id).then(async (result) => {
       document.getElementById("verifybtn").removeAttribute("disabled");
@@ -50,7 +51,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
           inputPlaceholder: "Enter 6 digit OTP !",
         });
         if (OTPinput.toString() == tempotp) {
-          DeliveryHook.MakeHttpRequest(orderid).then((result)=>{
+          DeliveryHook.MakeHttpRequest(orderid).then((result) => {
             if (result.result.status == 200) {
               Swal.fire("OTP Verified!", "Order is delivered !", "success");
               loadData();
@@ -60,7 +61,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
                 icon: "error",
               });
             }
-          })
+          });
         } else {
           Swal.fire({
             icon: "error",
@@ -79,7 +80,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
 
   const updateToCompleted = (id) => {
     const payload = {
-      outletid: localStorage.getItem("user"),
+      outletid: localStorage.getItem("outlet"),
       orderid: id,
     };
     UpdateHook.setPayload(payload);
@@ -137,7 +138,6 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
               updateToCompleted(order.id);
             }}
           >
-          
             complete
           </button>
         )}
@@ -147,10 +147,9 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
             id="verifybtn"
             className=" btn-theme"
             onClick={() => {
-              verifyOrder(order.userid ,order.id);
+              verifyOrder(order.userid, order.id);
             }}
           >
-            
             Verify
           </button>
         )}
