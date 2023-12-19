@@ -7,7 +7,6 @@ import { NavigateToRoute } from "../../types/enums";
 import SearchFood from "../../pages/foods/OrderedFoods";
 import Cart from "../../pages/customers/Cart";
 import UserProfile from "../../pages/customers/UserProfile";
-import AdminHome from "../../pages/admin/AdminHome";
 import DeliveryStaffManager from "../../pages/admin/DeliveryStaffManager";
 import ItemManager from "../../pages/admin/ItemManager";
 import OutletManager from "../../pages/admin/OutletManager";
@@ -17,6 +16,7 @@ import PreparedOrders from "../../pages/outlets/PreparedOrders";
 import OrderedFoods from "../../pages/foods/OrderedFoods";
 import PHNavigation from "../custom/PHNavigation";
 import DeliveryHome from "../../pages/delivery/DeliveryHome";
+import CompletedOrders from "../../pages/delivery/CompletedOrders";
 
 function RouterMain() {
   return (
@@ -37,11 +37,8 @@ function RouterMain() {
               element={<UserProfile />}
             />
           </Route>
-          <Route path="admin" element={<ProtectedRoute />}>
-            <Route
-              path={NavigateToRoute.ADMIN_DASHBOARD}
-              element={<AdminHome />}
-            />
+          <Route path="admin" >
+           
             <Route
               path={NavigateToRoute.ADD_DELIVERY_STAFF}
               element={<DeliveryStaffManager />}
@@ -52,14 +49,23 @@ function RouterMain() {
               element={<OutletManager />}
             />
           </Route>
-          <Route path="outlet" element={<ProtectedRoute />}>
-            <Route
-              path={NavigateToRoute.ADD_DELIVERY_STAFF}
-              element={<DeliveryStaffManager />}
-            />
-            <Route path={NavigateToRoute.ORDER_H} element={<OrdersHistory />} />
-            <Route path={NavigateToRoute.ORDER_P} element={<PlacedOrders />} />
-            <Route
+          <Route path="staff">
+            <Route path={NavigateToRoute.DELIVERY_ORDERS} element={<DeliveryHome/>}/>
+            <Route path={NavigateToRoute.DELIVERY_COMPLETED} element={<CompletedOrders/>}/>
+          </Route>
+          <Route path="outlet">
+              <Route
+                path={NavigateToRoute.ADD_DELIVERY_STAFF}
+                element={<DeliveryStaffManager />}
+              />
+              <Route
+                path={NavigateToRoute.ORDER_H}
+                element={<OrdersHistory />}
+              />
+              <Route
+              path={NavigateToRoute.ORDER_P}
+              element={<PlacedOrders/>}/>
+              <Route
               path={NavigateToRoute.ORDER_PRE}
               element={<PreparedOrders />}
             />

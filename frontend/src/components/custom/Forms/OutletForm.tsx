@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { Outlet } from "../types/interfaces";
+import { IOutlet } from "../../../types/interfaces";
 import { useEffect } from "react";
 
 import {
@@ -10,15 +10,15 @@ import {
   nameValidation,
   phoneValidation,
   pincodeValidation,
-} from "../utils/ValidationRules";
+} from "../../../utils/ValidationRules";
 
 const OutletForm = ({
   onAdd,
   update,
   action,
 }: {
-  onAdd: (outlet: Outlet) => void;
-  update: Outlet;
+  onAdd: (outlet: IOutlet) => void;
+  update: IOutlet;
   action: string;
 }) => {
   const {
@@ -36,7 +36,7 @@ const OutletForm = ({
       setValue("name", update.name);
       setValue("latitude", update.latitude);
       setValue("longitude", update.longitude);
-      setValue("phoneno", update.phoneno);
+      setValue("phoneNo", update.phoneNo);
       setValue("pincode", update.pincode);
     }
   }, []);
@@ -58,7 +58,7 @@ const OutletForm = ({
 
   const nameRegister = register("name", nameValidation);
   const addressRegister = register("address", addressValidation);
-  const phoneRegister = register("phoneno", phoneValidation);
+  const phoneRegister = register("phoneNo", phoneValidation);
   const pincodeRegister = register("pincode", pincodeValidation);
   const longitudeRegister = register("longitude", longitudeValidation);
   const latitudeRegister = register("latitude", latitudeValidation);
@@ -98,7 +98,7 @@ const OutletForm = ({
           className="ph-input-text"
         />
         <p style={{ color: "red" }}>
-          {errors?.phoneno && errors?.phoneno.message}
+          {errors?.phoneNo && errors?.phoneNo.message}
         </p>
       </div>
       <div className="flex flex-col mb-2">

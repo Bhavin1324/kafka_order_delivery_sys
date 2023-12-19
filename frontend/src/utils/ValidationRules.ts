@@ -74,7 +74,11 @@ export const priceValidation = {
   },
 }
 export const imgValidation = {
-  required : "Img is required"
+  required : "Img is required",
+  validate:{
+    max:(files)=>files[0].size <= 500000 || "Image Size must be under 500kb"
+  }
+
 }
 export const is_vegValidation = {
   required : "Please Select Item is Veg or not !"

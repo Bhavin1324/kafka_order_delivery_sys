@@ -47,7 +47,7 @@ export function useFetch<T>(url: string, method?: HttpMethods, token?: string) {
     }
   }
 
-  if (method === "PATCH" || method === "PUT" || method === "POST") {
+  if (method === "PATCH" || method === "PUT" || method === "POST" || method == "DELETE") {
     return { setPayload, MakeHttpRequest };
   } else {
     return { MakeHttpRequest };

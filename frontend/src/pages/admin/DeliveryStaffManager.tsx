@@ -1,80 +1,97 @@
-import { useState } from "react";
-import { DeliveryPerson } from "../../types/interfaces";
+import { useEffect, useState } from "react";
+import { IDeliveryPerson } from "../../types/interfaces";
 import PHModal from "../../components/custom/Modals/PHModal";
 import { openModal, closeModal } from "../../features/slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../features/store";
 import PHDataTable from "../../components/custom/DataTables/PHDataTable";
 import { nanoid } from "nanoid";
-import DeliveryPersonForm from "../../components/DeliveryPersonForm";
+import DeliveryPersonForm from "../../components/custom/Forms/DeliveryPersonForm";
+import Swal from "sweetalert2";
+import { useFetch } from "../../hooks/useFetch";
+import { ApiEndpoints } from "../../types/enums";
 const DeliveryStaffManager = () => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-right',
+    iconColor: 'white',
+    customClass: {
+      popup: 'colored-toast',
+    },
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+  })
   const dispatch = useDispatch()
   const [isAdd, setisAdd] = useState(false)
   const [isUpdate, setisUpdate] = useState(false)
   const { isOpen } = useSelector((store: RootState) => {
     return store.modal
   })
-  const initialOutets: DeliveryPerson[] = [
-    {
-      id: "asdada",
-      username: "deep",
-      current_status: "Alloted",
-      adhar_number: 475896589654,
+  
+  const [deliveryPersons, setdeliveryPersons] = useState([]);
+  const [deliveryPersonUpdate, setdeliveryPersonUpdate] = useState<IDeliveryPerson>({})
 
-      latitude: 5874.2455,
-      longitude: 8594.2454,
-      outlet_id: "asdsada"
-    },
-    {
-      id: "aaerda",
-      username: "Aniket",
-      current_status: "NotAlloted",
-      adhar_number: 475896589654,
+  const UpdateHook =  useFetch(import.meta.env.VITE_MANAGEMENT_SERVICE_URI+ ApiEndpoints.UPDATE_STAFF,"POST")
+  const DisplayHook = useFetch(import.meta.env.VITE_MANAGEMENT_SERVICE_URI+ ApiEndpoints.GET_ALL_STAFF,"GET")
+  const DataAddHook =  useFetch(import.meta.env.VITE_MANAGEMENT_SERVICE_URI+ ApiEndpoints.ADD_STAFF,"POST")
 
-      latitude: 5874.2455,
-      longitude: 8594.2454,
-      outlet_id: "asdsada"
-    },
-    {
-      id: "ewrasdada",
-      username: "Sunil",
-      current_status: "Alloted",
-      adhar_number: 475896589654,
-
-      latitude: 5874.2455,
-      longitude: 8594.2454,
-      outlet_id: "asdsada"
-    },
-  ]
-  const [deliveryPersons, setdeliveryPersons] = useState(initialOutets);
-
-  const [deliveryPersonUpdate, setdeliveryPersonUpdate] = useState<DeliveryPerson>({})
-  // useEffect(() => {
-  //   // Fetch deliveryPersons from an API or local storage
-  //   fetch('https://your-api-endpoint/deliveryPersons')
-  //     .then((response) => response.json())
-  //     .then((data) => setdeliveryPersons(data));
-  // }, []);
-
-
-  const handleAddDeliveryPerson = (deliveryPerson: DeliveryPerson) => {
-    deliveryPerson.id = nanoid();
-    let tmp: DeliveryPerson = {
-      id: nanoid(),
-      username: deliveryPerson.username,
-      current_status: deliveryPerson.current_status,
-      adhar_number: deliveryPerson.adhar_number,
-      latitude: deliveryPerson.latitude,
-      longitude: deliveryPerson.longitude,
-      outlet_id: deliveryPerson.outlet_id
+  useEffect(() => {
+    console.log("Data fetchs")
+ setLatestStaffData()  
+  }, [])
+  const setLatestStaffData =()=>{
+   
+    DisplayHook.MakeHttpRequest().then((result)=>{
+    if(result.result){
+    const data= result.result.map((x)=>{
+     const y:IDeliveryPerson ={
+       id: x.id,
+       aadharNumber: x.adhaarNumber,
+       outletId: x.outletId.id,
+       username: x.username.username,
+       name: x.username.name,
+       phone_no: x.username.phoneNo,
+       email: x.username.email,
+     }
+      return y
+    })
+    setdeliveryPersons(data)
+   
     }
-    setdeliveryPersons([...deliveryPersons, tmp]);
-    console.log([...deliveryPersons], "spreading deliveryPersons")
-    dispatch(closeModal())
-    setisAdd(false)
+   })
+  } 
+  const handleAddDeliveryPerson = (deliveryPerson: IDeliveryPerson) => {
+    let tmp = deliveryPerson
+    tmp.phone_no = deliveryPerson.phone_no.toString()
+    tmp.aadharNumber = deliveryPerson.aadharNumber.toString()
+    tmp.role="deliveryPerson"
+    tmp.credits="1000"
+    console.log(tmp)
+
+    DataAddHook.setPayload(tmp)
+    DataAddHook.MakeHttpRequest().then((result)=>{
+      console.log(result)
+      if(result.error || result.result.status==0){
+      Toast.fire({
+          title: "Error in insering Data !",
+          icon: "error"
+        });
+      } else{
+          Toast.fire({
+          icon: 'success',
+          title: 'Data Inserted !',
+        })
+        dispatch(closeModal())
+        setisAdd(false)
+        setLatestStaffData()
+
+      }
+    })
+
   };
 
-  const handleEditdeliveryPerson = (deliveryPerson: DeliveryPerson) => {
+  const handleEditdeliveryPerson = (deliveryPerson: IDeliveryPerson) => {
 
 
     setdeliveryPersonUpdate(deliveryPerson)
@@ -85,23 +102,58 @@ const DeliveryStaffManager = () => {
   };
 
 
-  const handleUpdate = (deliveryPerson: DeliveryPerson) => {
-    let tmp: DeliveryPerson = {
-      id: deliveryPerson.id,
-      username: deliveryPerson.username,
-      current_status: deliveryPerson.current_status,
-      adhar_number: deliveryPerson.adhar_number,
-      latitude: deliveryPerson.latitude,
-      longitude: deliveryPerson.longitude,
-      outlet_id: deliveryPerson.outlet_id
-    }
-    setdeliveryPersons(
-      deliveryPersons.map((deliveryPerson) => (deliveryPerson.id === tmp.id ? tmp : deliveryPerson))
-    )
-    dispatch(closeModal())
-    setisUpdate(false)
+  const handleUpdate = (deliveryPerson: IDeliveryPerson) => {
+  
+    console.log(deliveryPerson)
+    let tmp = deliveryPerson
+    tmp.phone_no = deliveryPerson.phone_no.toString()
+    tmp.aadharNumber = deliveryPerson.aadharNumber.toString()
+    tmp.role="deliveryPerson"
+    tmp.credits="1000"
+    console.log(tmp)
+    UpdateHook.setPayload(deliveryPerson)
+    UpdateHook.MakeHttpRequest(deliveryPerson.id).then((result)=>{
+      if(result.error || result.result.status==0){
+        Toast.fire({
+            title: "Error in updating data !",
+            icon: "error"
+          });
+        } else{
+          Toast.fire({
+            title: "Data updated !",
+            icon: "success"
+          });
+           setLatestStaffData()
+          dispatch(closeModal())
+          setisUpdate(false)
+  
+        }
+    })
+
+   
   }
-  const handleDeletedeliveryPerson = (id: string) => {
+  const handleDeletedeliveryPerson = async (id: string) => {
+    let headersList = {
+      "Accept": "*/*",
+      "Content-Type":"application/json"
+      }
+     let response = await fetch( import.meta.env.VITE_MANAGEMENT_SERVICE_URI+ ApiEndpoints.DELETE_STAFF +id, { 
+       method: "DELETE",
+       headers: headersList
+     });
+     let data = await response.json();
+    if(data.error!=null || data.result.status==0){
+      Toast.fire({
+        icon: 'error',
+        title: 'Internal Error!!',
+      })
+    }else{
+       Toast.fire({
+        icon: 'success',
+        title: 'Data Deleted!!',
+      })
+    
+    }
     setdeliveryPersons(deliveryPersons.filter((deliveryPerson) => deliveryPerson.id !== id));
   };
 
