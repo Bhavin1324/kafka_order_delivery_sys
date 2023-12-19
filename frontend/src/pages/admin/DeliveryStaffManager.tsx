@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 import DeliveryPersonForm from "../../components/custom/Forms/DeliveryPersonForm";
 import Swal from "sweetalert2";
 import { useFetch } from "../../hooks/useFetch";
-import { ApiEndpoints } from "../../types/enums";
+import { ApiEndpoints, ConstantValues } from "../../types/enums";
 const DeliveryStaffManager = () => {
   const Toast = Swal.mixin({
     toast: true,
@@ -64,27 +64,28 @@ const DeliveryStaffManager = () => {
   const handleAddDeliveryPerson = (deliveryPerson: IDeliveryPerson) => {
     let tmp = deliveryPerson
     tmp.phone_no = deliveryPerson.phone_no.toString()
-    tmp.aadharNumber = deliveryPerson.aadharNumber.toString()
-    tmp.role="deliveryPerson"
-    tmp.credits="1000"
+    tmp.aadharNumber = deliveryPerson.aadharNumber.toString(),
+    tmp.role="deliveryPerson",
+    tmp.credits=ConstantValues.INIT_CREDIT
     console.log(tmp)
 
     DataAddHook.setPayload(tmp)
     DataAddHook.MakeHttpRequest().then((result)=>{
       console.log(result)
-      if(result.error || result.result.status==0){
-      Toast.fire({
-          title: "Error in insering Data !",
-          icon: "error"
-        });
-      } else{
-          Toast.fire({
+      if(result.result.status == 200){
+        Toast.fire({
           icon: 'success',
           title: 'Data Inserted !',
         })
         dispatch(closeModal())
         setisAdd(false)
         setLatestStaffData()
+  
+      } else{
+        Toast.fire({
+          title: "Error in insering Data !",
+          icon: "error"
+        });
 
       }
     })
@@ -142,7 +143,7 @@ const DeliveryStaffManager = () => {
        headers: headersList
      });
      let data = await response.json();
-    if(data.error!=null || data.result.status==0){
+    if(data.error!=null || data.status==0){
       Toast.fire({
         icon: 'error',
         title: 'Internal Error!!',
@@ -176,7 +177,7 @@ const DeliveryStaffManager = () => {
         component={<DeliveryPersonForm
           update={null}
           onEvent={handleAddDeliveryPerson}
-          action="Update deliveryPerson" />}
+          action="Add deliveryPerson" />}
       />}
 
       <PHDataTable

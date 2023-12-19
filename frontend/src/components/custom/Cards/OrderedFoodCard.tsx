@@ -22,7 +22,7 @@ function OrderedFoodCard(props: IOrderHistory) {
             {props.orderStatus === "DELIVERED" && (
               <span className="text-blue-600">{props.orderStatus}</span>
             )}
-            {props.orderStatus === "PLACED" && (
+            {props.orderStatus === "IN_TRANSIT" && (
               <span className="text-green-600">{props.orderStatus}</span>
             )}
             {props.orderStatus === "CANCELLED" && (

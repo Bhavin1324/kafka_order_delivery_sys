@@ -44,10 +44,10 @@ const ItemManager = () => {
    
     DisplayHook.MakeHttpRequest().then((result)=>{
     if(result.result){
-      console.log(result.result)
     const data = result.result.map((ot)=>{
       ot.itemImage = JSON.stringify (ot.itemImage)
       const so = ObjectFlatter(ot)
+      console.log(so)
       so.itemImage =JSON.parse(so.itemImage)
       return so
     })

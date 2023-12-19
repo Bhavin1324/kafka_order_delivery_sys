@@ -12,13 +12,13 @@ function PHNavigation() {
       )}
       {!tokenValidation.isExpired &&
         tokenValidation.role === "deliveryPerson" && (
-          <Navigate to={`/${NavigateToRoute.DELIVERY_HOME}`} />
+          <Navigate to={`/staff/${NavigateToRoute.DELIVERY_ORDERS}`} />
         )}
       {!tokenValidation.isExpired && tokenValidation.role === "admin" && (
-        <Navigate to={"/admin/" + NavigateToRoute.ADMIN_DASHBOARD} />
+        <Navigate to={"/admin/" + NavigateToRoute.ADD_ITEM} />
       )}
       {!tokenValidation.isExpired && tokenValidation.role === "restaurant" && (
-        <Navigate to={"/outlet/" + NavigateToRoute.ADD_DELIVERY_STAFF} />
+        <Navigate to={"/outlet/" + NavigateToRoute.ORDER_P} />
       )}
     </>
   );

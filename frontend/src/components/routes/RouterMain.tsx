@@ -37,7 +37,7 @@ function RouterMain() {
               element={<UserProfile />}
             />
           </Route>
-          <Route path="admin" >
+          <Route path="admin" element={<ProtectedRoute/>} >
            
             <Route
               path={NavigateToRoute.ADD_DELIVERY_STAFF}
@@ -49,19 +49,16 @@ function RouterMain() {
               element={<OutletManager />}
             />
           </Route>
-          <Route path="staff">
+          <Route path="staff" element={<ProtectedRoute/>}>
             <Route path={NavigateToRoute.DELIVERY_ORDERS} element={<DeliveryHome/>}/>
             <Route path={NavigateToRoute.DELIVERY_COMPLETED} element={<CompletedOrders/>}/>
           </Route>
-          <Route path="outlet">
+          <Route path="outlet" element={<ProtectedRoute/>}>
               <Route
                 path={NavigateToRoute.ADD_DELIVERY_STAFF}
                 element={<DeliveryStaffManager />}
               />
-              <Route
-                path={NavigateToRoute.ORDER_H}
-                element={<OrdersHistory />}
-              />
+             
               <Route
               path={NavigateToRoute.ORDER_P}
               element={<PlacedOrders/>}/>
@@ -70,9 +67,7 @@ function RouterMain() {
               element={<PreparedOrders />}
             />
           </Route>
-          <Route path="delivery" element={<ProtectedRoute />}>
-            <Route index element={<DeliveryHome />}></Route>
-          </Route>
+         
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

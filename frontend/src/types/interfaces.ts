@@ -19,7 +19,10 @@ export interface IOutlet {
   phoneNo: number;
   latitude?: number;
   longitude?: number;
-  pincode?: IPincode;
+  pincode?: IPincode | string | number;
+  username?:string;
+  password?:string;
+  email?:string
 }
 // export interface Item {
 //   id: string;
@@ -74,7 +77,7 @@ export interface IDeliveryPerson {
   email:string;
   phone_no:string;
   role?:string;
-  credits?:string
+  credits?:number
   aadharNumber: number;
   outletId: string;
 }

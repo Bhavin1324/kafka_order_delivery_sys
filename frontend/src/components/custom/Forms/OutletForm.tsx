@@ -5,21 +5,26 @@ import { useEffect } from "react";
 
 import {
   addressValidation,
+  emailValidation,
   latitudeValidation,
   longitudeValidation,
   nameValidation,
+  passwordValidation,
   phoneValidation,
   pincodeValidation,
+  usernameValidation,
 } from "../../../utils/ValidationRules";
 
 const OutletForm = ({
   onAdd,
   update,
   action,
+  isUpdating
 }: {
   onAdd: (outlet: IOutlet) => void;
   update: IOutlet;
   action: string;
+  isUpdating: boolean
 }) => {
   const {
     register,
@@ -33,11 +38,15 @@ const OutletForm = ({
     if (update != null) {
 
       setValue("address", update.address);
+      setValue("username", update.username);
       setValue("name", update.name);
+      setValue("email", update.email);
       setValue("latitude", update.latitude);
       setValue("longitude", update.longitude);
       setValue("phoneNo", update.phoneNo);
       setValue("pincode", update.pincode);
+      setValue("password",update.password);
+
     }
   }, []);
 
@@ -48,13 +57,16 @@ const OutletForm = ({
     onAdd(data);
     reset({
       address: "",
-      name: "",
+      username: "",
+      name:"",
+      email :"",
       latitude: null,
       longitude: null,
       pincode: null,
       phoneno: null,
     });
   };
+  let usernameRegister = register("username", usernameValidation);
 
   const nameRegister = register("name", nameValidation);
   const addressRegister = register("address", addressValidation);
@@ -62,6 +74,16 @@ const OutletForm = ({
   const pincodeRegister = register("pincode", pincodeValidation);
   const longitudeRegister = register("longitude", longitudeValidation);
   const latitudeRegister = register("latitude", latitudeValidation);
+  let emailRegister = register("email", emailValidation);
+
+  let passRegister = register("password", passwordValidation);
+  if(update){
+    passRegister = register("password", {required:false});
+    emailRegister= register("email", {required:false});
+    usernameRegister = register("username" , {required:false})
+
+  }
+
   return (
     <form
   
@@ -78,6 +100,41 @@ const OutletForm = ({
         />
         <p style={{ color: "red" }}>{errors?.name && errors?.name.message}</p>
       </div>
+      { !isUpdating && <div className="flex flex-col mb-2">
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          {...usernameRegister}
+          className="ph-input-text"
+        />
+        <p style={{ color: "red" }}>{errors?.username && errors?.username.message}</p>
+      </div>}
+      {!isUpdating && <div className="flex flex-col mb-2">
+        <label htmlFor="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          {...emailRegister}
+          className="ph-input-text"
+        />
+        <p style={{ color: "red" }}>
+          {errors?.email && errors?.email.message}
+        </p>
+      </div>}
+      <div className="flex flex-col mb-2">
+    <label htmlFor="password" hidden={update!=null}>Password</label>
+    <input
+      type="text"
+      id="password"
+      {...passRegister}
+      className="ph-input-text"
+      hidden={update!=null}
+    />
+    <p style={{ color: "red" }} hidden={update!=null}>
+      {errors?.password && errors?.password.message}
+    </p>
+  </div>
       <div className="flex flex-col mb-2">
         <label htmlFor="address">Address</label>
         <textarea

@@ -41,10 +41,10 @@ function OrderedFoods() {
           <button
             className="btn-success-filled-shadowed"
             onClick={() => {
-              setOrderStatus("PLACED");
+              setOrderStatus("IN_TRANSIT");
             }}
           >
-            Placed
+            In transit
           </button>
           <button
             className="btn-danger-filled-shadowed"

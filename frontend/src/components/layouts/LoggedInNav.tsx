@@ -11,13 +11,24 @@ import { useFetch } from "../../hooks/useFetch";
 import { IUser } from "../../types/interfaces";
 import { clearCart } from "../../features/slices/cartSlice";
 import { useDispatch } from "react-redux";
+import { TokenValidation } from "../../utils/utils";
+
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import GradingIcon from '@mui/icons-material/Grading';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
+import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
+// import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+
 function LoggedInNav() {
   const navList = useRef<HTMLUListElement>(null);
   const HamBurger = useRef<HTMLDivElement>(null);
   const [currentUser, setCurrentUser] = useState<IUser>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //   const role = TokenValidation();
+  const { role } = TokenValidation();
   const { MakeHttpRequest } = useFetch(
     import.meta.env.VITE_CUSTOMER_SERVICE_URI +
       ApiEndpoints.GET_USER +
@@ -80,11 +91,194 @@ function LoggedInNav() {
           }
           ref={navList}
         >
-          <li className="nav-list-items">
+          {role === "admin" && (
+            <>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.ADD_DELIVERY_STAFF}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <PeopleOutlineIcon style={{ marginBottom: "2px" }} /> Staff
+                </NavLink>
+              </li>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.ADD_ITEM}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <CategoryOutlinedIcon style={{ marginBottom: "2px" }} /> Items
+                </NavLink>
+              </li>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.ADD_OUTLET}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <StoreOutlinedIcon style={{ marginBottom: "2px" }} /> Outlets
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {role == "deliveryPerson" && (
+            <>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.DELIVERY_ORDERS}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <GradingIcon style={{ marginBottom: "2px" }} /> Orders
+                </NavLink>
+              </li>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.DELIVERY_COMPLETED}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <AssignmentTurnedInOutlinedIcon style={{ marginBottom: "2px" }} /> Delivered
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {role == "restaurant" && (
+            <>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.ADD_DELIVERY_STAFF}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <PeopleOutlineIcon style={{ marginBottom: "2px" }} /> Add staff
+                </NavLink>
+              </li>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.ORDER_P}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <InventoryOutlinedIcon style={{ marginBottom: "2px" }} /> Placed
+                </NavLink>
+              </li>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.ORDER_PRE}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <CheckCircleOutlineOutlinedIcon style={{ marginBottom: "2px" }} /> Prepared
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {role == "customer" && <><li className="nav-list-items">
             {" "}
             <NavLink
               className={`link-a font-semibold`}
-              to={NavigateToRoute.FOOD}
+              to={NavigateToRoute.ADD_OUTLET}
               onClick={toggleHam}
               style={({ isActive }) => {
                 return isActive
@@ -161,7 +355,7 @@ function LoggedInNav() {
             >
               <ReceiptLongIcon /> Orders
             </NavLink>
-          </li>
+          </li></>}
           <li className="nav-list-items self-center">
             {/* <NavLink
               className={`link-a font-semibold`}

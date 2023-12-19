@@ -11,9 +11,9 @@ const PlacedOrders = () => {
    
     const outletId =  localStorage.getItem("user")
     const [placedOrders, setplacedOrders] = useState([])
-    const DisplayHook = useFetch(import.meta.env.VITE_PREPARATION_SERVICE_URI+ ApiEndpoints.GET_ORDERS_BY_OUTLET +outletId+"/"+"Placed" ,"GET")
+    const DisplayHook = useFetch(import.meta.env.VITE_PREPARATION_SERVICE_URI+ ApiEndpoints.GET_ORDERS_BY_OUTLET +outletId ,"GET")
     const getAllOrders = ()=>{
-      DisplayHook.MakeHttpRequest().then((result)=>{
+      DisplayHook.MakeHttpRequest("/PREPARING").then((result)=>{
         if(result.result){
           console.log(result.result)
           setplacedOrders(result.result.orders)
