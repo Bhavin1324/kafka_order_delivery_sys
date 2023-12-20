@@ -8,7 +8,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import { useFetch } from "../../hooks/useFetch";
-import { IUser } from "../../types/interfaces";
+import { IDeliveryPerson, IUser } from "../../types/interfaces";
 import { clearCart } from "../../features/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import { TokenValidation } from "../../utils/utils";
@@ -26,6 +26,7 @@ function LoggedInNav() {
   const navList = useRef<HTMLUListElement>(null);
   const HamBurger = useRef<HTMLDivElement>(null);
   const [currentUser, setCurrentUser] = useState<IUser>();
+  const [currentDeliveryPerson, setCurrentDeliveryPerson] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { role } = TokenValidation();
@@ -36,14 +37,34 @@ function LoggedInNav() {
     "GET",
     localStorage.getItem("token")
   );
+  const getDeliveryPerson = useFetch(
+    import.meta.env.VITE_MANAGEMENT_SERVICE_URI +
+      ApiEndpoints.GET_DELIVERY_PERSON_BY_ID +
+      `/${localStorage.getItem("user")}`,
+    "GET",
+    localStorage.getItem("token")
+  );
   useEffect(() => {
-    MakeHttpRequest()
-      .then((result) => {
-        if (result.result) {
-          setCurrentUser(result.result);
-        }
-      })
-      .catch((ex) => console.log(ex));
+    if (role == "deliveryPerson") {
+      getDeliveryPerson
+        .MakeHttpRequest()
+        .then((result) => {
+          if (result.result) {
+            setCurrentDeliveryPerson(result.result);
+          } else {
+            console.log("No delivery person found");
+          }
+        })
+        .catch((ex) => console.log(ex));
+    } else {
+      MakeHttpRequest()
+        .then((result) => {
+          if (result.result) {
+            setCurrentUser(result.result);
+          }
+        })
+        .catch((ex) => console.log(ex));
+    }
   }, []);
   const checkSize = () => {
     if (window.innerWidth >= 768) {
@@ -390,7 +411,9 @@ function LoggedInNav() {
             </NavLink> */}
             <div className="text-lg font-semibold bg-slate-300 px-4 py-2 rounded-full mx-2">
               <AccountCircleOutlinedIcon style={{ marginBottom: "2px" }} />{" "}
-              {currentUser?.name}
+              {role === "deliveryPerson"
+                ? currentDeliveryPerson?.username?.name
+                : currentUser?.name}
             </div>
           </li>
 

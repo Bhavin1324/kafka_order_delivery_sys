@@ -34,7 +34,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
   const [OTP, setOTP] = useState(null);
   useEffect(() => {}, []);
 
-  const formatPrice = (price: number) => `$${price}`;
+  const formatPrice = (price: number) => `${price} Rs.`;
   const verifyOrder = (id, orderid) => {
     dispatch(setProgress(70));
     document.getElementById("verifybtn").setAttribute("disabled", "disabled");
