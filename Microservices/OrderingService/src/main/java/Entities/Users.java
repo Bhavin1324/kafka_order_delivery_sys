@@ -34,13 +34,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Users.findByPhoneNo", query = "SELECT u FROM Users u WHERE u.phoneNo = :phoneNo")})
 public class Users implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "id")
-    private String id;
     @Size(max = 50)
     @Column(name = "name")
     private String name;
@@ -56,11 +49,22 @@ public class Users implements Serializable {
     @Size(max = 65535)
     @Column(name = "email")
     private String email;
-    @Column(name = "phone_no")
-    private BigInteger phoneNo;
     @Lob
     @Column(name = "profile_photo")
     private byte[] profilePhoto;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "credits")
+    private Double credits;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "id")
+    private String id;
+    @Column(name = "phone_no")
+    private BigInteger phoneNo;
     @OneToMany(mappedBy = "userId")
     private Collection<AddressMaster> addressMasterCollection;
     @OneToMany(mappedBy = "userId")
@@ -87,37 +91,6 @@ public class Users implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public BigInteger getPhoneNo() {
         return phoneNo;
@@ -125,14 +98,6 @@ public class Users implements Serializable {
 
     public void setPhoneNo(BigInteger phoneNo) {
         this.phoneNo = phoneNo;
-    }
-
-    public byte[] getProfilePhoto() {
-        return profilePhoto;
-    }
-
-    public void setProfilePhoto(byte[] profilePhoto) {
-        this.profilePhoto = profilePhoto;
     }
 
     public Collection<AddressMaster> getAddressMasterCollection() {
@@ -198,6 +163,54 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "Entities.Users[ id=" + id + " ]";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public byte[] getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(byte[] profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
+    public Double getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Double credits) {
+        this.credits = credits;
     }
     
 }
