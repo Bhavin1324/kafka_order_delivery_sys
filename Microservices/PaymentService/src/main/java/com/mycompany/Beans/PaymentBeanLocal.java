@@ -5,6 +5,7 @@
 package com.mycompany.Beans;
 
 import com.mycompany.entities.OrderMaster;
+import com.mycompany.models.PHResponseType;
 import javax.ejb.Local;
 
 /**

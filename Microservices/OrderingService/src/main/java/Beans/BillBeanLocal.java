@@ -6,6 +6,7 @@ package Beans;
 
 import Entities.OrderLine;
 import java.util.Collection;
+import java.util.concurrent.Future;
 import javax.ejb.Local;
 import javax.json.JsonObject;
 

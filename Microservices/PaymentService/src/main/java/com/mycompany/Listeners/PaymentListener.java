@@ -14,6 +14,7 @@ import fish.payara.cloud.connectors.kafka.api.KafkaConnection;
 import fish.payara.cloud.connectors.kafka.api.KafkaConnectionFactory;
 import fish.payara.cloud.connectors.kafka.api.KafkaListener;
 import fish.payara.cloud.connectors.kafka.api.OnRecord;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
@@ -83,6 +84,19 @@ public class PaymentListener implements KafkaListener {
             connection.send(new ProducerRecord("order-listener", jsonPs));
         } catch (Exception e) {
 
+        }
+    }
+    
+    @PreDestroy
+    public void clearKafkaTopic()
+    {
+        try(KafkaConnection connection = factory.createConnection())
+        {
+            connection.flush();
+        }
+        catch(Exception e)
+        {
+            
         }
     }
 }

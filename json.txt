@@ -1,0 +1,23 @@
+{
+    "items":[
+        {
+            "id":"",
+            "quantity":2,
+            "orderId":{},
+            "itemId":{
+                "id":"uio",
+                "name":"Margherita",
+                "category_id":"qwe",
+                "description":"Cheese and tomato",
+                "tax_slab_id":"rty",
+                "price":400,
+                "item_image":"",
+                "is_veg":1
+            }
+
+        }
+    ],
+    "paymentMethod":"credit",
+    "userId":"abc",
+    "outletId":"asd"
+}

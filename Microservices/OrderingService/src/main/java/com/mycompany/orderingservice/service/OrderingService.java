@@ -7,6 +7,7 @@ import Entities.OrderMaster;
 import Entities.Pincodes;
 import Entities.Users;
 import java.util.Collection;
+import java.util.concurrent.Future;
 import javax.ejb.EJB;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
@@ -69,9 +70,16 @@ public class OrderingService {
     @Produces(MediaType.TEXT_HTML)
     @Path("/addOrder")
     public Response addOrder(@RequestBody JsonObject json) {
-        if (bb.addOrder(json)) {
-            return Response.status(200, "Order Created Successfully").build();
-        } else {
+        try {
+            Boolean check = bb.addOrder(json);
+            if (check) {
+                return Response.status(200, "Order Created Successfully").build();
+            } else {
+                return Response.status(405, "Failed to Create Order").build();
+            }
+        }
+        catch(Exception e)
+        {
             return Response.status(405, "Failed to Create Order").build();
         }
     }

@@ -5,16 +5,18 @@
 package EJB;
 
 import com.mycompany.Modules.OrderStatus;
-import com.mycompany.utils.OTPUtils;
+import com.mycompany.models.PHResponseType;
+import com.mycompany.utils.EmailUtil;
 import entities.DeliveryPerson;
 import entities.OrderMaster;
 import entities.Outlets;
+import entities.Users;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.json.JSONObject;
 
 /**
  *
@@ -28,7 +30,8 @@ public class DeliveryBean implements DeliveryBeanLocal {
 
     //This method is called by Preparation Service  
     @Override
-    public String deliveryPersonAllocation(String orderId, String outletid) {
+    public PHResponseType deliveryPersonAllocation(String orderId, String outletid) {
+        PHResponseType phr = new PHResponseType();
         try {
             Outlets outlet = em.find(Outlets.class, outletid);
             OrderMaster order = em.find(OrderMaster.class, orderId);
@@ -40,29 +43,36 @@ public class DeliveryBean implements DeliveryBeanLocal {
             order.setOrderStatus(OrderStatus.IN_TRANSIT.toString());
             em.merge(order);
 
-            JSONObject json = new JSONObject();
-            String OTP = OTPUtils.generateOTP();
-            json.put("OTP", OTP);
-            return json.toString();
+            phr.setStatus(200);
+            phr.setMessage("DeliveryPerson Allocated");
+            return phr;
         } catch (Exception ex) {
             System.out.println("Exception occurred in Delivery Person Allocation");
             ex.printStackTrace();
-            return null;
+            phr.setStatus(200);
+            phr.setMessage("DeliveryPerson Allocating failed");
+            return phr;
         }
     }
 
     //This method is called by Preparation Service
     @Override
-    public boolean updateDeliveryStatusToDelivered(String orderId) {
+    public PHResponseType updateDeliveryStatusToDelivered(String orderId) {
+        PHResponseType response = new PHResponseType();
         try {
             OrderMaster order = em.find(OrderMaster.class, orderId);
             order.setOrderStatus(OrderStatus.DELIVERED.toString());
+            response.setStatus(200);
+            response.setMessage("Delivery status updated to DELIVERED!!!");
+            return response;
         } catch (Exception ex) {
             System.out.println("Exceptuon occured in Updating delivery status to Delivered");
             ex.printStackTrace();
-            return false;
+            response.setStatus(405);
+            response.setMessage("failed!!!");
+            return response;
         }
-        return true;
+
     }
 
     //To update any status via path parameter
@@ -81,4 +91,34 @@ public class DeliveryBean implements DeliveryBeanLocal {
         }
         return true;
     }
+
+    @Override
+    public Collection<OrderMaster> getAllocatedOrders(String deliveryPersonId) {
+        Collection<OrderMaster> allocatedOrders = em.createQuery("select o from OrderMaster o where o.deliveryPersonId.id = :id").setParameter("id", deliveryPersonId).getResultList();
+        return allocatedOrders;
+
+    }
+
+    @Override
+    public PHResponseType GetOTPForCustomer(String userId) {
+        PHResponseType phr = new PHResponseType();
+        try {
+            Users user = em.find(Users.class, userId);
+            if (user != null) {
+                EmailUtil emailUtil = new EmailUtil();
+                emailUtil.setSubject("Verify Delivery Person");
+                int OTP = emailUtil.sendSingleMailSync(user.getEmail());
+                phr.setStatus(200);
+                phr.setMessage(String.valueOf(OTP));
+            }
+        } catch (Exception ex) {
+            System.out.println("Exception found in GetOTPForCustomer");
+            ex.printStackTrace();
+            phr.setStatus(405);
+            phr.setMessage(String.valueOf("Cannot Verify the user"));
+            return phr;
+        }
+        return phr;
+    }
+
 }

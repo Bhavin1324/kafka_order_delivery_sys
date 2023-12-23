@@ -4,15 +4,24 @@
  */
 package EJB;
 
+import com.mycompany.models.PHResponseType;
+import entities.OrderMaster;
+import java.util.Collection;
 import javax.ejb.Local;
 
 /**
  *
- * @author krdmo
+ * @author HP Laptop
  */
 @Local
 public interface DeliveryBeanLocal {
-    public String deliveryPersonAllocation(String orderId,String outletid);
+
+    public PHResponseType deliveryPersonAllocation(String orderId, String outletid);
+
+    public Collection<OrderMaster> getAllocatedOrders(String deliveryPersonId);
+
+    public PHResponseType updateDeliveryStatusToDelivered(String orderId);
     
-    public boolean updateDeliveryStatusToDelivered(String orderId);
+    public PHResponseType GetOTPForCustomer(String userId);
+
 }

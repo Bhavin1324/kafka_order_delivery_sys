@@ -20,6 +20,9 @@ import java.util.Date;
 import javax.ejb.Stateless;
 import com.mycompany.Modules.OrderStatus;
 import java.lang.reflect.Type;
+import java.util.concurrent.Future;
+import javax.ejb.AsyncResult;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.json.JsonObject;
 import javax.persistence.EntityManager;
@@ -88,7 +91,7 @@ public class BillBean implements BillBeanLocal {
         
         ms.SendPaymentInquiry(order.getId(), order.getUserId().getId(), order.getPaymentMethod(),order.getPayableAmount());
         
-        return em.contains(order);               
+        return em.contains(order);
     }
 
 

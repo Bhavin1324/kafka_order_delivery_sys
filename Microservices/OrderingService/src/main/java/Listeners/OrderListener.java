@@ -9,9 +9,11 @@ import Entities.OrderMaster;
 import com.mycompany.Modules.OrderStatus;
 import com.mycompany.models.PaymentStatus;
 import com.mycompany.models.PaymentStatusUtil;
+import fish.payara.cloud.connectors.kafka.api.KafkaConnection;
 import fish.payara.cloud.connectors.kafka.api.KafkaConnectionFactory;
 import fish.payara.cloud.connectors.kafka.api.KafkaListener;
 import fish.payara.cloud.connectors.kafka.api.OnRecord;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
@@ -37,7 +39,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
     @ActivationConfigProperty(propertyName = "commitEachPoll", propertyValue = "true")})
 public class OrderListener implements KafkaListener{
     @Resource(lookup = "java:app/kafka/factory")
-    private KafkaConnectionFactory kafkaConnectionFactory;
+    private KafkaConnectionFactory factory;
     
     @EJB
     OrderBeanLocal obl;
@@ -61,6 +63,19 @@ public class OrderListener implements KafkaListener{
         else
         {
             obl.updateOrderStatus(order, OrderStatus.CANCELLED.toString());
+        }
+    }
+    
+    @PreDestroy
+    public void clearKafkaTopic()
+    {
+        try(KafkaConnection connection = factory.createConnection())
+        {
+            connection.flush();
+        }
+        catch(Exception e)
+        {
+            
         }
     }
 }

@@ -11,6 +11,7 @@ import fish.payara.cloud.connectors.kafka.api.KafkaConnection;
 import fish.payara.cloud.connectors.kafka.api.KafkaConnectionFactory;
 import fish.payara.cloud.connectors.kafka.api.KafkaListener;
 import fish.payara.cloud.connectors.kafka.api.OnRecord;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
@@ -70,6 +71,19 @@ public class CreditListener implements KafkaListener{
         catch(Exception e)
         {
             System.out.println("in sendPaymentInquiry catch "+e);
+        }
+    }
+    
+    @PreDestroy
+    public void clearKafkaTopic()
+    {
+        try(KafkaConnection connection = factory.createConnection())
+        {
+            connection.flush();
+        }
+        catch(Exception e)
+        {
+            
         }
     }
 }
