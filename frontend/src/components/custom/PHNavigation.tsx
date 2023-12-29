@@ -15,10 +15,10 @@ function PHNavigation() {
           <Navigate to={`/staff/${NavigateToRoute.DELIVERY_ORDERS}`} />
         )}
       {!tokenValidation.isExpired && tokenValidation.role === "admin" && (
-        <Navigate to={"/admin/" + NavigateToRoute.ADD_ITEM} />
+        <Navigate to={"/admin/" + NavigateToRoute.ADD_DELIVERY_STAFF} />
       )}
       {!tokenValidation.isExpired && tokenValidation.role === "restaurant" && (
-        <Navigate to={"/outlet/" + NavigateToRoute.ORDER_P} />
+        <Navigate to={"/outlet/" + NavigateToRoute.ADD_DELIVERY_STAFF} />
       )}
     </>
   );

@@ -8,7 +8,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import { useFetch } from "../../hooks/useFetch";
-import { IDeliveryPerson, IUser } from "../../types/interfaces";
+import { IUser } from "../../types/interfaces";
 import { clearCart } from "../../features/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import { TokenValidation } from "../../utils/utils";

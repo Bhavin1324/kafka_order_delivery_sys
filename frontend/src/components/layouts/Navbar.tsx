@@ -45,7 +45,7 @@ function Navbar() {
       </div>
       <PHModal
         isOpen={isOpen}
-        style={{ width: "400px" }}
+        style={{ width: "380px" }}
         headingText="Login"
         onClose={() => {
           dispatch(closeModal());

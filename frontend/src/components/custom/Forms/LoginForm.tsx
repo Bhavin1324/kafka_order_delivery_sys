@@ -199,7 +199,7 @@ function LoginForm() {
             dispatch(closeModal());
           }}
           component={<SignupForm />}
-          style={{ width: "500px" }}
+          style={{ width: "380px" }}
         />
       )}
     </div>

@@ -1,10 +1,9 @@
-import { useSelector, useDispatch } from "react-redux";
-import { IOrder } from "../../types/interfaces";
 import OrdersCard from "../../components/custom/OrdersCard";
 import { nanoid } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiEndpoints } from "../../types/enums";
+import ErrorOutlineOutlined from "@mui/icons-material/ErrorOutlineOutlined";
 
 const PlacedOrders = () => {
   const outletId = localStorage.getItem("outlet");
@@ -28,14 +27,23 @@ const PlacedOrders = () => {
   }, []);
 
   return (
-    <div className="container my-4">
+    <div className="container mt-4">
       <div className="text-3xl font-bold self-center mb-4">Placed Orders </div>
-      <div className="flex flex-start container flex-wrap md:max-sm:justify-center gap-2">
-        {placedOrders.map((o) => {
-          return (
-            <OrdersCard key={nanoid()} loadData={getAllOrders} order={o} />
-          );
-        })}
+      <div className="row">
+        {placedOrders.length > 0 ? (
+          placedOrders.map((o) => {
+            return (
+              <div className="col-md-4" key={nanoid()}>
+                <OrdersCard key={nanoid()} loadData={getAllOrders} order={o} />
+              </div>
+            );
+          })
+        ) : (
+          <div className="text-secondary flex justify-center my-2">
+            <ErrorOutlineOutlined />
+            <span className="ms-2">No order to complete</span>
+          </div>
+        )}
       </div>
     </div>
   );
