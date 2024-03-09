@@ -10,5 +10,6 @@ com\mycompany\utils\MPJWTToken.class
 com\mycompany\models\PaymentStatus.class
 com\mycompany\Modules\ID.class
 com\mycompany\models\CreditStatus.class
+com\mycompany\models\PHResponseType.class
 com\mycompany\Modules\OrderStatus.class
 com\mycompany\common\Common.class
