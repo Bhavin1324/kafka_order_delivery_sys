@@ -1,5 +1,0 @@
-com\mycompany\preparationservice\config\BootStrap.class
-com\mycompany\preparationservice\service\HealthCheckService.class
-com\mycompany\preparationservice\config\CrossOriginResourceSharingFilter.class
-com\mycompany\preparationservice\config\Producers.class
-com\mycompany\preparationservice\service\ExampleService.class

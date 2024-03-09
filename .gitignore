@@ -1,6 +1,12 @@
 target/
 artifact/
 /Microservices/artifact
+/Microservices/CustomerService/target/
+/Microservices/DeliveryService/target/
+/Microservices/OrderService/target/
+/Microservices/ManagementService/target/
+/Microservices/PaymentService/target/
+/Microservices/PreparationService/target/
 style.compiled.css
 .env
 *.env
