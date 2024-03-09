@@ -24,6 +24,7 @@ import com.mycompany.utils.GenerateToken;
 import com.mycompany.Modules.ID;
 import com.mycompany.utils.Constants;
 
+
 /**
  *
  * @author Bhatt Jaimin
@@ -33,7 +34,7 @@ public class Customer_EJB implements Customer_EJBLocal {
 //    EntityManagerFactory emf = Persistence.createEntityManagerFactory("order_pu");
 //    EntityManager em = emf.createEntityManager();
 
-    @PersistenceContext(unitName = "order_pu")
+    @PersistenceContext(unitName = "orderpu")
     EntityManager em;
 
     @Override

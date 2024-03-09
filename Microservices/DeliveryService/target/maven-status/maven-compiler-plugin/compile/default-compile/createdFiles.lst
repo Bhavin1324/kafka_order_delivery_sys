@@ -22,6 +22,7 @@ entities\OrderLine_.class
 entities\UserRoles.class
 entities\TaxSlabs_.class
 com\mycompany\deliveryservice\config\CrossOriginResourceSharingFilter.class
+Listeners\DeliveryListener.class
 entities\Users.class
 entities\Outlets.class
 com\mycompany\deliveryservice\config\Producers.class

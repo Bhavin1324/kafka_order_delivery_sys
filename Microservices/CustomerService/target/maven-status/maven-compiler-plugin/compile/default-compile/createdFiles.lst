@@ -4,6 +4,7 @@ EJBs\Customer_EJBLocal.class
 Entity\AddressMaster_.class
 Entity\UserRoles_.class
 Entity\Items.class
+REST\CustomerREST.class
 Entity\OrderLine.class
 Entity\Sizes_.class
 Entity\Sizes.class

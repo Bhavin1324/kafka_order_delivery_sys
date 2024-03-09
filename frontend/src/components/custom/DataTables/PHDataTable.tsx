@@ -6,11 +6,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import { nanoid } from "@reduxjs/toolkit";
 import PHDisplayImage from "../PHDisplayImage";
-import { IDeliveryPerson, IOutlet, IItem } from "../../../types/interfaces";
+import {
+  IDeliveryPerson,
+  IOutlet,
+  IItem,
+  IColumns,
+} from "../../../types/interfaces";
+
 interface TableProps<T> {
   data: T[];
   title: string;
-  onUpadate?: (data: T) => void;
+  cols?: IColumns[];
+  onUpdate?: (data: T) => void;
   onDelete?: (id: string) => void;
 }
 type T = IOutlet | IItem | IDeliveryPerson;
@@ -82,15 +89,22 @@ function PHDataTable(props: TableProps<T>) {
           <table className="table table-hover">
             <thead>
               <tr>
-                {list.length > 0 && Object.keys(list[0]).map((item) => {
-                  return (
-                             <th key={nanoid()} scope="col">
-                      {item}
-                    </th>
-                  );
-                })}
-                <td></td>
-                <td></td>
+                {(props.cols?.length > 0 &&
+                  props.cols.map((item) => {
+                    return (
+                      <th key={nanoid()} scope="col">
+                        {item.value}
+                      </th>
+                    );
+                  })) ||
+                  (list.length > 0 &&
+                    Object.keys(list[0]).map((item) => {
+                      return (
+                        <th key={nanoid()} scope="col">
+                          {item}
+                        </th>
+                      );
+                    }))}
               </tr>
             </thead>
             <tbody>
@@ -98,14 +112,20 @@ function PHDataTable(props: TableProps<T>) {
                 return (
                   <tr key={nanoid()}>
                     {Object.keys(item).map((x) => {
-                      return (x != "itemImage" ? <td key={nanoid()}>{item[x]}</td> : <td key={nanoid()}><PHDisplayImage ba={item[x]} /></td>)
+                      return x != "itemImage" ? (
+                        <td key={nanoid()}>{item[x]}</td>
+                      ) : (
+                        <td key={nanoid()}>
+                          <PHDisplayImage ba={item[x]} />
+                        </td>
+                      );
                     })}
-                    {props.onUpadate && (
+                    {props.onUpdate && (
                       <td>
                         <button
                           className="btn btn-primary"
                           onClick={() => {
-                            props.onUpadate(item);
+                            props.onUpdate(item);
                           }}
                         >
                           <EditIcon />

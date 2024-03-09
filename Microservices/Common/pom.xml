@@ -6,7 +6,7 @@
         <artifactId>Microservices</artifactId>
         <version>1</version>
     </parent>
-    <artifactId>Common</artifactId>
+    <artifactId>CommonKafka</artifactId>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

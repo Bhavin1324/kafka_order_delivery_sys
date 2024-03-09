@@ -1,12 +1,15 @@
-import { IOrder } from "../../types/interfaces";
 import { useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiEndpoints } from "../../types/enums";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { setProgress } from "../../features/slices/loadingSlice";
+import { nanoid } from "@reduxjs/toolkit";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import HomeIcon from "@mui/icons-material/Home";
+
 function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const UpdateHook = useFetch(
     import.meta.env.VITE_PREPARATION_SERVICE_URI + ApiEndpoints.DISPATCH_ORDER,
     "POST"
@@ -16,7 +19,8 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
     "GET"
   );
   const DeliveryHook = useFetch(
-    import.meta.env.VITE_DELIVERY_SERVICE_URI + ApiEndpoints.UPDATE_STATUS_TO_DELIVERED,
+    import.meta.env.VITE_DELIVERY_SERVICE_URI +
+      ApiEndpoints.UPDATE_STATUS_TO_DELIVERED,
     "GET"
   );
   const Toast = Swal.mixin({
@@ -33,14 +37,14 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
   const [OTP, setOTP] = useState(null);
   useEffect(() => {}, []);
 
-  const formatPrice = (price: number) => `$${price}`;
-  const verifyOrder = (id , orderid) => {
-    dispatch(setProgress(70))
+  const formatPrice = (price: number) => `${price} Rs`;
+  const verifyOrder = (id, orderid) => {
+    dispatch(setProgress(70));
     document.getElementById("verifybtn").setAttribute("disabled", "disabled");
     VerifyHook.MakeHttpRequest(id).then(async (result) => {
       document.getElementById("verifybtn").removeAttribute("disabled");
       if (result.result.status == 200) {
-        dispatch(setProgress(100))
+        dispatch(setProgress(100));
         Toast.fire({
           title: "OTP Sent to Customer !",
           icon: "success",
@@ -55,7 +59,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
           inputPlaceholder: "Enter 6 digit OTP !",
         });
         if (OTPinput.toString() == tempotp) {
-          DeliveryHook.MakeHttpRequest(orderid).then((result)=>{
+          DeliveryHook.MakeHttpRequest(orderid).then((result) => {
             if (result.result.status == 200) {
               Swal.fire("OTP Verified!", "Order is delivered !", "success");
               loadData();
@@ -65,7 +69,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
                 icon: "error",
               });
             }
-          })
+          });
         } else {
           Swal.fire({
             icon: "error",
@@ -83,6 +87,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
   };
 
   const updateToCompleted = (id) => {
+    dispatch(setProgress(70));
     const payload = {
       outletid: localStorage.getItem("outlet"),
       orderid: id,
@@ -95,6 +100,7 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
           icon: "success",
         });
         loadData();
+        dispatch(setProgress(100));
       } else {
         Toast.fire({
           title: "Error in Assigning Delivery Person !",
@@ -104,13 +110,18 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
     });
   };
   return (
-    <div className="bg-white m-3 align-middle pt-3 px-3 flex-col max-w-fit   rounded shadow-md">
+    <div className="rounded-lg shadow-md border-[1px] border-orange-200 p-4">
       <h3 className="font-bold text-xl text-center text-ph-primary mb-2">
         {order.name}'s Order
       </h3>
       <div className="h-fit">
+        <div className="flex justify-between font-bold">
+          <div>ITEM</div>
+          <div>QTY</div>
+        </div>
+        <hr className="my-2" />
         {order.items.map((item) => (
-          <div key={item.name} className="flex justify-center mb-2">
+          <div key={nanoid()} className="flex justify-center mb-2">
             <span className="flex-grow font-semibold">{item.name}</span>
             <span className="w-1/4 text-right font-semibold mr-2">
               {item.quantity}
@@ -118,31 +129,35 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
           </div>
         ))}
       </div>
+
       {order.phoneNo && (
-        <p className="font-bold  text-left text-lg mb-1">
-          Phone No : {order.phoneNo}
-        </p>
+        <>
+          <hr className="my-2" />
+          <div className="flex gap-2 mb-2">
+            <LocalPhoneIcon />
+            <div className="font-semibold">{order.phoneNo}</div>
+          </div>
+        </>
       )}
       {order.address && (
-        <p className="font-bold  text-left text-lg mb-1">
-          Address : {order.address}
-        </p>
+        <div className="flex gap-2 overflow-auto">
+          <HomeIcon />
+          <div className="font-semibold">{order.address}</div>
+        </div>
       )}
-
-      <div className="my-3 flex justify-between">
-        <p className="font-bold   text-left text-lg mb-1">
-          {" "}
+      <hr className="my-2" />
+      <div className="flex justify-between mt-3">
+        <p className="font-bold self-center text-left text-lg text-green-700 my-0">
           {formatPrice(order.payable_amount)}
         </p>
         {order.order_status != "IN_TRANSIT" && (
           <button
             type="button"
-            className=" btn-theme"
+            className=" btn-theme self-center"
             onClick={() => {
               updateToCompleted(order.id);
             }}
           >
-          
             complete
           </button>
         )}
@@ -150,12 +165,11 @@ function OrderCard({ order, loadData }: { order: any; loadData: () => void }) {
           <button
             type="button"
             id="verifybtn"
-            className=" btn-theme"
+            className="btn-theme self-center"
             onClick={() => {
-              verifyOrder(order.userid ,order.id);
+              verifyOrder(order.userid, order.id);
             }}
           >
-            
             Verify
           </button>
         )}

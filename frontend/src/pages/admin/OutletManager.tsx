@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IOutlet, IUser } from "../../types/interfaces";
+import { IColumns, IOutlet, IUser } from "../../types/interfaces";
 import OutletForm from "../../components/custom/Forms/OutletForm";
 import PHModal from "../../components/custom/Modals/PHModal";
 import PHDataTable from "../../components/custom/DataTables/PHDataTable";
@@ -9,6 +9,7 @@ import { RootState } from "../../features/store";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiEndpoints, ConstantValues, Roles } from "../../types/enums";
 import Swal from "sweetalert2";
+import AddIcon from "@mui/icons-material/Add";
 
 const OutletManager = () => {
   const Toast = Swal.mixin({
@@ -30,6 +31,16 @@ const OutletManager = () => {
   });
   const [outlets, setOutlets] = useState([]);
   const [outletupdate, setOutletupdate] = useState<IOutlet>({});
+
+  const columns: IColumns[] = [
+    { key: "address", value: "ADDRESS" },
+    { key: "id", value: "ID" },
+    { key: "latitude", value: "LATITUDE" },
+    { key: "longitude", value: "LONGITUDE" },
+    { key: "name", value: "NAME" },
+    { key: "phoneNo", value: "PHONE" },
+    { key: "pincode", value: "PINCODE" },
+  ];
 
   const UpdateHook = useFetch(
     import.meta.env.VITE_MANAGEMENT_SERVICE_URI + ApiEndpoints.UPDATE_OUTLET,
@@ -59,6 +70,7 @@ const OutletManager = () => {
     DisplayHook.MakeHttpRequest().then((result) => {
       if (result.result) {
         const data = result.result.map((ot) => {
+          console.log(ot);
           ot.pincode = ot.pincode.pincode;
           return ot;
         });
@@ -167,20 +179,19 @@ const OutletManager = () => {
         headers: headersList,
       }
     ).then((result) => {
-      result.json().then((res) =>{ 
-           if (res.status == 200) {
-      Toast.fire({
-        icon: "success",
-        title: "Data Deleted!!",
-      });
-     setLatestOutletData();
-
-    } else {
-      Toast.fire({
-        icon: "error",
-        title: "Internal Error!!",
-      });
-    }
+      result.json().then((res) => {
+        if (res.status == 200) {
+          Toast.fire({
+            icon: "success",
+            title: "Data Deleted!!",
+          });
+          setLatestOutletData();
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "Internal Error!!",
+          });
+        }
       });
     });
     // let data = await response.json();
@@ -205,12 +216,13 @@ const OutletManager = () => {
       <div className="flex justify-between flex-wrap">
         {/* <h1 className="text-3xl font-bold mb-4">Pizza Store Outlets</h1> */}
         <button
-          className="btn-theme"
+          className="btn-theme flex gap-2"
           onClick={() => {
             setisAdd(true);
             dispatch(openModal());
           }}
         >
+          <AddIcon />
           Add New Outlet
         </button>
       </div>
@@ -223,10 +235,10 @@ const OutletManager = () => {
             dispatch(closeModal());
           }}
           headingText="Add Outlet"
-          style={{width: 400, height: 700, overflow: "auto"}}
+          style={{ width: 400, height: 700, overflow: "auto" }}
           component={
             <OutletForm
-            isUpdating={false}
+              isUpdating={false}
               update={null}
               onAdd={handleAddOutlet}
               action="Add Outlet"
@@ -238,8 +250,9 @@ const OutletManager = () => {
       <PHDataTable
         title="Outlets"
         data={outlets}
+        cols={columns}
         onDelete={handleDeleteOutlet}
-        onUpadate={handleEditOutlet}
+        onUpdate={handleEditOutlet}
       />
 
       {isUpdate && (

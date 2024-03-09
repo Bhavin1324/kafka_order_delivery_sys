@@ -13,19 +13,20 @@ import { clearCart } from "../../features/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import { TokenValidation } from "../../utils/utils";
 
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import GradingIcon from '@mui/icons-material/Grading';
-import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
-import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import GradingIcon from "@mui/icons-material/Grading";
+import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
+import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 // import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 
 function LoggedInNav() {
   const navList = useRef<HTMLUListElement>(null);
   const HamBurger = useRef<HTMLDivElement>(null);
   const [currentUser, setCurrentUser] = useState<IUser>();
+  const [currentDeliveryPerson, setCurrentDeliveryPerson] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { role } = TokenValidation();
@@ -36,14 +37,34 @@ function LoggedInNav() {
     "GET",
     localStorage.getItem("token")
   );
+  const getDeliveryPerson = useFetch(
+    import.meta.env.VITE_MANAGEMENT_SERVICE_URI +
+      ApiEndpoints.GET_DELIVERY_PERSON_BY_ID +
+      `/${localStorage.getItem("user")}`,
+    "GET",
+    localStorage.getItem("token")
+  );
   useEffect(() => {
-    MakeHttpRequest()
-      .then((result) => {
-        if (result.result) {
-          setCurrentUser(result.result);
-        }
-      })
-      .catch((ex) => console.log(ex));
+    if (role == "deliveryPerson") {
+      getDeliveryPerson
+        .MakeHttpRequest()
+        .then((result) => {
+          if (result.result) {
+            setCurrentDeliveryPerson(result.result);
+          } else {
+            console.log("No delivery person found");
+          }
+        })
+        .catch((ex) => console.log(ex));
+    } else {
+      MakeHttpRequest()
+        .then((result) => {
+          if (result.result) {
+            setCurrentUser(result.result);
+          }
+        })
+        .catch((ex) => console.log(ex));
+    }
   }, []);
   const checkSize = () => {
     if (window.innerWidth >= 768) {
@@ -200,7 +221,10 @@ function LoggedInNav() {
                         };
                   }}
                 >
-                  <AssignmentTurnedInOutlinedIcon style={{ marginBottom: "2px" }} /> Delivered
+                  <AssignmentTurnedInOutlinedIcon
+                    style={{ marginBottom: "2px" }}
+                  />{" "}
+                  Delivered
                 </NavLink>
               </li>
             </>
@@ -226,7 +250,8 @@ function LoggedInNav() {
                         };
                   }}
                 >
-                  <PeopleOutlineIcon style={{ marginBottom: "2px" }} /> Add staff
+                  <PeopleOutlineIcon style={{ marginBottom: "2px" }} /> Add
+                  staff
                 </NavLink>
               </li>
               <li className="nav-list-items">
@@ -247,7 +272,8 @@ function LoggedInNav() {
                         };
                   }}
                 >
-                  <InventoryOutlinedIcon style={{ marginBottom: "2px" }} /> Placed
+                  <InventoryOutlinedIcon style={{ marginBottom: "2px" }} />{" "}
+                  Placed
                 </NavLink>
               </li>
               <li className="nav-list-items">
@@ -268,34 +294,39 @@ function LoggedInNav() {
                         };
                   }}
                 >
-                  <CheckCircleOutlineOutlinedIcon style={{ marginBottom: "2px" }} /> Prepared
+                  <CheckCircleOutlineOutlinedIcon
+                    style={{ marginBottom: "2px" }}
+                  />{" "}
+                  Prepared
                 </NavLink>
               </li>
             </>
           )}
 
-          {role == "customer" && <><li className="nav-list-items">
-            {" "}
-            <NavLink
-              className={`link-a font-semibold`}
-              to={NavigateToRoute.ADD_OUTLET}
-              onClick={toggleHam}
-              style={({ isActive }) => {
-                return isActive
-                  ? {
-                      backgroundColor: "#E1701A",
-                      color: "white",
-                      TextDecoration: "none",
-                    }
-                  : {
-                      TextDecoration: "none",
-                    };
-              }}
-            >
-              <LocalPizzaIcon style={{ marginBottom: "2px" }} /> Menu
-            </NavLink>
-          </li>
-          {/* <li className="nav-list-items">
+          {role == "customer" && (
+            <>
+              <li className="nav-list-items">
+                {" "}
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.FOOD}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <LocalPizzaIcon style={{ marginBottom: "2px" }} /> Menu
+                </NavLink>
+              </li>
+              {/* <li className="nav-list-items">
             {" "}
             <NavLink
               className={`link-a font-semibold`}
@@ -316,46 +347,48 @@ function LoggedInNav() {
               <SearchIcon style={{ marginBottom: "2px" }} /> Search
             </NavLink>
           </li> */}
-          <li className="nav-list-items">
-            <NavLink
-              className={`link-a font-semibold`}
-              to={NavigateToRoute.CART}
-              onClick={toggleHam}
-              style={({ isActive }) => {
-                return isActive
-                  ? {
-                      backgroundColor: "#E1701A",
-                      color: "white",
-                      TextDecoration: "none",
-                    }
-                  : {
-                      TextDecoration: "none",
-                    };
-              }}
-            >
-              <ShoppingCartOutlinedIcon /> Cart
-            </NavLink>
-          </li>
-          <li className="nav-list-items">
-            <NavLink
-              className={`link-a font-semibold`}
-              to={NavigateToRoute.ORDERED_FOODS}
-              onClick={toggleHam}
-              style={({ isActive }) => {
-                return isActive
-                  ? {
-                      backgroundColor: "#E1701A",
-                      color: "white",
-                      TextDecoration: "none",
-                    }
-                  : {
-                      TextDecoration: "none",
-                    };
-              }}
-            >
-              <ReceiptLongIcon /> Orders
-            </NavLink>
-          </li></>}
+              <li className="nav-list-items">
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.CART}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <ShoppingCartOutlinedIcon /> Cart
+                </NavLink>
+              </li>
+              <li className="nav-list-items">
+                <NavLink
+                  className={`link-a font-semibold`}
+                  to={NavigateToRoute.ORDERED_FOODS}
+                  onClick={toggleHam}
+                  style={({ isActive }) => {
+                    return isActive
+                      ? {
+                          backgroundColor: "#E1701A",
+                          color: "white",
+                          TextDecoration: "none",
+                        }
+                      : {
+                          TextDecoration: "none",
+                        };
+                  }}
+                >
+                  <ReceiptLongIcon /> Orders
+                </NavLink>
+              </li>
+            </>
+          )}
           <li className="nav-list-items self-center">
             {/* <NavLink
               className={`link-a font-semibold`}
@@ -378,7 +411,9 @@ function LoggedInNav() {
             </NavLink> */}
             <div className="text-lg font-semibold bg-slate-300 px-4 py-2 rounded-full mx-2">
               <AccountCircleOutlinedIcon style={{ marginBottom: "2px" }} />{" "}
-              {currentUser?.name}
+              {role === "deliveryPerson"
+                ? currentDeliveryPerson?.username?.name
+                : currentUser?.name}
             </div>
           </li>
 

@@ -14,18 +14,18 @@ export const addressValidation = {
   },
 };
 export const adharValidation = {
-  required : "Adhar number is required",
-  pattern:{
-    value : /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
-    message :"Invalid Adhar Number !"
-  }
-}
+  required: "Adhar number is required",
+  pattern: {
+    value: /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
+    message: "Invalid Adhar Number !",
+  },
+};
 export const statusValidation = {
-  required :"Status is required !"
-}
+  required: "Status is required !",
+};
 export const outletValidation = {
-  required :"Outlet is required ! "
-}
+  required: "Outlet is required ! ",
+};
 export const phoneValidation = {
   required: "Contact Number is required",
   pattern: {
@@ -48,41 +48,39 @@ export const latitudeValidation = {
   required: "latitude is required !",
 };
 export const CategoryValidation = {
-  required :"Category is required !"
-}
-export const DescriptionValidation ={
-  required :"Description is required !",
+  required: "Category is required !",
+};
+export const DescriptionValidation = {
+  required: "Description is required !",
   minLength: {
     value: 4,
     message: "Description is too short !",
   },
   maxLength: {
-    value: 30,
+    value: 300,
     message: "Description is too long !",
   },
-
-} 
+};
 export const taxslabValidation = {
-  required : "Tax Slab is required !"
-}
+  required: "Tax Slab is required !",
+};
 export const priceValidation = {
-   required : "Price is required !",
-  
+  required: "Price is required !",
+
   maxLength: {
     value: 1000000,
     message: "Please enter valid price !",
   },
-}
+};
 export const imgValidation = {
-  required : "Img is required",
-  validate:{
-    max:(files)=>files[0].size <= 500000 || "Image Size must be under 500kb"
-  }
-
-}
+  required: "Img is required",
+  validate: {
+    max: (files) => files[0].size <= 500000 || "Image Size must be under 500kb",
+  },
+};
 export const is_vegValidation = {
-  required : "Please Select Item is Veg or not !"
-}
+  required: "Please Select Item is Veg or not !",
+};
 export const emailValidation = {
   required: "Email is required !",
   pattern: {
